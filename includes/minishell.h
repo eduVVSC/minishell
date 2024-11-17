@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_quotes.c                                    :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 09:04:53 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/15 17:34:01 by dioferre         ###   ########.fr       */
+/*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
+/*   Updated: 2024/11/17 14:15:04 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-/* Looks for the next quote type in the string,
-returns an index to that quote if found, -1 if none was found,
-Flag: 0 if single quote; 1 if double quote. */
-int	handle_quotes(const char *str, int i, char quote_type)
+# define true 1
+# define false 0
+
+typedef struct s_tokens
 {
-	i++;
-	while (str[i] != quote_type && str[i] != '\0')
-		i++;
-	if (str[i] != quote_type)
-		return (-1);
-	return (i);
-}
+	int			i;
+	char		*cmd;
+	char		**args;
+	t_tokens	*next;
+
+}				t_tokens;
+
+#endif
