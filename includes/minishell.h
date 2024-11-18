@@ -22,9 +22,12 @@
 # include <readline/readline.h>
 # include "../libft/libft.h"
 
-typedef struct
+typedef struct s_env
 {
-};
+	char	*pwd;
+	char	*old_pwd;
+	char	*path;
+}				t_env;
 
 
 typedef struct s_tokens
@@ -48,6 +51,7 @@ void	fill_tokens(t_tokens *tokens, int nr);
 void	cntrl_C();
 void	cntrl_D();
 void	cntrl_Backslash();
+void	signalHandler(int signum, siginfo_t *info, void *context);
 
 char	*fill_str(char *str, int target_word, char separator);
 
