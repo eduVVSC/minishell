@@ -11,13 +11,14 @@ int	main(void)
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = &signalHandler;
-	sigaction(SIGINT, &sa, NULL);
 
-	sigaction(EOF, &sa, NULL);
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+
 	env_vars = malloc(sizeof(env_vars));
 	while(1)
 	{
-		env_vars->pwd = getenv("PWD");
+		env_vars->pwd = getenv("PWD"); // need to use protection
 		prefix = ft_strjoin(env_vars->pwd, "$ ");
 		str = readline(prefix);
 		add_history(str);
