@@ -6,34 +6,14 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:00:21 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/17 18:24:40 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:06:12 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-// REMOVE AFTER MAKEFILE DONE LOLOLOL
-int	word_count(char *str, char separator)
-{
-	int	i;
-	int	words;
-
-	i = 0;
-	words = 1;
-	if (!str || str[i] == '\0')
-		return (0);
-	while (str[i])
-	{
-		if (str[i] == separator)
-			words++;
-		i++;
-	}
-	return (words);
-}
-
-/*
-Function finds where the intended string is
-Return the index of where the string starts*/
+/* Function finds where the intended string is
+Return the index of where the string starts */
 int	command_Start(char *str, int target_word, char separator)
 {
 	int	word_now;
@@ -144,6 +124,7 @@ t_tokens	*get_tokens(char *input)
 	return (tokens);
 }
 
+/*
 int	main(void)
 {
 	t_tokens *tokens;
@@ -151,3 +132,4 @@ int	main(void)
 	int	i = 0;
 	tokens = get_tokens(input);
 }
+*/

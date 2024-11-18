@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/17 14:15:04 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:07:20 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <signal.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include "../libft/libft.h"
+# include "libft.h"
 
 typedef struct s_env
 {
@@ -46,6 +46,9 @@ t_tokens	*get_tokens(char *input);
 
 void	giving_value_to_str(char *str, char *cmd, int strlen, int index_start);
 void	fill_tokens(t_tokens *tokens, int nr);
+int	handle_quotes(const char *str, int i, char quote_type);
+int	word_count(char *str, char separator);
+
 
 // =============handlers=============== //
 void	cntrl_C();

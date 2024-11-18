@@ -1,6 +1,4 @@
-
-#include "includes/minishell.h"
-
+#include "minishell.h"
 
 int	main(void)
 {
@@ -14,7 +12,7 @@ int	main(void)
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = &signalHandler;
 	sigaction(SIGINT, &sa, NULL);
-	
+
 	sigaction(EOF, &sa, NULL);
 	env_vars = malloc(sizeof(env_vars));
 	while(1)

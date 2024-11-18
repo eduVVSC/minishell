@@ -1,5 +1,4 @@
-
-# include "../includes/minishell.h"
+#include "minishell.h"
 
 void signalHandler(int signum, siginfo_t *info, void *context)
 {

@@ -6,11 +6,11 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 09:04:53 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/17 15:26:54 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:03:52 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <../includes/minishell.h>
+#include "minishell.h"
 
 /* Looks for the next quote type in the string,
 returns an index to that quote if found, -1 if none was found,
