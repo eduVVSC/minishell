@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include "../libft/libft.h"
 
 // REMOVE AFTER MAKEFILE DONE LOLOLOL
 int	word_count(char *str, char separator)
@@ -32,18 +31,15 @@ int	word_count(char *str, char separator)
 	return (words);
 }
 
-// Creates, allocs and fills a string.
-char	*fill_str(char *str, int target_word, char separator)
+/*
+Function finds where the intended string is
+Return the index of where the string starts*/
+int	command_Start(char *str, int target_word, char separator)
 {
-	char *cmd;
-	int	i;
-	int	j;
 	int	word_now;
-	int	strlen;
+	int	i;
 
 	i = 0;
-	j = 0;
-	strlen = 0;
 	word_now = 1;
 	while (str[i] && word_now < target_word) //change this to a fucking function idiot.
 	{
@@ -52,16 +48,40 @@ char	*fill_str(char *str, int target_word, char separator)
 		i++;
 	}
 	if (target_word != 1)
-		i++; // until here lol
-	while(str[i + strlen] != separator && str[i + strlen] != '\0')
-		strlen++;
-	cmd = malloc((strlen + 1) * sizeof(char)); // needs protection.
+		i++;
+	return (i);
+}
+
+// rename this shit
+void	giving_value_to_str(char *str, char *cmd, int strlen, int index_start)
+{
+	int	j;
+
+	j = 0;
 	while (j < strlen)
 	{
-		cmd[j] = str[i + j];
+		cmd[j] = str[index_start + j];
 		j++;
 	}
 	cmd[j] = '\0';
+}
+
+// Creates, allocs and fills a string.
+char	*fill_str(char *str, int target_word, char separator)
+{
+	char	*cmd;
+	int		strlen;
+	int		index_start;
+
+	strlen = 0;
+	index_start = command_Start(str, target_word, separator);
+	while(str[index_start + strlen] != separator
+			&& str[index_start + strlen] != '\0')
+		strlen++;
+	cmd = malloc((strlen + 1) * sizeof(char)); // needs protection.
+	if (!cmd)
+		return (NULL);
+	giving_value_to_str(str, cmd, strlen, index_start);
 	return(cmd);
 }
 
@@ -94,7 +114,8 @@ void	fill_tokens(t_tokens *tokens, int nr)
 	{
 		tmp->next = fill_node();
 		if (!tmp->next)
-			return (NULL); // Dont forget to clean everything when done :D
+			return ; // void function
+		//return (NULL); // Dont forget to clean everything when done :D
 		tmp = tmp->next;
 		i++;
 	}

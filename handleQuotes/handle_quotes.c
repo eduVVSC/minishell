@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <../includes/minishell.h>
 
 /* Looks for the next quote type in the string,
 returns an index to that quote if found, -1 if none was found,

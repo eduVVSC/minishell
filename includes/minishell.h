@@ -16,13 +16,41 @@
 # define true 1
 # define false 0
 
+# include <stdio.h>
+# include <signal.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include "../libft/libft.h"
+
+typedef struct
+{
+};
+
+
 typedef struct s_tokens
 {
 	int			i;
 	char		*cmd;
 	char		**args;
-	t_tokens	*next;
+	struct s_tokens	*next;
 
 }				t_tokens;
+
+// =====================functions====================== //
+
+t_tokens	*fill_node(void);
+t_tokens	*get_tokens(char *input);
+
+void	giving_value_to_str(char *str, char *cmd, int strlen, int index_start);
+void	fill_tokens(t_tokens *tokens, int nr);
+
+// =============handlers=============== //
+void	cntrl_C();
+void	cntrl_D();
+void	cntrl_Backslash();
+
+char	*fill_str(char *str, int target_word, char separator);
+
+
 
 #endif
