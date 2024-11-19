@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/18 16:07:20 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/11/19 17:46:42 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ typedef struct s_env
 
 typedef struct s_tokens
 {
-	int			i;
-	char		*cmd;
-	char		**args;
-	struct s_tokens	*next;
+	char			*token;
+	int				type; // 0 cmd, 1 pipe, 2 infile, 3 outfile.
+	int				state; //0 general, 1 single quote, 2 double quote;
+	int				index;
+	struct s_token	*next;
 
 }				t_tokens;
 

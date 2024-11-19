@@ -2,7 +2,7 @@ CC = cc -g
 NAME = minishell
 
 #FLAGS
-FLAGS = -I$(INC_DIR) -I$(LIB_DIR) -Wall -Werror -Wextra
+FLAGS = -I$(INC_DIR) -I$(LIB_DIR)
 
 # Color variables
 RED = \033[0;31m
@@ -22,7 +22,7 @@ OBJ_DIR = obj/
 
 # FILES
 LIBFT = $(LIB_DIR)libft.a
-MAIN_FILE = $(SRC_DIR)main.c
+MAIN_FILE = main.c
 
 SRC_FILES := $(shell find $(SRC_DIR) -name '*.c' ! -name 'main.c')
 

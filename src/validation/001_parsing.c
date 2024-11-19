@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:59:53 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/18 16:05:41 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/11/19 11:54:12 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,3 @@ int	check_open_quotes(char **args)
 	return (false);
 }
 
-/*
-void	validation(char **args)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while()
-}
-*/
