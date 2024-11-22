@@ -48,7 +48,7 @@ t_tokens	*get_tokens(char *input);
 void	giving_value_to_str(char *str, char *cmd, int strlen, int index_start);
 void	fill_tokens(t_tokens *tokens, int nr);
 int	handle_quotes(const char *str, int i, char quote_type);
-int	word_count(char *str, char separator);
+int	word_count(char *str);
 
 
 // =============handlers=============== //

@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 /* Function finds where the intended string is
-Return the index of where the string starts */
+Return the index of where the string starts. */
 int	command_Start(char *str, int target_word, char separator)
 {
 	int	word_now;
@@ -23,7 +23,7 @@ int	command_Start(char *str, int target_word, char separator)
 	word_now = 1;
 	while (str[i] && word_now < target_word) //change this to a fucking function idiot.
 	{
-		if (str[i] == separator)
+		if (is_separator(str[i]))
 			word_now++;
 		i++;
 	}
@@ -32,8 +32,8 @@ int	command_Start(char *str, int target_word, char separator)
 	return (i);
 }
 
-// rename this shit
-void	giving_value_to_str(char *str, char *cmd, int strlen, int index_start)
+/* Fill str part2, populates the given str with chars.*/
+void	populate_str(char *str, char *cmd, int strlen, int index_start)
 {
 	int	j;
 
@@ -55,13 +55,13 @@ char	*fill_str(char *str, int target_word, char separator)
 
 	strlen = 0;
 	index_start = command_Start(str, target_word, separator);
-	while(str[index_start + strlen] != separator
+	while(!(is_separator(str[index_start + strlen]))
 			&& str[index_start + strlen] != '\0')
 		strlen++;
-	cmd = malloc((strlen + 1) * sizeof(char)); // needs protection.
+	cmd = malloc((strlen + 1) * sizeof(char));
 	if (!cmd)
 		return (NULL);
-	giving_value_to_str(str, cmd, strlen, index_start);
+	populate_str(str, cmd, strlen, index_start);
 	return(cmd);
 }
 
@@ -73,9 +73,10 @@ t_tokens	*fill_node(void)
 	node = malloc(sizeof(t_tokens));
 	if (!node)
 		return (NULL);
-	node->i = 0;
-	node->cmd = NULL;
-	node->args = NULL;
+	node->token = NULL;
+	node->index = -1;
+	node->state = -1;
+	node->type = -1;
 	node->next = NULL;
 	return (node);
 }
@@ -109,14 +110,16 @@ t_tokens	*get_tokens(char *input)
 	int	words;
 
 	current_word = 1;
-	words = word_count(input, '|');
+	words = word_count(input);
+	if (words == -1) // Happens if a quote is left open, shouldnt matter if we handle it on validation.
+		return (NULL);
 	printf("Nr of words: %d\n", words);
 	tokens = fill_node();
 	fill_tokens(tokens, words);
 	while (current_word <= words)
 	{
-		tokens->cmd = fill_str(input, current_word, '|');
-		printf("Token #%d: %s\n", current_word, tokens->cmd);
+		tokens->token = fill_str(input, current_word);
+		tokens->index = current_word - 1;
 		tokens = tokens->next;
 		current_word++;
 	}
@@ -124,12 +127,12 @@ t_tokens	*get_tokens(char *input)
 	return (tokens);
 }
 
-/*
 int	main(void)
 {
 	t_tokens *tokens;
-	char *input = "echo ola | cat | ls";
+	char *input = "echo ola | cat | ls | echo 'ola | 12345'";
 	int	i = 0;
 	tokens = get_tokens(input);
+	print_tokens(tokens);
 }
-*/
+

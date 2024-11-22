@@ -24,10 +24,17 @@ int	handle_quotes(const char *str, int i, char quote_type)
 	return (i);
 }
 
+int	is_separator(char c)
+{
+	if (c == '|' || c == '&' || c == ' ') // Needs to include tabs and new lines too.
+		return(1);
+	return(0);
+}
+
 /* Counts words in a string based on a given separator
 returns word nr or 0 if str is empty,
 won't count anything in quotes as a word. */
-int	word_count(char *str, char separator)
+int	word_count(char *str)
 {
 	int	i;
 	int	words;
@@ -44,7 +51,7 @@ int	word_count(char *str, char separator)
 			if (i == -1)
 				return (-1);
 		}
-		if (str[i] == separator)
+		if (is_separator(str[i]))
 			words++;
 		i++;
 	}

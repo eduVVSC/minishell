@@ -51,23 +51,32 @@ void	print_token_content(char *str)
 
 void	print_individual_tkn(t_tokens *token)
 {
-	printf("|     ls      |------------|-------------|-------------|\n");
 	printf("|");
 	print_token_content(token->token);
 	printf("|");
 	print_token_type(token->type);
 	printf("|");
 	print_token_state(token->state);
-	printf("|------%d------|\n", token->index);
+	if (token->index >= 10)
+		printf("|-----%d------|\n", token->index);
+	else
+		printf("|------%d------|\n", token->index);
 }
 
 
-int	main(void)
+void	print_tokens(t_tokens *tokens)
 {
 	printf("+-------------+------------+-------------+-------------+\n");
+	printf("|             |            |             |             |\n");
 	printf("|    TOKEN    |    TYPE    |    STATE    |    INDEX    |\n");
+	printf("|             |            |             |             |\n");
 	printf("+-------------+------------+-------------+-------------+\n");
-	printf("|     ls      |------------|-------------|-------------|\n");
-	print_individual_tkn(token);
+	while (tokens->next != NULL)
+	{
+		print_individual_tkn(token);
+		tokens = tokens->next;
+		if (tokens->next)
+			printf("|-------------|------------|-------------|-------------|\n");
+	}
 	printf("+-------------+------------+-------------+-------------+\n");
 }
