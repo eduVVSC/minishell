@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/22 18:20:09 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/11/25 09:54:02 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,19 @@
 void	print_token_type(int token_type)
 {
 	if (token_type == 0)
-		ft_printf("   COMMAND   ");
+		ft_printf("   STRING   ");
 	if (token_type == 1)
 		ft_printf("    PIPE    ");
 	if (token_type == 2)
-		ft_printf("   INFILE    ");
+		ft_printf("     &      ");
 	if (token_type == 3)
-		ft_printf("   OUTFILE   ");
+		ft_printf("   INFILE   ");
+	if (token_type == 4)
+		ft_printf("   OUTFILE  ");
+	if (token_type == 5)
+		ft_printf("   HEREDOC  ");
+	if (token_type == 6)
+		ft_printf(" EXPANSION  ");
 }
 
 void	print_token_state(int token_state)
@@ -29,9 +35,9 @@ void	print_token_state(int token_state)
 	if (token_state == 0)
 		ft_printf("   GENERAL   ");
 	if (token_state == 1)
-		ft_printf(" SINGLE QUOTE");
+		ft_printf("SINGLE QUOTE ");
 	if (token_state == 2)
-		ft_printf(" DOUBLE QUOTE");
+		ft_printf("DOUBLE QUOTE ");
 	if (token_state == 3)
 		ft_printf("  EXPANDED   ");
 }
@@ -62,11 +68,11 @@ void	print_individual_tkn(t_tokens *token)
 	write(1, "|", 1);
 	print_token_content(token->token);
 	write(1, "|", 1);
-	print_token_type(1);
+	print_token_type(token->type);
 	write(1, "|", 1);
 	print_token_state(token->state);
 	if (token->index >= 10)
-		ft_printf("|      %d      |\n", token->index);
+		ft_printf("|      %d     |\n", token->index);
 	else
 		ft_printf("|      %d      |\n", token->index);
 }
