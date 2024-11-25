@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 09:04:53 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/19 13:05:27 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:47:12 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	handle_quotes(const char *str, int i, char quote_type)
 
 int	is_separator(char c)
 {
-	if (c == '|' || c == '&' || c == ' ') // Needs to include tabs and new lines too.
+	if (c == ' ') // Needs to include tabs and new lines too.
 		return(1);
 	return(0);
 }
 
-/* Counts words in a string based on a given separator
+/* Counts words in a string
 returns word nr or 0 if str is empty,
 won't count anything in quotes as a word. */
 int	word_count(char *str)
@@ -40,7 +40,7 @@ int	word_count(char *str)
 	int	words;
 
 	i = 0;
-	words = 1;
+	words = 0;
 	if (!str || str[i] == '\0')
 		return (0);
 	while (str[i])
@@ -51,7 +51,8 @@ int	word_count(char *str)
 			if (i == -1)
 				return (-1);
 		}
-		if (is_separator(str[i]))
+		if (!is_separator(str[i]) &&
+				(is_separator(str[i + 1]) || str[i + 1] == '\0'))
 			words++;
 		i++;
 	}
