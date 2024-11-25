@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/19 17:46:42 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:19:15 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,31 @@ typedef struct s_env
 typedef struct s_tokens
 {
 	char			*token;
-	int				type; // 0 cmd, 1 pipe, 2 infile, 3 outfile.
-	int				state; //0 general, 1 single quote, 2 double quote;
+	int				type; // 0 str, 1 pipe, 2 & ,3 infile, 4 outfile, 5 heredoc, 6 expansion.
+	int				state; //0 general, 1 single quote, 2 double quote, 3 expanded;
 	int				index;
-	struct s_token	*next;
+	struct	s_tokens	*next;
 
 }				t_tokens;
 
 // =====================functions====================== //
 
-t_tokens	*fill_node(void);
 t_tokens	*get_tokens(char *input);
 
+int	is_separator(char c);
+int	get_token_state(char *str);
+int	get_token_type(char *str);
+void	print_tokens(t_tokens *tokens);
 void	giving_value_to_str(char *str, char *cmd, int strlen, int index_start);
-void	fill_tokens(t_tokens *tokens, int nr);
-int	handle_quotes(const char *str, int i, char quote_type);
-int	word_count(char *str);
+int		handle_quotes(const char *str, int i, char quote_type);
+int		word_count(char *str);
 
 
 // =============handlers=============== //
 void	cntrl_C();
 void	cntrl_D();
 void	cntrl_Backslash();
-void	signalHandler(int signum, siginfo_t *info, void *context);
+//void	signalHandler(int signum, siginfo_t *info, void *context);
 
 char	*fill_str(char *str, int target_word, char separator);
 
