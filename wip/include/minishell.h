@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/22 18:18:37 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:19:15 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_env
 typedef struct s_tokens
 {
 	char			*token;
-	int				type; // 0 cmd, 1 arg, 2 pipe, 3 & ,4 infile, 5 outfile.
+	int				type; // 0 str, 1 pipe, 2 & ,3 infile, 4 outfile, 5 heredoc, 6 expansion.
 	int				state; //0 general, 1 single quote, 2 double quote, 3 expanded;
 	int				index;
 	struct	s_tokens	*next;
@@ -43,13 +43,12 @@ typedef struct s_tokens
 // =====================functions====================== //
 
 t_tokens	*get_tokens(char *input);
-t_tokens	*fill_node(void);
 
 int	is_separator(char c);
 int	get_token_state(char *str);
+int	get_token_type(char *str);
 void	print_tokens(t_tokens *tokens);
 void	giving_value_to_str(char *str, char *cmd, int strlen, int index_start);
-void	fill_tokens(t_tokens *tokens, int nr);
 int		handle_quotes(const char *str, int i, char quote_type);
 int		word_count(char *str);
 
