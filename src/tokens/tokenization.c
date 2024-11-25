@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:00:21 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/25 11:53:22 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/11/25 16:40:03 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ t_tokens	*get_tokens(char *input)
 
 	current_word = 1;
 	words = word_count(input);
+	if (!input)
+		return (NULL);
 	if (words == -1) // Happens if a quote is left open, shouldnt matter if we handle it on validation.
 		return (NULL);
 	tokens = fill_node();

@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/25 09:54:02 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/11/25 16:43:03 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	print_individual_tkn(t_tokens *token)
 
 void	print_tokens(t_tokens *tokens)
 {
+	if (!tokens->token)
+		return ;
 	printf("+-------------+------------+-------------+-------------+\n");
 	printf("|             |            |             |             |\n");
 	printf("|    TOKEN    |    TYPE    |    STATE    |    INDEX    |\n");
@@ -89,9 +91,10 @@ void	print_tokens(t_tokens *tokens)
 	{
 		print_individual_tkn(tokens);
 		tokens = tokens->next;
-
 		if (tokens->next)
 			printf("|-------------|------------|-------------|-------------|\n");
 	}
+	printf("|-------------|------------|-------------|-------------|\n");
+	print_individual_tkn(tokens);
 	printf("+-------------+------------+-------------+-------------+\n");
 }

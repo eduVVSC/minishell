@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/25 11:19:15 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:00:44 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_env
 {
 	char	*pwd;
 	char	*old_pwd;
+	char	*prefix;
 	char	*path;
 }				t_env;
 
@@ -44,9 +45,9 @@ typedef struct s_tokens
 
 t_tokens	*get_tokens(char *input);
 
-int	is_separator(char c);
-int	get_token_state(char *str);
-int	get_token_type(char *str);
+int		is_separator(char c);
+int		get_token_state(char *str);
+int		get_token_type(char *str);
 void	print_tokens(t_tokens *tokens);
 void	giving_value_to_str(char *str, char *cmd, int strlen, int index_start);
 int		handle_quotes(const char *str, int i, char quote_type);
@@ -57,7 +58,8 @@ int		word_count(char *str);
 void	cntrl_C();
 void	cntrl_D();
 void	cntrl_Backslash();
-//void	signalHandler(int signum, siginfo_t *info, void *context);
+void	handle_commands(t_tokens *tokens, t_env *env, char **envp);
+void	signalHandler(int signum, siginfo_t *info, void *context);
 
 char	*fill_str(char *str, int target_word, char separator);
 
