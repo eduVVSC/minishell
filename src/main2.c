@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	main(void)
+/* int	main(void)
 {
 	t_env	*env_vars;
 	struct	sigaction	sa;
@@ -28,4 +28,4 @@ int	main(void)
 	}
 	free(str);
 	return 0;
-}
+} */
