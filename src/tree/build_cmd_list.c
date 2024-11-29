@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tree_builder.c                                     :+:      :+:    :+:   */
+/*   build_cmds_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/29 14:21:25 by dioferre         ###   ########.fr       */
+/*   Created: 2024/11/29 13:18:17 by dioferre          #+#    #+#             */
+/*   Updated: 2024/11/29 14:51:29 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
- t_tree_node	*build_tree(t_tokens *tokens)
+
+t_cmds	*build_cmd_list(char **cmds)
 {
-	t_tree_node	*tree;
-	char		*cmds;
-	int			i;
+	t_cmds *cmd_list;
+	t_cmds *head;
+	int	i;
 
 	i = 0;
-	tree = malloc(sizeof(t_tree_node));
-	cmds = build_cmds(tokens);
-	while (cmds)
+	head = malloc(sizeof(t_cmds));
+	cmd_list = head;
+	while (cmds[i])
 	{
-		tree->content = (cmds[i]);
-		if (cmds[i + 1])
-		{
-			i += 1;
-			tree->left->content = (cmds[i]);
-		}
+		if (i != 0)
+			cmd_list = malloc(sizeof(t_cmds));
+		cmd_list->cmd = ft_split(cmds[i], ' ');
+		cmd_list->cmd[0] = ft_strjoin("/bin/", cmd_list->cmd[0]);
+		//print_cmds(cmd_list->cmd);
+		cmd_list->next = NULL;
+		cmd_list = cmd_list->next;
+		i++;
 	}
-} */
+	ft_free_double_arr(&cmds);
+	return(head);
+}

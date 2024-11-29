@@ -124,9 +124,9 @@ t_tokens	*get_tokens(char *input)
 	int			words;
 
 	current_word = 1;
-	words = word_count(input);
 	if (!input)
 		return (NULL);
+	words = word_count(input);
 	if (words == -1) // Happens if a quote is left open, shouldnt matter if we handle it on validation.
 		return (NULL);
 	tokens = fill_node();

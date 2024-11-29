@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tree_builder.c                                     :+:      :+:    :+:   */
+/*   Echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/29 14:21:25 by dioferre         ###   ########.fr       */
+/*   Created: 2024/11/29 14:48:28 by dioferre          #+#    #+#             */
+/*   Updated: 2024/11/29 14:48:29 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
- t_tree_node	*build_tree(t_tokens *tokens)
-{
-	t_tree_node	*tree;
-	char		*cmds;
-	int			i;
 
-	i = 0;
-	tree = malloc(sizeof(t_tree_node));
-	cmds = build_cmds(tokens);
-	while (cmds)
+
+void	setting_to_print(char **command)
+{
+	int	i;
+
+	i = 1;
+	while(command[i])
 	{
-		tree->content = (cmds[i]);
-		if (cmds[i + 1])
-		{
-			i += 1;
-			tree->left->content = (cmds[i]);
-		}
+		if (check_expand(command[i]) != -1)
+			command[i] = handle_expension(command[i]);
+		i++;
 	}
-} */
+}
+
+void	do_echo(char **command)
+{
+	setting_to_print(command);
+
+	execve(command[0], command, NULL);
+}

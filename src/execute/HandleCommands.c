@@ -6,30 +6,50 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:44:39 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/25 17:06:32 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:52:16 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-// if one is not command, get the last inde
-/* int	is_command()
+void	handle_commands(t_tokens *tokens, t_env *env, char **envp)
 {
+	t_cmds	*cmds_list;
+	t_tokens *tmp;
 
+	cmds_list = build_cmd_list(build_cmd_array(tokens));
+	while (tokens)
+	{
+		tmp = tokens->next;
+		free (tokens->token);
+		free (tokens);
+		tokens = tmp;
+	}
+	cmd(cmds_list->cmd);
+	// EXECUTE TREE(each element receive the cmd)
 }
- */
-void handle_commands(t_tokens *tokens, t_env *env, char **envp)
-{
-	int	 execve_return;
-	char **str;
 
-	str[0] = "pwd";
-	str[1] = 0;
-	env->path = getenv("PWD");
-	execve_return = execve(env->path, str, envp);
-	if(env->path == NULL)
-		return ;
-	ft_printf("%d : %s\n", execve_return, tokens->token);
-	//printf("%s\n", env->path);
+void	cmd(char **command)
+{
+	int	len_command;
+
+	len_command = ft_strlen(command[0]);
+	if(ft_strncmp(command[0], "/bin/pwd", len_command) == 0)
+		do_pwd(command);
+	else if(ft_strncmp(command[0], "/bin/ls", len_command) == 0)
+		do_ls(command);
+	else if(ft_strncmp(command[0], "/bin/echo", len_command) == 0)
+		do_echo(command);
+ 	else if(ft_strncmp(command[0], "/bin/cd", len_command) == 0)
+		do_cd(command);
+	/*else if(ft_strncmp(command[0], "export", len_command) == 0)
+		do_export(command);
+	else if(ft_strncmp(command[0], "unset", len_command) == 0)
+		do_unset(command);
+	else if(ft_strncmp(command[0], "exit", len_command) == 0)
+		do_exit(command);
+	else if(ft_strncmp(command[0], "env", len_command) == 0)
+		do_env(command);
+*/
 }
