@@ -7,3 +7,12 @@ void	do_pwd(char **command)
 	execve(command[0], command, NULL);
 }
 
+/*
+fork
+|
+|     LIST
+|-------\
+|-------|
+		STR		
+		exec
+*/

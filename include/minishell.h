@@ -19,7 +19,9 @@
 # define  value 0
 
 # include <stdio.h>
+#include <dirent.h>
 # include <signal.h>
+#include <sys/types.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "../libft/libft.h"

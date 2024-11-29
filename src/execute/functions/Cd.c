@@ -2,7 +2,10 @@
 
 void	do_cd(char **command)
 {
-	command[0] = ft_strjoin("/bin/", command[0]);
+	char	*filename;
 
-	execve(command[0], command, NULL);
+	getenv("pwd");
+	filename = ft_strjoin(getenv("pwd") ,command[1]);
+	chdir(filename);
+	//execve(command[0], command, NULL);
 }

@@ -17,7 +17,7 @@ void	cmd(char **command)
 	int	len_command;
 
 	len_command = ft_strlen(command[0]);
-	if(ft_strncmp(command[0], "ls", len_command) == 0) // do first
+	if(ft_strncmp(command[0], "/bin/ls", len_command) == 0) // do first
 		do_ls(command);
 	else if(ft_strncmp(command[0], "pwd", len_command) == 0) // do first
 		do_pwd(command);
@@ -91,6 +91,3 @@ void handle_commands(t_tokens *tokens, t_env *env, char **envp)
 	printf("%d : %s\n", execve_return, tokens->token);
 
 }
-
-
-// **comand ==> [cmd] [attribute] ... [null]

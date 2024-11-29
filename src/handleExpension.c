@@ -34,7 +34,7 @@ int	count_quoutes(char *str, int start, int flag)
 
 // function will check if the variable needs to expand
 // if so, return the name of the expand, else, return an empty string
-int	check_expand(char *str)
+int	check_expxand(char *str)
 {
 	int	i;
 
