@@ -15,12 +15,16 @@
 
 # define true 1
 # define false 0
+# define variable 1
+# define  value 0
 
 # include <stdio.h>
+#include <dirent.h>
 # include <signal.h>
+#include <sys/types.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include "libft.h"
+# include "../libft/libft.h"
 
 typedef struct s_env
 {
@@ -54,6 +58,13 @@ int		handle_quotes(const char *str, int i, char quote_type);
 int		word_count(char *str);
 
 
+// =============built-ins=============== //
+
+void	do_cd(char **command);
+void	do_pwd(char **command);
+void	do_ls(char **command);
+void	do_echo(char **command);
+
 // =============handlers=============== //
 void	cntrl_C();
 void	cntrl_D();
@@ -63,6 +74,11 @@ void	signalHandler(int signum, siginfo_t *info, void *context);
 
 char	*fill_str(char *str, int target_word, char separator);
 
+// ============Expension============== //
 
+int		check_expand(char *str);
+char	*handle_expension(char *str);
+char	*var_name(char *str, int start);
+char	*re_wrinting_string(char *str, char *expand_value, int where_to_change, int var_len);
 
 #endif
