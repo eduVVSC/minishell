@@ -24,19 +24,6 @@ int	count_quoutes(char *str, int start, int flag)
 
 // function will check if the variable needs to expand
 // if so, return the name of the expand, else, return an empty string
-int	check_expxand(char *str)
-{
-	int	i;
-
-	i = 0;
-	while(str[i])
-	{
-		if(str[i] == '$')
-			return (i);
-		i++;
-	}
-	return (-1);
-}
 
 // receive var_len + 1, because you are not counting the '$' in it
 char	*re_wrinting_string(char *str, char *expand_value, int where_to_change, int var_len)
@@ -112,14 +99,16 @@ char	*handle_expension(char *str)
 	return (str);
 }
 
-/*
-int main(int ac, char **av)
+int	check_expand(char *str)
 {
-	char *str = "hello $USER go fuck yourself";
+	int	i;
 
-	printf("%s\n", handle_expension(str));
-	//printf("%d\n", count_quoutes(av[1], 2, 0));
-	//printf("%d\n", count_quoutes(av[1], 2 + ft_strlen(var_name(av[1], 2)), 1));
-
-	return (0);
-} */
+	i = 0;
+	while(str[i])
+	{
+		if(str[i] == '$')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
