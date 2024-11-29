@@ -1,4 +1,4 @@
-CC = cc -g
+CC = cc -g -lreadline
 NAME = minishell
 
 #FLAGS

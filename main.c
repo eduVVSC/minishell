@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
+#include "./include/minishell.h"
 
 int	main(int ac, char **av,char **envp)
 {
@@ -32,33 +31,17 @@ int	main(int ac, char **av,char **envp)
 	while(1)
 	{
 		env_vars->pwd = getenv("PWD"); // need to use protection
+		if (!env_vars->pwd)
+			env_vars->pwd = "";
 		env_vars->prefix = ft_strjoin(env_vars->pwd, "$ ");
 		input = readline(env_vars->prefix);
 		tokens = get_tokens(input);
 		if (tokens == NULL)
 			exit(EXIT_SUCCESS);
+		print_tokens(tokens); //action
 		handle_commands(tokens, env_vars, envp);
-		//print_tokens(tokens); //action
 		add_history(input);
 	}
 	return 0;
 
 }
-/*
-int	main(int argc, char **argv)
-{
-	t_tokens *tokens;
-	char *input = argv[1];
-	int	i = 0;
-	tokens = get_tokens(input);
-	print_tokens(tokens);
-	t_tokens *tmp;
-	while (tokens)
-	{
-		tmp = tokens->next;
-		free (tokens->token);
-		free (tokens);
-		tokens = tmp;
-	}
-}
- */
