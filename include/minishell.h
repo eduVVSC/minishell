@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/29 14:50:52 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:16:51 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@
 # define false 0
 # define variable 1
 # define  value 0
+
+// =====================Value Defines====================== //
+
+# define PIPE 1
+# define INFILE 3
+# define OUTFILE 4
+# define HEREDOC 5
+# define EXPANSION 6
 
 # include <stdio.h>
 #include <dirent.h>
@@ -49,10 +57,10 @@ typedef struct s_tree_node
 
 typedef struct s_tokens
 {
-	char			*token;
-	int				type; // 0 str, 1 pipe, 2 & ,3 infile, 4 outfile, 5 heredoc, 6 expansion.
-	int				state; //0 general, 1 single quote, 2 double quote, 3 expanded;
-	int				index;
+	char				*token;
+	int					type; // 0 str, 1 pipe, 2 & ,3 infile, 4 outfile, 5 heredoc, 6 expansion, 7 space.
+	int					state; //0 general, 1 single quote, 2 double quote, 3 expanded;
+	int					index;
 	struct	s_tokens	*next;
 
 }				t_tokens;
@@ -72,6 +80,17 @@ char	**build_cmd_array(t_tokens *tokens);
 t_cmds	*build_cmd_list(char **cmds);
 void	print_cmds(char **cmds);
 void	cmd(char **command);
+void	print_individual_tkn(t_tokens *token);
+int	check_open_brackets(const char *str);
+int	check_open_quotes(const char *str);
+char	*build_single_cmd(t_tokens **tokens, int index);
+void	strjoin_and_replace(char **s1, char *s2);
+
+
+// =============tokens=============== //
+
+void	create_space_token(t_tokens *tokens);
+int		count_spaces(char *str);
 
 
 // =============built-ins=============== //
