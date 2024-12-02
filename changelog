@@ -1,0 +1,5 @@
+2/12/24
+	added the space tokens on tokenization.
+	split build_cmd_array into two funcs, a main one and another one that builds each command on demand.
+	built strjoin_and_replace func that takes s1 and sets its value as the result of the strjoin through a temporaty variable.
+	commented every function on build_cmd_array.c file
