@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:00:21 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/25 16:40:03 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/12/02 12:05:33 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*fill_str(char *str, int target_word, char separator)
 }
 
 // Creates a node, allocs memory and sets everything in it to NULL;
-static t_tokens	*fill_node(void)
+static t_tokens	*fill_node(int index)
 {
 	t_tokens	*node;
 
@@ -90,7 +90,7 @@ static t_tokens	*fill_node(void)
 	if (!node)
 		return (NULL);
 	node->token = NULL;
-	node->index = -1;
+	node->index = index;
 	node->state = -1;
 	node->type = -1;
 	node->next = NULL;
@@ -98,16 +98,19 @@ static t_tokens	*fill_node(void)
 }
 
 // Creates the tokens list
-static void	fill_tokens(t_tokens *tokens, int nr)
+static void	fill_tokens(t_tokens *tokens, char *input ,int words)
 {
 	t_tokens	*tmp;
+	int			spaces;
 	int			i;
 
+
 	tmp = tokens;
+	spaces = count_spaces(input);
 	i = 1;
-	while (i < nr)
+	while (i < words + spaces)
 	{
-		tmp->next = fill_node();
+		tmp->next = fill_node(i);
 		if (!tmp->next)
 			return ; // void function
 		tmp = tmp->next;
@@ -129,15 +132,19 @@ t_tokens	*get_tokens(char *input)
 	words = word_count(input);
 	if (words == -1) // Happens if a quote is left open, shouldnt matter if we handle it on validation.
 		return (NULL);
-	tokens = fill_node();
+	tokens = fill_node(0);
 	tmp = tokens;
-	fill_tokens(tmp, words);
+	fill_tokens(tmp, input, words);
 	while (current_word <= words)
 	{
 		tmp->token = fill_str(input, current_word, ' ');
-		tmp->index = current_word - 1;
 		tmp->state = get_token_state(tmp->token);
 		tmp->type = get_token_type(tmp->token);
+		if (current_word < words) // if the current index is not pointing to the end of the input, it inserts a space token.
+		{
+			tmp = tmp->next;
+			create_space_token(tmp);
+		}
 		tmp = tmp->next;
 		current_word++;
 	}

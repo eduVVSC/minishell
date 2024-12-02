@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/25 16:43:03 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/12/02 11:33:45 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,36 @@ void	print_token_type(int token_type)
 {
 	if (token_type == 0)
 		ft_printf("   STRING   ");
-	if (token_type == 1)
+	else if (token_type == 1)
 		ft_printf("    PIPE    ");
-	if (token_type == 2)
+	else if (token_type == 2)
 		ft_printf("     &      ");
-	if (token_type == 3)
+	else if (token_type == 3)
 		ft_printf("   INFILE   ");
-	if (token_type == 4)
+	else if (token_type == 4)
 		ft_printf("   OUTFILE  ");
-	if (token_type == 5)
+	else if (token_type == 5)
 		ft_printf("   HEREDOC  ");
-	if (token_type == 6)
+	else if (token_type == 6)
 		ft_printf(" EXPANSION  ");
+	else if (token_type == 7)
+		ft_printf("   SPACE    ");
+	else
+		ft_printf(" UNKNOWN: %d ", token_type);
 }
 
 void	print_token_state(int token_state)
 {
 	if (token_state == 0)
 		ft_printf("   GENERAL   ");
-	if (token_state == 1)
+	else if (token_state == 1)
 		ft_printf("SINGLE QUOTE ");
-	if (token_state == 2)
+	else if (token_state == 2)
 		ft_printf("DOUBLE QUOTE ");
-	if (token_state == 3)
+	else if (token_state == 3)
 		ft_printf("  EXPANDED   ");
+	else
+		ft_printf(" UNKNOWN: %d ", token_state);
 }
 
 void	print_token_content(char *str)
