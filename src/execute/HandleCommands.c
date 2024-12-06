@@ -33,16 +33,21 @@ void	handle_commands(t_tokens *tokens, t_env *env, char **envp)
 void	cmd(char **command)
 {
 	int	len_command;
+	int	retorno;
 
 	len_command = ft_strlen(command[0]);
-	if(ft_strncmp(command[0], "/bin/pwd", len_command) == 0)
+ 	if (ft_strncmp(command[0], "/bin/cd", len_command) == 0)
+		do_cd(command);
+	else
+		retorno = execve(command[0], command, NULL);
+	printf("%d\n", retorno);
+/* 	if(ft_strncmp(command[0], "/bin/pwd", len_command) == 0)
 		do_pwd(command);
 	else if(ft_strncmp(command[0], "/bin/ls", len_command) == 0)
 		do_ls(command);
 	else if(ft_strncmp(command[0], "/bin/echo", len_command) == 0)
-		do_echo(command);
- 	else if(ft_strncmp(command[0], "/bin/cd", len_command) == 0)
-		do_cd(command);
+		do_echo(command); */
+
 	/*else if(ft_strncmp(command[0], "export", len_command) == 0)
 		do_export(command);
 	else if(ft_strncmp(command[0], "unset", len_command) == 0)

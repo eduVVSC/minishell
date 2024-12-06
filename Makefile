@@ -1,8 +1,8 @@
-CC = cc -g
+CC = cc
 NAME = minishell
 
 #FLAGS
-FLAGS = -I$(INC_DIR) -I$(LIB_DIR)
+FLAGS = -g -lreadline -I$(INC_DIR) -I$(LIB_DIR)
 
 # Color variables
 RED = \033[0;31m

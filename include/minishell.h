@@ -16,12 +16,23 @@
 # define true 1
 # define false 0
 # define variable 1
-# define  value 0
+# define value 0
+
+# define string 0
+# define infile 2
+# define outfile 3
+# define heredoc 4
+# define expansion 5
+
+# define general 0
+# define single_quo 1
+# define double_quo 2
+# define expanded 3
 
 # include <stdio.h>
-#include <dirent.h>
+# include <dirent.h>
 # include <signal.h>
-#include <sys/types.h>
+# include <sys/types.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "../libft/libft.h"
@@ -57,6 +68,14 @@ typedef struct s_tokens
 
 }				t_tokens;
 
+typedef struct s_heredock
+{
+	int					key_len;
+	char				*key;
+	char				*fullinput_until_key;
+	struct s_heredock	*next;
+}				t_heredock;
+
 // =====================functions====================== //
 
 t_tokens	*get_tokens(char *input);
@@ -81,7 +100,16 @@ void	do_pwd(char **command);
 void	do_ls(char **command);
 void	do_echo(char **command);
 
+// =============heredock=============== //
+
+char		*ft_strjoin_w_new_line(char const *s1, char const *s2);
+
+void		key_that_metters(t_heredock *last_node);
+t_heredock	*doing_heredock(t_heredock *heredock);
+t_heredock	*reading_until_last_key(t_heredock *heredock);
+
 // =============handlers=============== //
+
 void	cntrl_C();
 void	cntrl_D();
 void	cntrl_Backslash();
@@ -92,6 +120,8 @@ char	*fill_str(char *str, int target_word, char separator);
 
 // ============Expension============== //
 
+void	*expand_token(t_tokens *token);
+char	*takeoff_quotes(char *str);
 int		check_expand(char *str);
 char	*handle_expension(char *str);
 char	*var_name(char *str, int start);

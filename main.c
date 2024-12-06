@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+void test_expand(t_tokens *tokens)
+{
+	printf("------------------------------\n");
+	printf("\tafter the handle quotes\n");
+	printf("------------------------------\n");
+	while(tokens != NULL)
+	{
+		expand_token(tokens);
+		tokens = tokens->next;
+	}
+}
 
 int	main(int ac, char **av,char **envp)
 {
@@ -38,27 +49,34 @@ int	main(int ac, char **av,char **envp)
 		if (tokens == NULL)
 			exit(EXIT_SUCCESS);
 		handle_commands(tokens, env_vars, envp);
-		//print_tokens(tokens); //action
+		print_tokens(tokens); //action
+		//test_expand(tokens);
+		print_tokens(tokens); //action
 		add_history(input);
 	}
 	return 0;
-
 }
-/*
-int	main(int argc, char **argv)
+
+/* ---test heardock*/
+/* int	main(int ac, char **av,char **envp)
 {
-	t_tokens *tokens;
-	char *input = argv[1];
-	int	i = 0;
-	tokens = get_tokens(input);
-	print_tokens(tokens);
-	t_tokens *tmp;
-	while (tokens)
-	{
-		tmp = tokens->next;
-		free (tokens->token);
-		free (tokens);
-		tokens = tmp;
-	}
+	t_heredock *heredock;
+	t_heredock *node1;
+	t_heredock *node2;
+
+	heredock = malloc(sizeof(t_heredock));
+	node1 = malloc(sizeof(t_heredock));
+	node2 = malloc(sizeof(t_heredock));
+
+	heredock->key = "1";
+	node1->next = node1;
+	node1->key = "2";
+	node1->next = NULL;
+	node2->key = "2";
+	node2->next = NULL;
+
+	heredock = doing_heredock(heredock);
+	printf("%s\n", heredock->fullinput_until_key);
+	return (0);
 }
  */
