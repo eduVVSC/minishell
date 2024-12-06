@@ -128,3 +128,32 @@ void	*expand_token(t_tokens *token)
 	if (token->state == double_quo || token->state == general || token->state == expanded)
 		token->token = handle_expension(token->token);
 }
+
+/*
+if you wanna use it, here it is :(
+
+int	count_quotes_to_take_of(char *str)
+{
+	int	i;
+	int	many_quotes;
+	char	quote_searching;
+
+	i = -1;
+	many_quotes = 0;
+	quote_searching = '\0';
+	while (str[++i])
+	{
+		if(quote_searching == '\0' && (str[i] == 34 || str[i] == 39)) // doble e single quote
+		{
+			quote_searching = str[i];
+			many_quotes++;
+		}
+		else if(str[i] == quote_searching)
+		{
+			quote_searching = '\0';
+			many_quotes++;
+		}
+	}
+	return (many_quotes);
+}
+ */
