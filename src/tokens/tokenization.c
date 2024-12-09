@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:00:21 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/02 12:05:33 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:51:05 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int	command_start(char *str, int target_word, char separator)
 			word_now++;
 			if (word_now == target_word)
 				return (i);
-			if (str[i] == '\'' || str[i] == '\"')
-				i = handle_quotes(str, i, str[i]) + 1;
 			else
 				while (!is_separator(str[i]) && str[i])
 					i++;
@@ -66,13 +64,13 @@ char	*fill_str(char *str, int target_word, char separator)
 
 	start = command_start(str, target_word, separator);
 	end = start;
-	if (str[start] == '\'' || str[start] == '\"')
-		end = handle_quotes(str, start, str[start]);
-	else
+	while (str[end + 1])
 	{
-		while (!(is_separator(str[end + 1]))
-			&& str[end + 1])
-			end++;
+		if (is_quote(str[end]))
+			end = handle_quotes(str, end, str[end]);
+		if (is_separator(str[end +1]))
+			break;
+		end++;
 	}
 	cmd = malloc((end - start + 2) * sizeof(char));
 	if (!cmd)
@@ -107,6 +105,7 @@ static void	fill_tokens(t_tokens *tokens, char *input ,int words)
 
 	tmp = tokens;
 	spaces = count_spaces(input);
+	ft_printf("words: %d    spaces: %d\n", words, spaces);
 	i = 1;
 	while (i < words + spaces)
 	{
@@ -140,7 +139,8 @@ t_tokens	*get_tokens(char *input)
 		tmp->token = fill_str(input, current_word, ' ');
 		tmp->state = get_token_state(tmp->token);
 		tmp->type = get_token_type(tmp->token);
-		if (current_word < words) // if the current index is not pointing to the end of the input, it inserts a space token.
+		tmp->token = clean_tkn_quotes(tmp->token);
+  		if (current_word < words) // if the current index is not pointing to the end of the input, it inserts a space token.
 		{
 			tmp = tmp->next;
 			create_space_token(tmp);

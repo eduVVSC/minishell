@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 18:10:15 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/25 16:36:56 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:56:14 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 // Returns a value based on the state of the given string.
 int	get_token_state(char *str)
 {
-	if (str[0] == '\'' || str[0] == '\"')
+	int last_index;
+
+	last_index = ft_strlen(str) - 1;
+	if ((str[0] == '\'' || str[0] == '\"') && (str[last_index] == str[0]))
 	{
 		if (handle_quotes(str, 0, str[0]) != -1)
 		{
