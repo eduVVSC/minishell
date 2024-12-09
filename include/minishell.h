@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/02 17:16:51 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/12/09 12:36:32 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,9 @@ void	strjoin_and_replace(char **s1, char *s2);
 // =============tokens=============== //
 
 void	create_space_token(t_tokens *tokens);
+char	*clean_tkn_quotes(char *str);
 int		count_spaces(char *str);
-
+int		is_quote(char c);
 
 // =============built-ins=============== //
 
