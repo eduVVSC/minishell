@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 09:04:53 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/25 15:56:23 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/12/09 12:59:26 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ int	handle_quotes(const char *str, int i, char quote_type)
 int	is_separator(char c)
 {
 	if (c == ' ') // Needs to include tabs and new lines too.
+		return(1);
+	return(0);
+}
+
+int	is_quote(char c)
+{
+	if (c == '\"' || c == '\'')
 		return(1);
 	return(0);
 }
