@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:17:15 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/02 17:12:01 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/12/10 10:03:36 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ int	count_cmds(t_tokens *tokens)
 	while (tokens)
 	{
 		if (tokens->type == 1)
+		{
+			if (tokens->next)
+				i++;
 			i++;
+		}
 		if (!tokens->next)
 			break;
 		tokens = tokens->next;
@@ -78,9 +82,16 @@ char	**build_cmd_array(t_tokens *tokens)
 	cmds = malloc((nr_of_cmds + 1) * sizeof(char *));
 	while (i < nr_of_cmds)
 	{
-		if (tokens->type != 1 && tokens->type != 7)
+		if (tokens->type != 7)
 		{
-			cmds[i] = build_single_cmd(&tokens, i);
+			if (tokens->type == 1)
+			{
+				cmds[i] = ft_strdup("|");
+				if (tokens->next)
+					tokens = tokens->next;
+			}
+			else
+				cmds[i] = build_single_cmd(&tokens, i);
 			i++;
 		}
 		else
@@ -103,7 +114,8 @@ void	print_cmds(char **cmds)
 	i = 0;
 	while (cmds[i])
 	{
-		printf("%s\n",cmds[i]);
+		printf("%s ",cmds[i]);
 		i++;
 	}
+	printf("\n");
 }
