@@ -6,14 +6,14 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/10 11:04:19 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/12/22 16:05:12 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // Checks the content of a cmd_list for pipes.
-static int	is_pipe(char **content)
+int	is_pipe(char **content)
 {
 	if (content[0][0] == '|')
 		return (1);
