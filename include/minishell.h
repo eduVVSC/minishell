@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/09 12:36:32 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/12/22 16:16:29 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@
 # include <readline/readline.h>
 # include "../libft/libft.h"
 
+typedef struct s_shell
+{
+	struct s_env		*env;
+	struct s_cmds		*cmds;
+	struct s_tree_node	*tree;
+	struct s_tokens		*tokens;
+}				t_shell;
+
 typedef struct s_env
 {
 	char	*pwd;
@@ -50,7 +58,7 @@ typedef struct s_cmds
 
 typedef struct s_tree_node
 {
-	void				*content;
+	char				**content;
 	struct s_tree_node	*left;
 	struct s_tree_node	*right;
 }					t_tree_node;
@@ -62,7 +70,6 @@ typedef struct s_tokens
 	int					state; //0 general, 1 single quote, 2 double quote, 3 expanded;
 	int					index;
 	struct	s_tokens	*next;
-
 }				t_tokens;
 
 // =====================functions====================== //
@@ -85,6 +92,8 @@ int	check_open_brackets(const char *str);
 int	check_open_quotes(const char *str);
 char	*build_single_cmd(t_tokens **tokens, int index);
 void	strjoin_and_replace(char **s1, char *s2);
+int	count_words(char *str);
+int	is_pipe(char **content);
 
 
 // =============tokens=============== //
@@ -93,6 +102,15 @@ void	create_space_token(t_tokens *tokens);
 char	*clean_tkn_quotes(char *str);
 int		count_spaces(char *str);
 int		is_quote(char c);
+
+// =============tree=============== //
+
+void	make_tree(t_tokens *tokens);
+void	print_cmds(char **cmds);
+
+// Exec Tree Utils
+char	*find_path(char **cmd);
+void	check_if_builtin(char **cmd);
 
 // =============built-ins=============== //
 
