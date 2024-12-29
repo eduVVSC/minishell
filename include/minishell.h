@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/22 16:16:29 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/12/29 15:06:22 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 #include <dirent.h>
 # include <signal.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "../libft/libft.h"
@@ -93,7 +94,7 @@ int	check_open_quotes(const char *str);
 char	*build_single_cmd(t_tokens **tokens, int index);
 void	strjoin_and_replace(char **s1, char *s2);
 int	count_words(char *str);
-int	is_pipe(char **content);
+int	is_pipe_node(char **content);
 
 
 // =============tokens=============== //
@@ -105,12 +106,15 @@ int		is_quote(char c);
 
 // =============tree=============== //
 
-void	make_tree(t_tokens *tokens);
+void	make_tree(t_tokens *tokens, char **envp);
 void	print_cmds(char **cmds);
+void	exec_tree(t_tree_node *node, char **envp);
+void	pipe_error(void);
+void	fork_error(void);
 
 // Exec Tree Utils
-char	*find_path(char **cmd);
-void	check_if_builtin(char **cmd);
+char	*find_path(char *cmd, char **envp);
+void    check_if_builtin(char **cmd, char *envp);
 
 // =============built-ins=============== //
 
