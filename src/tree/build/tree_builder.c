@@ -6,14 +6,14 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/22 16:05:12 by dioferre         ###   ########.fr       */
+/*   Updated: 2024/12/29 14:42:54 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // Checks the content of a cmd_list for pipes.
-int	is_pipe(char **content)
+int	is_pipe_node(char **content)
 {
 	if (content[0][0] == '|')
 		return (1);
@@ -101,16 +101,22 @@ void	print_tree(t_tree_node *head)
 }
 
 
-void	make_tree(t_tokens *tokens)
+void	make_tree(t_tokens *tokens, char **envp)
 {
 	t_tree_node	*head;
 	t_cmds		*cmd_list;
+	pid_t		pid;
 	int			i;
 
 	i = 0;
 	head = init_tree_node();
 	cmd_list = build_cmd_list(build_cmd_array(tokens));
 	build_tree(head, cmd_list);
-	print_tree(head);
+	// this following part is for executing the tree:
+	pid = fork();
+	if (pid == 0)
+		exec_tree(head, envp);
+	waitpid(pid, NULL, 0);
+	// print_tree(head);
 	// Need to make a func to free the tree ig?
 }
