@@ -5,15 +5,38 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/29 14:48:32 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/29 14:48:33 by dioferre         ###   ########.fr       */
+/*   Created: 2024/11/25 16:44:39 by dioferre          #+#    #+#             */
+/*   Updated: 2024/11/29 14:52:16 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	do_pwd(char **command)
+/// @brief Will deliver the error message to the stderror and return the exit code
+/// @return (2 error)
+int	handle_pwd_error(char **command)
 {
+	char	*message;
 
-	execve(command[0], command, NULL);
+	message = ft_strjoin("bash: pwd: ", command[1]);
+	message = ft_strjoin_free_s1(message, ": invalid option\n");
+	ft_putstr_fd(message, 2);
+	free (message);
+	return (2);
+}
+
+/// @brief Do the pwd command without optionals
+/// @return (0 success) (2 error)
+int	do_pwd(char **command)
+{
+	char	*directory;
+
+	if(check_exist_optionals(command) == -1)
+		return (handle_pwd_error(command));
+	directory = getcwd(NULL, 0);
+	if (directory == NULL)
+		return (-1);
+	printf("%s\n", directory);
+	free (directory);
+	return (0);
 }

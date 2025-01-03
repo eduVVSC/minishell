@@ -6,131 +6,46 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:44:39 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/29 14:52:16 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/03 16:22:15 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-<<<<<<< HEAD
-
-void	handle_commands(t_tokens *tokens, t_env *env, char **envp)
+void	free_cmd(t_cmds *cmd)
 {
-	t_cmds	*cmds_list;
-	t_tokens *tmp;
+	t_cmds	*tmp;
 
-	cmds_list = build_cmd_list(build_cmd_array(tokens));
-	while (tokens)
+	while (cmd)
 	{
-		tmp = tokens->next;
-		free (tokens->token);
-		free (tokens);
-		tokens = tmp;
+		tmp = cmd;
+		cmd = cmd->next;
+		ft_free_double_arr(&tmp->cmd);
+		free(tmp);
 	}
-	cmd(cmds_list->cmd);
-	// EXECUTE TREE(each element receive the cmd)
 }
 
-void	cmd(char **command)
-{
-	int	len_command;
 
-	len_command = ft_strlen(command[0]);
-	if(ft_strncmp(command[0], "/bin/pwd", len_command) == 0)
-		do_pwd(command);
-	else if(ft_strncmp(command[0], "/bin/ls", len_command) == 0)
-		do_ls(command);
-	else if(ft_strncmp(command[0], "/bin/echo", len_command) == 0)
+// need to handle only enter
+int	is_builtin( t_shell *shell, char **command)
+{
+	//printf("command now = |%s|\n", command[0]);
+	/*if (ft_strcmp(command[0], "") == 0 || ft_strcmp(command[0], "/bin/") == 0)
+		printf("Function return |127|\n"); */
+	if (ft_strcmp(command[0], "echo") == 0)
 		do_echo(command);
- 	else if(ft_strncmp(command[0], "/bin/cd", len_command) == 0)
-		do_cd(command);
-	/*else if(ft_strncmp(command[0], "export", len_command) == 0)
-		do_export(command);
-	else if(ft_strncmp(command[0], "unset", len_command) == 0)
-		do_unset(command);
-	else if(ft_strncmp(command[0], "exit", len_command) == 0)
-		do_exit(command);
-	else if(ft_strncmp(command[0], "env", len_command) == 0)
-		do_env(command);
-*/
-=======
-void	cmd(char **command)
-{
-	int	len_command;
+	else if (ft_strcmp(command[0], "pwd") == 0) // seems to be working well now!!
+		printf("Function return |%d|\n",do_pwd(command));
+	else if (ft_strcmp(command[0], "cd") == 0) // seems to be working well now!!
+		printf("Function return |%d|\n",do_cd(shell, command));
+	else if (ft_strcmp(command[0], "export") == 0) // seems to be working well now!!
+		printf("Function return |%d|\n",do_export(&shell->env, command));
+	else if (ft_strcmp(command[0], "env") == 0) // seems to be working well now!!
+		printf("Function return |%d|\n",do_env(command, shell->env));
+	else if (ft_strcmp(command[0], "unset") == 0) // last one!!
+		printf("Function return |%d|\n", do_unset(shell->env, command));
+	else
+		return(0);
+	return (1);
 
-	len_command = ft_strlen(command[0]);
-	if(ft_strncmp(command[0], "/bin/ls", len_command) == 0) // do first
-		do_ls(command);
-	else if(ft_strncmp(command[0], "pwd", len_command) == 0) // do first
-		do_pwd(command);
-	else if(ft_strncmp(command[0], "echo", len_command) == 0)
-		do_echo(command);
- 	else if(ft_strncmp(command[0], "cd", len_command) == 0)
-		do_cd(command);
-	/*else if(ft_strncmp(command[0], "export", len_command) == 0)
-		do_export(command);
-	else if(ft_strncmp(command[0], "unset", len_command) == 0)
-		do_unset(command);
-	else if(ft_strncmp(command[0], "exit", len_command) == 0) // do first
-		do_exit(command);
-	else if(ft_strncmp(command[0], "env", len_command) == 0) // do first
-		do_env(command);
-*/
-}
-
-int	count_dependencies(t_tokens *tokens)
-{
-	int	i;
-
-	i = 1;
-	while(tokens->next != NULL)
-	{
-		if(ft_strncmp(tokens->token, "|", 1) == 0)
-			break;
-		tokens = tokens->next;
-		i++;
-	}
-	return (i);
-}
-
-void	*fullfill_command(t_tokens *tokens, int until_where, char **full_command)
-{
-	int	i;
-
-	i = 0;
-	while(i < until_where)
-	{
-		full_command[i] = ft_strdup(tokens->token);
-		tokens = tokens->next;
-		i++;
-	}
-	full_command[i] = NULL;
-}
-
-void print_command(char **command)
-{
-	int	i = 0;
-
-	while(command[i])
-	{
-		printf("%s\n", command[i]);
-		i++;
-	}
-}
-
-void handle_commands(t_tokens *tokens, t_env *env, char **envp)
-{
-	int		many_dependencies;
-	int		execve_return;
-	char	**full_command;
-
-	many_dependencies = count_dependencies(tokens);
-	full_command = malloc(sizeof(char *) * (many_dependencies + 1));
-	fullfill_command(tokens, many_dependencies, full_command);
-	//print_command(full_command);
-	//printf("--------------------\n");
-	cmd(full_command);
-	printf("%d : %s\n", execve_return, tokens->token);
-
->>>>>>> main
 }

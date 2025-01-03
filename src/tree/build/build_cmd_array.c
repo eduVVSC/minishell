@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:17:15 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/10 10:03:36 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/03 12:04:00 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*build_single_cmd(t_tokens **tokens, int index)
 			strjoin_and_replace(&cmd, " ");
 		(*tokens) = (*tokens)->next;
 	}
-	if (!(*tokens)->next && (*tokens)->type == 0)
+	if (!(*tokens)->next && (*tokens)->type != 1)
 			strjoin_and_replace(&cmd, (*tokens)->token);
 	return (cmd);
 }

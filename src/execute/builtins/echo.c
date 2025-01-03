@@ -1,34 +1,93 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Echo.c                                             :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:48:28 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/29 14:48:29 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/03 12:01:20 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-void	setting_to_print(char **command)
+/// @brief Check the type of dependency of the command
+/// @return (0 is an -n) (1 is not -n)
+int	check_type(char *dependency)
 {
 	int	i;
 
 	i = 1;
-	while(command[i])
+	if (dependency[0] != '-')
+		return (0);
+	while (dependency[i] != '\0')
 	{
-		if (check_expand(command[i]) != -1)
-			command[i] = handle_expension(command[i]);
+		if (dependency[i] != 'n')
+			return (0);
 		i++;
 	}
+	return (1);
 }
 
-void	do_echo(char **command)
+/// @brief check the dependencies accept (-n or -nnnnnn), if there is "-n" it will disable the \n
+/// @return (0 has new_line) (1 no new_line)
+int	checking_dependecies(char **cmd)
 {
-	setting_to_print(command);
+	int	i;
+	int	value_returned;
+	int	what_to_do;
 
-	execve(command[0], command, NULL);
+	i = 0;
+	what_to_do = 0;
+	value_returned = 1;
+	while (cmd[++i] != NULL && value_returned == 1)
+	{
+		value_returned = check_type(cmd[i]);
+		if (value_returned == -1)
+			return (-1);
+		if(value_returned == 1)
+		{
+			what_to_do = value_returned;
+		}
+	}
+	return (what_to_do);
+}
+
+/// @brief Print all the command arguments
+// BREAKS WHEN YOU DO "echo -n" without any argument :^)
+void	printing(char **command, int new_line_flag)
+{
+	int	i;
+
+	i = 1;
+	while (check_type(command[i]) == 1)
+		i++;
+	while (command[i])
+	{
+		printf("%s", command[i]);
+		if(command[i + 1] != NULL)
+			printf(" ");
+		i++;
+	}
+	if (new_line_flag == 0)
+		printf("\n");
+}
+
+/// @brief do the echo function
+/// @return (0 succes) (1 error)
+int	do_echo(char **command)
+{
+	int	new_line_flag;
+
+	new_line_flag = 0;
+	if (command[1] == NULL) // echo whithout argumments
+		printf("\n");
+	else
+	{
+		if (checking_dependecies(command) == 1) // no new line
+			new_line_flag = 1;
+		printing(command, new_line_flag);
+	}
+	return (0);
 }

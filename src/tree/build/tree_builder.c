@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/29 14:42:54 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/03 16:25:31 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,22 +101,21 @@ void	print_tree(t_tree_node *head)
 }
 
 
-void	make_tree(t_tokens *tokens, char **envp)
+void	make_tree(t_shell *shell)
 {
-	t_tree_node	*head;
-	t_cmds		*cmd_list;
 	pid_t		pid;
 	int			i;
 
 	i = 0;
-	head = init_tree_node();
-	cmd_list = build_cmd_list(build_cmd_array(tokens));
-	build_tree(head, cmd_list);
+	shell->tree = init_tree_node();
+	shell->cmd_list = build_cmd_list(build_cmd_array(shell->tokens));
+	build_tree(shell->tree, shell->cmd_list);
 	// this following part is for executing the tree:
 	pid = fork();
 	if (pid == 0)
-		exec_tree(head, envp);
+		exec_tree(shell, shell->tree);
 	waitpid(pid, NULL, 0);
-	// print_tree(head);
-	// Need to make a func to free the tree ig?
+	clean_all_and_close(shell);
 }
+
+	// print_tree(head);

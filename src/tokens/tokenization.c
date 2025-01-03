@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:00:21 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/09 13:51:05 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/03 14:17:03 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ static void	fill_tokens(t_tokens *tokens, char *input ,int words)
 
 	tmp = tokens;
 	spaces = count_spaces(input);
-	ft_printf("words: %d    spaces: %d\n", words, spaces);
 	i = 1;
 	while (i < words + spaces)
 	{
@@ -118,8 +117,9 @@ static void	fill_tokens(t_tokens *tokens, char *input ,int words)
 }
 
 // Returns a linked list of tokens based on the given input.
-t_tokens	*get_tokens(char *input)
+t_tokens	*get_tokens(t_shell *shell ,char *input)
 {
+	// TO DO: handle case where cmd is direclty after pipe, ex: "ls |ls |wc "
 	t_tokens	*tmp;
 	t_tokens	*tokens;
 	int			current_word;
@@ -139,6 +139,7 @@ t_tokens	*get_tokens(char *input)
 		tmp->token = fill_str(input, current_word, ' ');
 		tmp->state = get_token_state(tmp->token);
 		tmp->type = get_token_type(tmp->token);
+		expand_token(shell->env, tmp);
 		tmp->token = clean_tkn_quotes(tmp->token);
   		if (current_word < words) // if the current index is not pointing to the end of the input, it inserts a space token.
 		{

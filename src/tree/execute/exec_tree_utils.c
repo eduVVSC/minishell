@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:11:15 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/22 16:40:37 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/03 16:03:03 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* Looks for the path of a given command,
 returns a NULL str if it wasn't found. */
-char	*find_path(char *cmd, char **envp)
+char	*find_path(char *cmd, t_env *envp)
 {
 	// Imported from pipex, need to see if this works lol, lmao.
 	char	**paths;
@@ -23,9 +23,10 @@ char	*find_path(char *cmd, char **envp)
 	int		i;
 
 	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
-		i++;
-	paths = ft_split(envp[i] + 5, ':');
+	path = get_env_var_value(envp, "PATH");
+	//if (path == NULL)
+	//
+	paths = ft_split(path, ':');
 	i = 0;
 	while (paths[i])
 	{
