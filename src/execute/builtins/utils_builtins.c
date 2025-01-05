@@ -72,21 +72,6 @@ int	ft_strcmp(char *str1, char *str2)
 	return (0);
 }
 
-
-/// @brief Free all the node memory and set them to NULL
-/// @param node
-void	free_env_node(t_env *node)
-{
-	free(node->var_name);
-	free(node->operant);
-	free(node->var_value);
-	node->var_name = NULL;
-	node->operant = NULL;
-	node->var_value = NULL;
-	free(node);
-	node = NULL;
-}
-
 /// @brief Join s1 and s2 and free the s1 memory
 /// @param str1
 /// @param str2

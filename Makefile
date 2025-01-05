@@ -57,4 +57,8 @@ fclean: clean
 		@rm -f ${NAME}
 		@rm -f ${LIBFT}
 
+valgrind:
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_readline.supp --track-origins=yes ./minishell
+
+
 re: fclean all

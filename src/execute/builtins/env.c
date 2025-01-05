@@ -25,16 +25,15 @@ void	print_env(t_env *env)
 {
 	if (!env->var_name || env->var_name == NULL)
 	{
-		printf("In here\n");
 		return ;
 	}
 	while (env != NULL)
 	{
 		if (env->operant != 0)
 		{
-			printf("%s", env->var_name);
-			printf("%s", env->operant);
-			printf("%s\n", env->var_value);
+			ft_printf("%s", env->var_name);
+			ft_printf("%s", env->operant);
+			ft_printf("%s\n", env->var_value);
 		}
 		env = env->next;
 	}

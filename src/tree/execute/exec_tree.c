@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 14:05:36 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/03 18:08:29 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/05 19:24:11 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,18 @@ void	handle_pipe(t_shell *shell, t_tree_node *node)
  	waitpid(pid[0], NULL, 0);
 	waitpid(pid[1], NULL, 0);
 	clean_and_terminate(shell);
+	clean_and_terminate(shell);
 //	exit(0); // <---- Very Important!!!  Will give leaks, hopefully solved by freeing t_shell :D
 }
 
-/* void	handle_redirection()
+void	handle_redirection(t_shell *shell, t_tree_node *node)
 {
-
-} */
+	if (is_heredoc_command(node->content))
+		handle_heredoc_exec(shell, node);
+	//else if (has_redirection)
+	//	handle_redirection();
+	return ;
+}
 
 // Tries to execute the given command.
 void	exec_cmd(t_shell *shell, char **cmd)
@@ -64,13 +69,14 @@ void	exec_cmd(t_shell *shell, char **cmd)
 	if (!is_builtin(shell, cmd))
 	{
 		path = find_path(cmd[0], shell->env);
-		if (!path || execve(path, cmd, NULL) == -1)
+		// adde the transformation to 2d array of linked list
+		if (!path || execve(path, cmd, NULL) == -1) // Need to translate the envp list to 2d array.
 		{
+			// free in here the list
 			ft_putstr_fd(cmd[0], 2);
 			ft_putstr_fd(" : not found\n", 2);
 		}
 	}
-//	exit(0);
 }
 
 void	exec_tree(t_shell *shell, t_tree_node *node)
@@ -81,7 +87,8 @@ void	exec_tree(t_shell *shell, t_tree_node *node)
 	}
 	else
 	{
-//		handle_redirection();
+		//handle_redirection(shell, node);
 		exec_cmd(shell, node->content);
+		clean_and_terminate(shell);
 	}
 }

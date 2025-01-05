@@ -8,18 +8,18 @@ t_env	*creating_env_var(char *full_declaration)
 {
 	t_env	*new_node;
 
-	new_node = (t_env *)malloc(sizeof(t_env));
+	new_node = malloc(sizeof(t_env));
 	if (!new_node)
 		return (NULL);
-		// _=""
 	new_node->var_name = only_name(full_declaration); // name
 	//printf("working name\n");
 	new_node->operant = only_operant(full_declaration); // operant
 	//printf("working operant\n");
 	new_node->var_value = only_value(full_declaration); // value
+	new_node->next = NULL;
 	//printf("working value\n");
 	new_node->printed = 0;
-	new_node->next = NULL;
+
 	if (check_var_name(new_node->var_name) == 1) // needs to free the node
 	{
 		free_env_node(new_node);
@@ -57,14 +57,14 @@ t_env	*creating_env_var_w_no_value(char *full_declaration)
 /// @param node
 void	print_env_export(t_env *node)
 {
-	printf("declare -x ");
-	printf("%s", node->var_name);
+	ft_printf("declare -x ");
+	ft_printf("%s", node->var_name);
 	if (node->operant != NULL)
 	{
-		printf("%s", node->operant);
-		printf("\"%s\"", node->var_value);
+		ft_printf("%s", node->operant);
+		ft_printf("\"%s\"", node->var_value);
 	}
-	printf("\n");
+	ft_printf("\n");
 }
 
 /// @brief Count how many nodes are in the env list
@@ -120,34 +120,26 @@ void	add_new_variable(t_env *env ,t_env *new_variable)
 	new_variable->next = replaced_node;
 }
 
-
-
 /// @brief Will search for the variable in env and refresh it's value.
 /// @param env
 /// @param var_with_new_value
 /// @param behaviour (define if its will add(1) or replace (0))
 void	refresh_var_value(t_env *env, t_env *var_with_new_value, int behavior)
 {
-	char	*temp;
-
 	if (var_with_new_value->var_value == NULL)
-		return ;
+		return (free_env_node(var_with_new_value));
 	while (ft_strcmp(env->var_name, var_with_new_value->var_name) != 0 && env != NULL)
 		env = env->next;
 	if (env == NULL)
 		return ;
 	if ((!env->operant || env->operant == 0) && var_with_new_value->operant != 0)
 		env->operant = ft_strdup("=");
-	temp = env->var_value;
-	if (behavior == 0)
-		env->var_value = ft_strdup(var_with_new_value->var_value);
-	else if (behavior == 1)
+	if (behavior == 0 || !env->var_value)
 	{
-		if (!env->var_value)
-			env->var_value = ft_strdup(var_with_new_value->var_value);
-		else
-			env->var_value = ft_strjoin(env->var_value, var_with_new_value->var_value);
+		free(env->var_value);
+		env->var_value = ft_strdup(var_with_new_value->var_value);
 	}
-	free_env_node(var_with_new_value);
-	free(temp);
+	else if (behavior == 1)
+		env->var_value = ft_strjoin(env->var_value, var_with_new_value->var_value);
+	free_env_node(var_with_new_value); //free
 }

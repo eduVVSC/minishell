@@ -37,9 +37,9 @@ void	adding_var_in_list(t_env **env, t_env *node)
 		node->next = NULL;
 	}
 	else if (search_in_env(*env, node->var_name) == 0)
-		refresh_var_value(*env, node, node->behaviour);
+		refresh_var_value(*env, node, node->behaviour); // free of node
 	else
-		add_new_variable(*env, node);
+		add_new_variable(*env, node); // no free, node is added to the list
 }
 
 /// @brief print env variables sorted

@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 16:52:58 by edvieira          #+#    #+#             */
-/*   Updated: 2024/12/30 14:42:58 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/01/03 18:14:36 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,20 +74,20 @@ void	refresh_pwd_oldpwd(t_shell *shell, char *old_pwd)
 	t_env	*temp;
 	t_env	*temp2;
 
-	(void) old_pwd;
 	temp = malloc(sizeof(t_env));
 	if (!temp)
 		return ;
+	temp->behaviour = 0;
 	temp->var_name = ft_strdup("PWD");
 	temp->operant = ft_strdup("=");
 	temp->var_value = getcwd(NULL, 0);
 	free (shell->dir_now);
 	shell->dir_now = ft_strjoin(temp->var_value, "$ ");
 	adding_var_in_list(&shell->env, temp);
-
 	temp2 = malloc(sizeof(t_env));
 	if (!temp2)
 		return ;
+	temp2->behaviour = 0;
 	temp2->var_name = ft_strdup("OLDPWD");
 	temp2->operant = ft_strdup("=");
 	temp2->var_value = old_pwd;
@@ -102,9 +102,7 @@ int	do_cd(t_shell *shell, char **command)
 	int		returned_from_exec;
 	char	*old_pwd;
 
-	old_pwd = get_env_var_value(shell->env, "PWD");
-	if(!old_pwd)
-		old_pwd = getcwd(NULL, 0);
+	old_pwd = getcwd(NULL, 0);
 	if (get_height(command) > 2)
 		ft_putstr_fd("bash: cd: too many arguments\n", 2);
 	many_args = check_exist_optionals(command);

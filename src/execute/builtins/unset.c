@@ -50,6 +50,18 @@ void	clean_first_node(t_env *node)
 	node->var_value = NULL;
 }
 
+/// @brief Free the node attributes and set them to NULL(var_name, operant, var_value)
+/// @param node
+void	clean_env_node_attributes(t_env *node)
+{
+	free(node->var_name);
+	free(node->operant);
+	free(node->var_value);
+	node->var_name = NULL;
+	node->operant = NULL;
+	node->var_value = NULL;
+}
+
 /// @brief handle the removal of the head node
 /// @param env
 /// @return (0 success) (1 empty env)
@@ -65,9 +77,10 @@ int	on_first_node(t_env **env)
 		clean_first_node(*env);
 		return (0);
 	}
+	clean_env_node_attributes(*env);
 	(*env)->var_name = ft_strdup(next_node->var_name);
 	if (next_node->operant)
-		(*env)->operant = next_node->operant;
+		(*env)->operant = ft_strdup(next_node->operant);
 	else
 		(*env)->operant = NULL;
 	if (next_node->var_value)

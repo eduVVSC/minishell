@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/03 16:25:31 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/05 18:35:54 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	build_tree(t_tree_node *top_node, t_cmds *cmd_list)
 	}
 }
 
-void	print_tree(t_tree_node *head)
+/* void	print_tree(t_tree_node *head)
 {
 	int	layer;
 
@@ -98,8 +98,23 @@ void	print_tree(t_tree_node *head)
 		printf("---------------------\n\n");
 		layer++;
 	}
-}
+} */
 
+// checks if the input given is one of the special cases where it should be executed on the parent process.
+int	is_builtin_special_case(t_cmds *cmd_list)
+{
+	char	*first_cmd;
+
+	first_cmd = cmd_list->cmd[0]; // pointer to first command.
+	if (cmd_list->next == NULL)
+	{
+		if (!ft_strcmp(first_cmd, "unset") ||
+			!ft_strcmp(first_cmd, "export") ||
+			!ft_strcmp(first_cmd, "cd"))
+			return (1);
+	}
+	return (0);
+}
 
 void	make_tree(t_shell *shell)
 {
@@ -110,12 +125,15 @@ void	make_tree(t_shell *shell)
 	shell->tree = init_tree_node();
 	shell->cmd_list = build_cmd_list(build_cmd_array(shell->tokens));
 	build_tree(shell->tree, shell->cmd_list);
-	// this following part is for executing the tree:
-	pid = fork();
-	if (pid == 0)
-		exec_tree(shell, shell->tree);
-	waitpid(pid, NULL, 0);
-	clean_all_and_close(shell);
+	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
+		exec_cmd(shell, shell->cmd_list->cmd);
+	else // if not executes a fork and creates a child process.
+	{
+		pid = fork();
+		if (pid == 0)
+			exec_tree(shell, shell->tree);
+		waitpid(pid, NULL, 0);
+ 		if (pid == 0)
+			clean_and_terminate(shell);
+	}
 }
-
-	// print_tree(head);

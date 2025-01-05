@@ -3,35 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   HandleCommands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:44:39 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/03 16:22:15 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/03 18:16:39 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_cmd(t_cmds *cmd)
-{
-	t_cmds	*tmp;
-
-	while (cmd)
-	{
-		tmp = cmd;
-		cmd = cmd->next;
-		ft_free_double_arr(&tmp->cmd);
-		free(tmp);
-	}
-}
-
-
 // need to handle only enter
 int	is_builtin( t_shell *shell, char **command)
 {
-	//printf("command now = |%s|\n", command[0]);
-	/*if (ft_strcmp(command[0], "") == 0 || ft_strcmp(command[0], "/bin/") == 0)
-		printf("Function return |127|\n"); */
 	if (ft_strcmp(command[0], "echo") == 0)
 		do_echo(command);
 	else if (ft_strcmp(command[0], "pwd") == 0) // seems to be working well now!!
@@ -47,5 +30,5 @@ int	is_builtin( t_shell *shell, char **command)
 	else
 		return(0);
 	return (1);
-
 }
+

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:31:21 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/03 16:23:44 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/03 17:54:10 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	free_tree(t_tree_node *head)
 {

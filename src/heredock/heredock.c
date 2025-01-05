@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-char	*ft_strjoin_w_new_line(char const *s1, char const *s2)
+char	*ft_strjoin_w_new_line(char *s1, char *s2)
 {
 	char	*str;
 	int		count;
@@ -27,42 +27,27 @@ char	*ft_strjoin_w_new_line(char const *s1, char const *s2)
 	}
 	str[count] = '\n';
 	str[count + 1] = '\0';
-	return (str);
+	return (free(s1), str);
 }
 
-int	ft_strcmp_sz(const char *s1, const char *s2, size_t n)
-
-{
-	size_t	count;
-
-	count = 0;
-	if (ft_strlen(s1) != ft_strlen(s2))
-		return (-1);
-	while (count < n && (s1[count] != '\0' || s2[count] != '\0'))
-	{
-		if (s1[count] != s2[count])
-			return ((unsigned char)(s1[count]) - (unsigned char)(s2[count]));
-		count++;
-	}
-	return (0);
-}
 
 t_heredock	*reading_until_last_key(t_heredock *heredock)
 {
 	char	*input;
 	t_heredock	*temp;
 
-	printf("heredock = |%s|\n", heredock->key);
+	input = NULL;
 	while (heredock->next != NULL)
 	{
 		input = readline("> ");
-		if (!input || ft_strcmp_sz(input, heredock->key, heredock->key_len) == 0) // handleling the EOF already
+		if (!input || ft_strcmp(input, heredock->key) == 0) // handleling the EOF already
 		{
 			if (!input)
 				printf("warning: here-document delimited by end-of-file (wanted '%s')!\n", heredock->key);
 			input = NULL;
 			temp = heredock;
 			heredock = heredock->next;
+			free(temp->key);
 			free(temp);
 		}
 	}
@@ -75,10 +60,11 @@ void	key_that_metters(t_heredock *last_node)
 
 	input = NULL;
 
+	last_node->fullinput_until_key = ft_strdup("");
 	while (1)
 	{
 		input = readline("> ");
-		if (!input || ft_strcmp_sz(input, last_node->key, last_node->key_len) == 0)
+		if (!input || ft_strcmp(input, last_node->key) == 0)
 		{
 			if (!input)
 				printf("warning: here-document delimited by end-of-file (wanted '%s')!\n", last_node->key);

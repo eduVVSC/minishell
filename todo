@@ -1,3 +1,4 @@
-03/01/25
-	Make a function to clean shell and cmd list.
-	Implement it so it terminates the process and cleans everything.
+Translate the ENVP list to a 2D array -> in exec_cmd function.
+Finish heredoc implementation -> tree/execute/handle_heredoc.c file
+Handle Rediriction in tree/execute/exec_tree.c file
+Finish exit codes -> general
