@@ -37,7 +37,7 @@ void	runnnig_shell(t_shell *shell)
 		if (check_input(shell, input) == 0)
 		{
 			shell->tokens = get_tokens(shell ,input);
-//			print_tokens(shell->tokens);
+			//print_tokens(shell->tokens);
 			make_tree(shell);
 			clean_next_round(shell);
 		}

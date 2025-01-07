@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/05 18:35:54 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/07 17:53:29 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	build_tree(t_tree_node *top_node, t_cmds *cmd_list)
 	}
 }
 
-/* void	print_tree(t_tree_node *head)
+void	print_tree(t_tree_node *head)
 {
 	int	layer;
 
@@ -98,7 +98,7 @@ void	build_tree(t_tree_node *top_node, t_cmds *cmd_list)
 		printf("---------------------\n\n");
 		layer++;
 	}
-} */
+}
 
 // checks if the input given is one of the special cases where it should be executed on the parent process.
 int	is_builtin_special_case(t_cmds *cmd_list)
@@ -123,9 +123,12 @@ void	make_tree(t_shell *shell)
 
 	i = 0;
 	shell->tree = init_tree_node();
-	shell->cmd_list = build_cmd_list(build_cmd_array(shell->tokens));
+//	print_tokens(shell->tokens);
+	shell->cmd_list = build_cmd_list(shell->tokens);
+//	print_cmds(shell->cmd_list->cmd);
 	build_tree(shell->tree, shell->cmd_list);
-	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
+//	print_tree(shell->tree);
+ 	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
 		exec_cmd(shell, shell->cmd_list->cmd);
 	else // if not executes a fork and creates a child process.
 	{

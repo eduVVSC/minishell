@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 14:05:36 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/05 19:24:11 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/07 17:55:23 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,33 @@ void	handle_pipe(t_shell *shell, t_tree_node *node)
 //	exit(0); // <---- Very Important!!!  Will give leaks, hopefully solved by freeing t_shell :D
 }
 
+/* void	exec_heredoc(t_shell *shell)
+{
+	int	fd[2];
+
+	if (pipe(fd) == -1)
+		pipe_error();
+	close (fd[0]);
+	dup2(fd[1], STDOUT_FILENO);
+	handle_heredoc_exec(shell, shell->tree);
+	exec_cmd(shell,)
+} */
+
 void	handle_redirection(t_shell *shell, t_tree_node *node)
 {
+	int	fd[2];
+
+	if (pipe(fd) == -1)
+		pipe_error();
+	printf("entrou!\n");
 	if (is_heredoc_command(node->content))
+	{
+		close (fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
 		handle_heredoc_exec(shell, node);
+		close (fd[1]);
+	}
+	printf("saiu!\n");
 	//else if (has_redirection)
 	//	handle_redirection();
 	return ;
@@ -64,13 +87,14 @@ void	handle_redirection(t_shell *shell, t_tree_node *node)
 void	exec_cmd(t_shell *shell, char **cmd)
 {
 	char	*path;
+	char	**envp;
 	int		i;
 
 	if (!is_builtin(shell, cmd))
 	{
 		path = find_path(cmd[0], shell->env);
-		// adde the transformation to 2d array of linked list
-		if (!path || execve(path, cmd, NULL) == -1) // Need to translate the envp list to 2d array.
+		envp = transfrom_env_to_array(shell->env);
+		if (!path || execve(path, cmd, envp) == -1) // Need to translate the envp list to 2d array.
 		{
 			// free in here the list
 			ft_putstr_fd(cmd[0], 2);
@@ -87,7 +111,7 @@ void	exec_tree(t_shell *shell, t_tree_node *node)
 	}
 	else
 	{
-		//handle_redirection(shell, node);
+	//	handle_redirection(shell, node);
 		exec_cmd(shell, node->content);
 		clean_and_terminate(shell);
 	}

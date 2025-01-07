@@ -1,4 +1,7 @@
-Translate the ENVP list to a 2D array -> in exec_cmd function.
+Translate the ENVP list to a 2D array -> in exec_cmd function.		OK!
 Finish heredoc implementation -> tree/execute/handle_heredoc.c file
 Handle Rediriction in tree/execute/exec_tree.c file
 Finish exit codes -> general
+
+
+need to chane one thing in build cmd array to it work properly

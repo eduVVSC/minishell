@@ -1,6 +1,12 @@
 
 #include "minishell.h"
 
+int	heredoc_error()
+{
+	ft_putstr_fd("bash: syntax error near unexpected token `newline'", 2);
+	return (1);
+}
+
 char	*ft_strjoin_w_new_line(char *s1, char *s2)
 {
 	char	*str;
@@ -30,6 +36,19 @@ char	*ft_strjoin_w_new_line(char *s1, char *s2)
 	return (free(s1), str);
 }
 
+t_heredock	*free_heredock(t_heredock *heredock)
+{
+	t_heredock	*tmp;
+
+	while (heredoc)
+	{
+		tmp = heredock->next;
+		free (heredock->key);
+		free(heredock);
+		heredock = tmp;
+	}
+	return (NULL);
+}
 
 t_heredock	*reading_until_last_key(t_heredock *heredock)
 {
@@ -39,6 +58,8 @@ t_heredock	*reading_until_last_key(t_heredock *heredock)
 	input = NULL;
 	while (heredock->next != NULL)
 	{
+		if (heredock->key == NULL)
+			return (free_heredock((heredock)));
 		input = readline("> ");
 		if (!input || ft_strcmp(input, heredock->key) == 0) // handleling the EOF already
 		{
@@ -75,51 +96,17 @@ void	key_that_metters(t_heredock *last_node)
 	}
 }
 
-t_heredock	*doing_heredock(t_heredock *heredock)
+// change it to return an error code (1), if heredoc couldnt finish
+int	doing_heredock(t_heredock *heredock)
 {
 	t_heredock	*last_node;
 
 	last_node = reading_until_last_key(heredock);
+	if (last_node == NULL)
+		return (heredoc_error());
 	key_that_metters(last_node);
-	return (last_node);
+	free(last_node->key);
+//	ft_putstr_fd(last_node->fullinput_until_key, 1);
+	//free_heredock(last_node);
+	return (0); // will not return, it will direct it to stdout
 }
-
-/*  int	main(int ac, char **av,char **envp)
-{
-	t_heredock *heredock;
-	t_heredock *node1;
-	//t_heredock *node2;
-
-	heredock = malloc(sizeof(t_heredock));
-	node1 = malloc(sizeof(t_heredock));
-	//node2 = malloc(sizeof(t_heredock));
-
-	heredock->key = "foda-se pa";
-	heredock->key_len = 1;
-	heredock->next = node1;
-	node1->fullinput_until_key = "";
-	node1->key = "2";
-	node1->key_len = 1;
-	node1->next = NULL;
-
-	printf("aqui\n");
-	//node2->key = "2";
-	//node2->next = NULL;
-
-	heredock = doing_heredock(heredock);
-	printf("%s\n", heredock->fullinput_until_key);
-	return (0);
-} */
-
-// just need to finish this one, and its ready I think?
-/* t_heredock	*creating_heredock_list(t_tokens *tokens)
-{
-	t_heredock	*heredock;
-
-	heredock = malloc(sizeof(t_heredock));
-
-	while(tokens != NULL)
-	{
-
-	}
-} */

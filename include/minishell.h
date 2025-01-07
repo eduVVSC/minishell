@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/05 18:33:46 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/07 17:05:18 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,27 +132,29 @@ int		clean_and_terminate(t_shell *shell);
 
 // ===== organize later =====//
 
-int	check_input(t_shell *shell, char *input);
+char		**transfrom_env_to_array(t_env *env);
+int			env_height(t_env *env);
+int			check_input(t_shell *shell, char *input);
 t_tokens	*get_tokens(t_shell *shell, char *input);
-int		is_separator(char c);
-int		get_token_state(char *str);
-int		get_token_type(char *str);
-void	print_tokens(t_tokens *tokens);
-void	giving_value_to_str(char *str, char *cmd, int strlen, int index_start);
-int		handle_quotes(const char *str, int i, char quote_type);
-int		word_count(char *str);
-char	**build_cmd_array(t_tokens *tokens);
-t_cmds	*build_cmd_list(char **cmds);
-char	*fill_str(char *str, int target_word, char separator);
-void	print_cmds(char **cmds);
-int		is_builtin( t_shell *shell, char **command);
-void	print_individual_tkn(t_tokens *token);
-int		check_open_brackets(const char *str);
-int		check_open_quotes(const char *str);
-char	*build_single_cmd(t_tokens **tokens, int index);
-void	strjoin_and_replace(char **s1, char *s2);
-int		count_words(char *str);
-int		is_pipe_node(char **content);
+int			is_separator(char c);
+int			get_token_state(char *str);
+int			get_token_type(char *str);
+void		print_tokens(t_tokens *tokens);
+void		giving_value_to_str(char *str, char *cmd, int strlen, int index_start);
+int			handle_quotes(const char *str, int i, char quote_type);
+int			word_count(char *str);
+char		**build_cmd(t_tokens **tokens);
+t_cmds		*build_cmd_list(t_tokens *tokens);
+char		*fill_str(char *str, int target_word, char separator);
+void		print_cmds(char **cmds);
+int			is_builtin( t_shell *shell, char **command);
+void		print_individual_tkn(t_tokens *token);
+int			check_open_brackets(const char *str);
+int			check_open_quotes(const char *str);
+void		strjoin_and_replace(char **s1, char *s2);
+int			count_words(char *str);
+int			is_pipe_node(char **content);
+void		exec_heredoc(t_shell *shell);
 // TO ORGANIZE :p
 
 // =============tokens=============== //
@@ -234,7 +236,7 @@ int		check_exist_optionals(char **command);
 
 char		*ft_strjoin_w_new_line(char *s1, char *s2);
 void		key_that_metters(t_heredock *last_node);
-t_heredock	*doing_heredock(t_heredock *heredock);
+int	doing_heredock(t_heredock *heredock);
 t_heredock	*reading_until_last_key(t_heredock *heredock);
 
 // =============handlers=============== //

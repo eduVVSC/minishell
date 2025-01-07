@@ -6,11 +6,34 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:18:17 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/03 11:51:17 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/07 17:53:01 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// Counts the number of commands in the list.
+int	count_nodes(t_tokens *tokens)
+{
+	int	nodes;
+
+	nodes = 1;
+	if (!tokens)
+		return (0);
+	while (tokens)
+	{
+		if (tokens->type == PIPE)
+		{
+			nodes++;
+			if (tokens->next)
+				nodes++;
+		}
+		if (!tokens->next)
+			break;
+		tokens = tokens->next;
+	}
+	return (nodes);
+}
 
 // Creates an enpty t_cmds node
 static t_cmds	*make_node(void)
@@ -41,28 +64,23 @@ void	make_nodes(t_cmds *head, int nr_of_nodes)
 }
 
 // Builds a linked list of commands for the sake of organization.
-t_cmds	*build_cmd_list(char **cmds)
+t_cmds	*build_cmd_list(t_tokens *tokens)
 {
 	t_cmds *cmd_list;
 	t_cmds *head;
 	int	i;
 	int	nr_of_nodes;
-	char	**str;
 
-	nr_of_nodes = 0;
-	while (cmds[nr_of_nodes])
-		nr_of_nodes++;
 	i = 0;
+	nr_of_nodes = count_nodes(tokens);
 	head = make_node();
 	cmd_list = head;
 	make_nodes(head, nr_of_nodes);
-	while (cmds[i])
+	while (i < nr_of_nodes)
 	{
-		cmd_list->cmd = ft_split(cmds[i], ' ');
+		cmd_list->cmd = build_cmd(&tokens);
 		cmd_list = cmd_list->next;
-//		cmd_list->cmd[0] = ft_strjoin("/bin/", cmd_list->cmd[0]);
 		i++;
 	}
-	ft_free_double_arr(&cmds);
 	return(head);
 }

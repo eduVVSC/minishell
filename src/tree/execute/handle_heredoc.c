@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 17:55:19 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/05 19:24:10 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/07 17:15:32 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,17 @@ void	clean_heredoc_node(t_heredock *node)
 	free(node);
 }
 
-t_heredock	*create_heredoc_node(t_heredock *node, char *key)
+t_heredock	*create_heredoc_node(char *key)
 {
-	node->key = ft_strdup(key);
+	t_heredock	*node;
+
+	node = malloc(sizeof(t_heredock));
+	if (!node)
+		return (NULL);
+	if (!key)
+		node->key = NULL;
+	else
+		node->key = ft_strdup(key);
 	node->fullinput_until_key = NULL;
 	node->next = NULL;
 	free(key);
@@ -44,6 +52,60 @@ int	is_heredoc_command(char **cmd)
 	return(0);
 }
 
+int	many_to_alloc(char **heredoc_cmd)
+{
+	int	to_alloc;
+	int	i;
+
+	i = 0;
+	to_alloc = 0;
+	while (heredoc_cmd[i])
+	{
+		if (ft_strcmp(heredoc_cmd[i], "<<") == 0)
+			i++;
+		else
+			to_alloc++;
+		if (heredoc_cmd[i])
+			i++;
+	}
+	return (to_alloc);
+}
+
+char	**takeof_heredoc_from_cmd(t_tree_node *node)
+{
+	char	**rewriten_node;
+	int		i;
+	int		j;
+	int		to_alloc;
+
+	j = -1;
+	i = -1;
+	to_alloc = many_to_alloc(node->content);
+	rewriten_node = malloc(sizeof(char **) * (to_alloc + 1));
+	if (!rewriten_node)
+		return (NULL);
+	while (node->content[++i] && j < (to_alloc - 1))
+	{
+		if (ft_strcmp(node->content[i], "<<") == 0)
+			i++;
+		else
+		{
+			if (!node->content)
+				rewriten_node = NULL;
+			else
+				rewriten_node[++j] = ft_strdup(node->content[i]);
+		}
+	}
+	rewriten_node[++j] = NULL;
+	return (rewriten_node);
+}
+
+// NEED TO HANDLE THE "CAT <<", the heredoc key in the node needs to be null, in order to the funtion which will execute the heredoc
+// see it at its time, and exit the error need, but it should execute the other heredocs before it
+
+
+// quando for fazer o take_off quotes tem de deixar junto oque estava dentro da quote -> "ola como" -> (ola como)
+// command execution need to break, when return any num different than (0)
 int	handle_heredoc_exec(t_shell *shell, t_tree_node *node)
 {
 	t_heredock	*tmp;
@@ -52,62 +114,30 @@ int	handle_heredoc_exec(t_shell *shell, t_tree_node *node)
 	i = 0;
 	while (node->content[i] != NULL)
 	{
-		if (!ft_strcmp(node->content[i], "<<"))
+		if (ft_strcmp(node->content[i], "<<") == 0)
 		{
-			i++;
-			if (!shell->heredock) // first heredock (head)
+			if(ft_strcmp(node->content[++i], "<<") == 0)
 			{
-				shell->heredock = malloc(sizeof(t_heredock));
-				if (!shell->heredock)
-					return (-1);
-				else if (node->content[i] && (node->content[i][0] != '<' && node->content[i][0] != '>'))
-				{
-					create_heredoc_node(shell->heredock, node->content[++i]);
-					tmp = shell->heredock;
-				}
-				else
-					return (-1); // heredoc error of not having any
+				i = -1;
+				break ;
 			}
-			/* else
-			{
-				if (node->content[i] && (node->content[i][0] != '<' && node->content[i][0] != '>'))
-				{
-					tmp->next create_heredoc_node()
-				}
-				else
-					return (-1);
-			} */
-			break; // should keep iterating until it finds the last heredoc, but we'll leave it like this for now.
-		}
-		i++;
-	}
-	shell->heredock->next = NULL;
-	shell->heredock = doing_heredock(shell->heredock);
-	printf("%s"	, shell->heredock->fullinput_until_key);
-	// put the resolting string in the fd = 1
-	return (0);
-}
-
-int	handle_heredoc_exec2(t_shell *shell, t_tree_node *node)
-{
-	int	i;
-
-	i = 0;
-	while (node->content[i] != NULL)
-	{
-		if (!ft_strcmp(node->content[i], "<<"))
-		{
-			shell->heredock = malloc(sizeof(t_heredock));
 			if (!shell->heredock)
-				return (-1);
-			shell->heredock->key = ft_strdup(node->content[++i]);
-			break; // should keep iterating until it finds the last heredoc, but we'll leave it like this for now.
+			{
+				shell->heredock = create_heredoc_node(node->content[i]);
+				tmp = shell->heredock;
+			}
+			else
+			{
+				tmp->next = create_heredoc_node(node->content[i]);
+				tmp = tmp->next;
+			}
 		}
 		i++;
 	}
-	shell->heredock->next = NULL;
-	shell->heredock = doing_heredock(shell->heredock);
-	printf("%s"	, shell->heredock->fullinput_until_key);
-	// put the resolting string in the fd = 1
-	return (0);
+	if (i == -1)
+		return (printf("bash: syntax error near unexpected token `<<'\n"), 1);
+	node->content = takeof_heredoc_from_cmd(node);
+//	printf("Command after heredoc: ");
+//	print_cmds(node->content);
+	return (doing_heredock(shell->heredock));
 }

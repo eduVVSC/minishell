@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:50:12 by edvieira          #+#    #+#             */
-/*   Updated: 2025/01/03 18:32:00 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/01/07 17:36:14 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	free_tokens(t_tokens *tokens)
 	{
 		tmp = tokens;
 		tokens = tokens->next;
-		free(tmp->token);
+		if (tmp->type == 7)
+			free(tmp->token);
 		free(tmp);
 	}
 	tokens = NULL;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   setting_env.c                                      :+:      :+:    :+:   */
+/*   setting_shell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:50:39 by edvieira          #+#    #+#             */
-/*   Updated: 2025/01/03 17:54:43 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/01/07 15:06:34 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ t_shell	*setting_shell(int ac, char **av, char **envp)
 	shell->tree = NULL;
 	shell->tokens = NULL;
 	shell->cmd_list = NULL;
+	shell->heredock = NULL;
 	shell->dir_now = ft_strjoin_free_s1(getcwd(NULL, 0), "$ ");
 	create_env(shell, envp);
 	update_shell_lvl(shell->env);
