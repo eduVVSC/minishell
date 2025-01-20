@@ -6,12 +6,11 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 16:52:58 by edvieira          #+#    #+#             */
-/*   Updated: 2025/01/03 18:14:36 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/01/07 18:29:23 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /// @brief Handle the "cd -..." the only executable one is the "cd -" that will try to go to the OLDPWD.
 /// @brief If it won't work, it delivers a error message to the stderror
@@ -81,6 +80,8 @@ void	refresh_pwd_oldpwd(t_shell *shell, char *old_pwd)
 	temp->var_name = ft_strdup("PWD");
 	temp->operant = ft_strdup("=");
 	temp->var_value = getcwd(NULL, 0);
+	if (!temp->var_value)
+		temp->var_value = ft_strdup("");
 	free (shell->dir_now);
 	shell->dir_now = ft_strjoin(temp->var_value, "$ ");
 	adding_var_in_list(&shell->env, temp);
@@ -91,6 +92,8 @@ void	refresh_pwd_oldpwd(t_shell *shell, char *old_pwd)
 	temp2->var_name = ft_strdup("OLDPWD");
 	temp2->operant = ft_strdup("=");
 	temp2->var_value = old_pwd;
+	if (!old_pwd)
+		temp2->var_value = ft_strdup("");
 	adding_var_in_list(&shell->env, temp2);
 }
 

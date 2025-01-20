@@ -68,7 +68,7 @@ void	free_cmd(t_cmds *cmd)
 	{
 		tmp = cmd;
 		cmd = cmd->next;
-		ft_free_double_arr(&tmp->cmd);
+//		ft_free_double_arr(&tmp->cmd);
 		free(tmp);
 	}
 	cmd = NULL;

@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/07 17:05:18 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/12 18:29:26 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@
 # define OUTFILE 4
 # define HEREDOC 5
 # define EXPANSION 6
+# define SPACE 7
 
 # include <stdio.h>
 # include <dirent.h>
+# include <fcntl.h>
 # include <signal.h>
 # include <errno.h>
 # include <sys/types.h>
@@ -71,13 +73,15 @@ typedef struct s_env
 
 typedef struct s_cmds
 {
-	char			**cmd;
+	struct s_tokens	*token_list;
 	struct s_cmds	*next;
 }				t_cmds;
 
 typedef struct s_tree_node
 {
-	char				**content;
+
+	struct s_tokens		*content;
+//	char			**content;
 	struct s_tree_node	*left;
 	struct s_tree_node	*right;
 }					t_tree_node;
@@ -89,7 +93,6 @@ typedef struct s_tokens
 	int				state; //0 general, 1 single quote, 2 double quote, 3 expanded;
 	int				index;
 	struct	s_tokens	*next;
-
 }				t_tokens;
 
 typedef struct s_heredock
@@ -154,7 +157,7 @@ int			check_open_quotes(const char *str);
 void		strjoin_and_replace(char **s1, char *s2);
 int			count_words(char *str);
 int			is_pipe_node(char **content);
-void		exec_heredoc(t_shell *shell);
+int			get_matrix_len(char **matrix);
 // TO ORGANIZE :p
 
 // =============tokens=============== //
@@ -171,13 +174,23 @@ void	fork_error(void);
 void	print_cmds(char **cmds);
 void	make_tree(t_shell *shell);
 void	exec_tree(t_shell *shell, t_tree_node *node);
-void	exec_cmd(t_shell *shell, char **cmd);
-
+void	exec_cmd(t_shell *shell, t_tokens *node_content);
 // Exec Tree Utils
 int		is_heredoc_command(char **cmd);
 int		handle_heredoc_exec(t_shell *shell, t_tree_node *node);
 char	*find_path(char *cmd, t_env *envp);
 void	check_if_builtin(char **cmd, char *envp);
+int		has_redirection(t_tokens *tokens);
+int		open_file(char *file_name, int flag);
+
+// ============= redirections =============== //
+
+void	handle_normal_redir(t_shell *shell, t_tree_node *node);
+int		is_infile(char *str);
+int		is_outfile(char *str);
+void	dup_from_input(int fd);
+void	dup_to_output(int fd);
+char	**clean_redirs(char **cmd);
 
 // ================== built-ins ==================== //
 //=========== pwd command ===========//
@@ -233,6 +246,14 @@ char	*join_str_char(char *s1, char s2);
 int		check_exist_optionals(char **command);
 
 // =============heredock=============== //
+
+int	handle_heredoc_exec2(t_shell *shell, t_tree_node *node);
+int	check_heredoc_token(char *key);
+int	check_heredoc_command(t_tree_node *node);
+
+t_heredock	*create_heredoc_node(char *key);
+t_heredock	*create_heredoc(t_tree_node *node);
+t_heredock *create_heredoc_body(t_tree_node *node, int i);
 
 char		*ft_strjoin_w_new_line(char *s1, char *s2);
 void		key_that_metters(t_heredock *last_node);

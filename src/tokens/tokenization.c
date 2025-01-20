@@ -141,7 +141,7 @@ t_tokens	*get_tokens(t_shell *shell ,char *input)
 		tmp->type = get_token_type(tmp->token);
 		expand_token(shell->env, tmp);
 		tmp->token = clean_tkn_quotes(tmp->token);
-  		if (current_word < words) // if the current index is not pointing to the end of the input, it inserts a space token.
+		if (current_word < words) // if the current index is not pointing to the end of the input, it inserts a space token.
 		{
 			tmp = tmp->next;
 			create_space_token(tmp);

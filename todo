@@ -1,7 +1,11 @@
-Translate the ENVP list to a 2D array -> in exec_cmd function.		OK!
-Finish heredoc implementation -> tree/execute/handle_heredoc.c file
-Handle Rediriction in tree/execute/exec_tree.c file
-Finish exit codes -> general
+REDIRS:
+
+	Doesnt work yet with file name directly after redir.
+		ex: cat teste >outfile.
+	Really rough atm, need to optimize it even more.
 
 
-need to chane one thing in build cmd array to it work properly
+TODO TODAY:
+	sTOP USING t_cmds;
+	implement token list for commands;
+	

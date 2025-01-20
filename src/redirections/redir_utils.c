@@ -1,23 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_errors.c                                   :+:      :+:    :+:   */
+/*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/29 14:54:20 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/29 14:55:28 by dioferre         ###   ########.fr       */
+/*   Created: 2025/01/12 15:04:23 by dioferre          #+#    #+#             */
+/*   Updated: 2025/01/12 18:03:41 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
 #include "minishell.h"
 
-void	pipe_error(void)
+int	is_infile(char *str)
 {
-	printf("pipe error!\n");
+	if (!strcmp(str, "<"))
+		return (1);
+	return (0);
 }
 
-void	fork_error(void)
+int	is_outfile(char *str)
 {
-	printf("fork error!\n");
+	if (!strcmp(str, ">") || !strcmp(str, ">>"))
+		return (1);
+	return (0);
 }
+
+void	dup_from_input(int fd)
+{
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+}
+
+void	dup_to_output(int fd)
+{
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+}
+ */

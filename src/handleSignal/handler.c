@@ -1,6 +1,8 @@
 
 #include "minishell.h"
 
+// reset the signals whenever open the execve on child process
+
 void signalHandler(int signum, siginfo_t *info, void *context)
 {
 	if (signum == SIGINT)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:31:21 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/03 17:54:10 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/01/20 10:18:03 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	free_tree(t_tree_node *head)
 
 	free_tree(head->left);
 	free_tree(head->right);
-	ft_free_double_arr(&head->content);
+	// free token list lol;
 	free(head);
 }
 

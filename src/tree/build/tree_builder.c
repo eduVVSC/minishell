@@ -6,19 +6,11 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/07 17:53:29 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/20 10:01:46 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// Checks the content of a cmd_list for pipes.
-int	is_pipe_node(char **content)
-{
-	if (content[0][0] == '|')
-		return (1);
-	return (0);
-}
 
 // Initializes a tree node with everything set to NULL;
 t_tree_node	*init_tree_node(void)
@@ -41,28 +33,25 @@ void	build_tree(t_tree_node *top_node, t_cmds *cmd_list)
 	left = init_tree_node();
 	if (cmd_list->next) // Checks if there is only one command.
 	{
-		if (cmd_list->next->next) // Checks if there is something after the pipe.
-		{
-			top_node->content = cmd_list->next->cmd;
-			left->content = cmd_list->cmd;
-			right->content = cmd_list->next->next->cmd;
-			cmd_list = cmd_list->next->next;
-			top_node->right = right;
-			top_node->left = left;
-			if (cmd_list->next)
-				build_tree(right, cmd_list);
-		}
-		// NOTHING WAS FOUND AFTER THE PIPE - TO DO:    ELSE -> OPEN HEREDOC!!!!
+		top_node->content = cmd_list->next->token_list; // ADD PIPE ON TOKENIZATION
+		left->content = cmd_list->token_list;
+		right->content = cmd_list->next->next->token_list;
+		cmd_list = cmd_list->next->next;
+		top_node->right = right;
+		top_node->left = left;
+		if (cmd_list->next)
+			build_tree(right, cmd_list);
+		//ELSE -> OPEN HEREDOC!!!! - Handled already before
 	}
 	else
 	{
-		top_node->content = cmd_list->cmd;
+		top_node->content = cmd_list->token_list;
 		free(left);
 		free(right);
 	}
 }
 
-void	print_tree(t_tree_node *head)
+/* void	print_tree(t_tree_node *head)
 {
 	int	layer;
 
@@ -98,24 +87,25 @@ void	print_tree(t_tree_node *head)
 		printf("---------------------\n\n");
 		layer++;
 	}
-}
+} */
 
 // checks if the input given is one of the special cases where it should be executed on the parent process.
-int	is_builtin_special_case(t_cmds *cmd_list)
+int	is_builtin_special_case(t_cmds *first_cmd)
 {
-	char	*first_cmd;
+	char	*first_input;
 
-	first_cmd = cmd_list->cmd[0]; // pointer to first command.
-	if (cmd_list->next == NULL)
+	first_input = first_cmd->token_list->token; // pointer to first command.
+	if (first_cmd->next == NULL)
 	{
-		if (!ft_strcmp(first_cmd, "unset") ||
-			!ft_strcmp(first_cmd, "export") ||
-			!ft_strcmp(first_cmd, "cd"))
+		if (!ft_strcmp(first_input, "unset") ||
+			!ft_strcmp(first_input, "export") ||
+			!ft_strcmp(first_input, "cd"))
 			return (1);
 	}
 	return (0);
 }
 
+//takeoff cmd struct
 void	make_tree(t_shell *shell)
 {
 	pid_t		pid;
@@ -123,13 +113,10 @@ void	make_tree(t_shell *shell)
 
 	i = 0;
 	shell->tree = init_tree_node();
-//	print_tokens(shell->tokens);
 	shell->cmd_list = build_cmd_list(shell->tokens);
-//	print_cmds(shell->cmd_list->cmd);
-	build_tree(shell->tree, shell->cmd_list);
-//	print_tree(shell->tree);
+  		build_tree(shell->tree, shell->cmd_list);
  	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
-		exec_cmd(shell, shell->cmd_list->cmd);
+		exec_cmd(shell, shell->cmd_list->token_list);
 	else // if not executes a fork and creates a child process.
 	{
 		pid = fork();

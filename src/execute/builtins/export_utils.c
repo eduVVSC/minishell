@@ -47,8 +47,11 @@ t_env	*creating_env_var_w_no_value(char *full_declaration)
 	if (!new_node)
 		return (NULL);
 	new_node->var_name = ft_strdup(full_declaration); // name
-	new_node->operant = 0; // operant
+	new_node->operant = NULL; // operant
 	new_node->var_value = NULL; // value
+	new_node->next = NULL;
+	new_node->behaviour = 0;
+	new_node->printed = 0;
 	return (new_node);
 }
 
@@ -140,6 +143,6 @@ void	refresh_var_value(t_env *env, t_env *var_with_new_value, int behavior)
 		env->var_value = ft_strdup(var_with_new_value->var_value);
 	}
 	else if (behavior == 1)
-		env->var_value = ft_strjoin(env->var_value, var_with_new_value->var_value);
+		env->var_value = ft_strjoin_free_s1(env->var_value, var_with_new_value->var_value);
 	free_env_node(var_with_new_value); //free
 }

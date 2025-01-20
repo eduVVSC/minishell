@@ -14,6 +14,7 @@ int	env_height(t_env *env)
 	return (i);
 }
 
+
 char	**transfrom_env_to_array(t_env *env)
 {
 	char	**envp;
@@ -22,6 +23,7 @@ char	**transfrom_env_to_array(t_env *env)
 
 	i = 0;
 	height = env_height(env);
+	// set pwd oldpwd and home anyway
 	envp = malloc(sizeof(char **) * (height + 1));
 	if (!envp)
 		return (NULL);

@@ -6,11 +6,21 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 14:05:36 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/07 17:55:23 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/20 10:19:05 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	pipe_error(void)
+{
+	printf("pipe error lmao!\n go fix ur code dumbass\n");
+}
+
+void	fork_error(void)
+{
+	printf("fork error lmao!\n go fix ur code dumbass\n");
+}
 
 void	handle_pipe(t_shell *shell, t_tree_node *node)
 {
@@ -51,67 +61,53 @@ void	handle_pipe(t_shell *shell, t_tree_node *node)
 //	exit(0); // <---- Very Important!!!  Will give leaks, hopefully solved by freeing t_shell :D
 }
 
-/* void	exec_heredoc(t_shell *shell)
+/* void	handle_redirection(t_shell *shell, t_tree_node *node)
 {
-	int	fd[2];
-
-	if (pipe(fd) == -1)
-		pipe_error();
-	close (fd[0]);
-	dup2(fd[1], STDOUT_FILENO);
-	handle_heredoc_exec(shell, shell->tree);
-	exec_cmd(shell,)
+ 	if (is_heredoc_command(node->content))
+		handle_heredoc_exec2(shell, node);
+	if (has_redirection(node->content)) // HEREDOCS SHOULD BE HANDLED IN HERE WITH THE REST OF THE OTHER REDIRS.
+	{
+		handle_normal_redir(shell, node);
+		node->content = clean_redirs(node->content);
+	}
+	return ;
 } */
 
-void	handle_redirection(t_shell *shell, t_tree_node *node)
-{
-	int	fd[2];
-
-	if (pipe(fd) == -1)
-		pipe_error();
-	printf("entrou!\n");
-	if (is_heredoc_command(node->content))
-	{
-		close (fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		handle_heredoc_exec(shell, node);
-		close (fd[1]);
-	}
-	printf("saiu!\n");
-	//else if (has_redirection)
-	//	handle_redirection();
-	return ;
-}
-
 // Tries to execute the given command.
-void	exec_cmd(t_shell *shell, char **cmd)
+void	exec_cmd(t_shell *shell, t_tokens *node_content)
 {
+	char	**cmd;
 	char	*path;
 	char	**envp;
 	int		i;
 
+	cmd = build_cmd(&node_content);
 	if (!is_builtin(shell, cmd))
 	{
 		path = find_path(cmd[0], shell->env);
 		envp = transfrom_env_to_array(shell->env);
-		if (!path || execve(path, cmd, envp) == -1) // Need to translate the envp list to 2d array.
+		if (!path)
+			path = ft_strdup(cmd[0]);
+		printf("path = |%s|\n", path);
+		print_cmds(cmd);
+		if (execve(path, cmd, envp) == -1) // Need to translate the envp list to 2d array.
 		{
-			// free in here the list
 			ft_putstr_fd(cmd[0], 2);
 			ft_putstr_fd(" : not found\n", 2);
+			free(path);
+			ft_free_double_arr(&envp);
+			ft_free_double_arr(&cmd);
 		}
 	}
 }
 
 void	exec_tree(t_shell *shell, t_tree_node *node)
 {
-	if (is_pipe_node(node->content))
-	{
+	if (node->content->type == PIPE)
 		handle_pipe(shell, node);
-	}
 	else
 	{
-	//	handle_redirection(shell, node);
+//		handle_redirection(shell, node);
 		exec_cmd(shell, node->content);
 		clean_and_terminate(shell);
 	}

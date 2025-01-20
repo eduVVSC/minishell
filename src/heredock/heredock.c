@@ -1,49 +1,22 @@
-
+/*
 #include "minishell.h"
 
 int	heredoc_error()
 {
-	ft_putstr_fd("bash: syntax error near unexpected token `newline'", 2);
+	ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
 	return (1);
-}
-
-char	*ft_strjoin_w_new_line(char *s1, char *s2)
-{
-	char	*str;
-	int		count;
-	int		count2;
-	int		len;
-
-	count = 0;
-	len = (ft_strlen(s1) + ft_strlen(s2));
-	str = malloc((len + 2) * sizeof(char));
-	if (!str)
-		return (NULL);
-	while (count < len && s1[count] != '\0')
-	{
-		str[count] = s1[count];
-		count++;
-	}
-	count2 = 0;
-	while (count < len && s2[count2] != '\0')
-	{
-		str[count] = s2[count2];
-		count++;
-		count2++;
-	}
-	str[count] = '\n';
-	str[count + 1] = '\0';
-	return (free(s1), str);
 }
 
 t_heredock	*free_heredock(t_heredock *heredock)
 {
 	t_heredock	*tmp;
 
-	while (heredoc)
+	while (heredock)
 	{
 		tmp = heredock->next;
 		free (heredock->key);
+		if (heredock->fullinput_until_key)
+			free (heredock->fullinput_until_key);
 		free(heredock);
 		heredock = tmp;
 	}
@@ -58,8 +31,6 @@ t_heredock	*reading_until_last_key(t_heredock *heredock)
 	input = NULL;
 	while (heredock->next != NULL)
 	{
-		if (heredock->key == NULL)
-			return (free_heredock((heredock)));
 		input = readline("> ");
 		if (!input || ft_strcmp(input, heredock->key) == 0) // handleling the EOF already
 		{
@@ -72,6 +43,8 @@ t_heredock	*reading_until_last_key(t_heredock *heredock)
 			free(temp);
 		}
 	}
+	if (heredock->key == NULL)
+		return (free_heredock((heredock)));
 	return (heredock);
 }
 
@@ -96,17 +69,40 @@ void	key_that_metters(t_heredock *last_node)
 	}
 }
 
+// need to take off later
+/// @brief Function will create and write the inputed heredoc into a temp file
+/// @param write
+/// @return (file_fd -> success) (NULL -> error)
+int	creating_temp_file(char *write)
+{
+	char	*where_to_write;
+	int		file_fd;
+
+	where_to_write = ft_strdup("../tmpFile");
+	// need to make it a temp file
+	file_fd = open(where_to_write, O_RDWR | O_CREAT, NULL);
+	if (file_fd != -1)
+		ft_putstr_fd(write, file_fd);
+	free (where_to_write);
+	return (file_fd);
+}
+
 // change it to return an error code (1), if heredoc couldnt finish
 int	doing_heredock(t_heredock *heredock)
 {
 	t_heredock	*last_node;
+	int			heredoc_fd;
 
 	last_node = reading_until_last_key(heredock);
 	if (last_node == NULL)
 		return (heredoc_error());
 	key_that_metters(last_node);
-	free(last_node->key);
-//	ft_putstr_fd(last_node->fullinput_until_key, 1);
-	//free_heredock(last_node);
+	heredoc_fd = creating_temp_file(last_node->fullinput_until_key);
+	printf("heredoc done! fd = |%d|\n", heredoc_fd);
+	close(heredoc_fd);
+	// rewrite the string adding the redirection to the fd file. Ex: (cat << ola) -> (cat < file_fd)
+	//printf("%s\n", last_node->fullinput_until_key);
+	free_heredock(last_node);
 	return (0); // will not return, it will direct it to stdout
 }
+ */
