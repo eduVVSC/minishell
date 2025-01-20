@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/12 18:29:26 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:28:51 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,15 @@
 # define double_quo 2
 # define expanded 3
 
+# define GENERAL 0
+# define SINGLE_QUO 1
+# define DOUBLE_QUO 2
+# define EXPANDED 3
+
 # define PIPE 1
-# define INFILE 3
-# define OUTFILE 4
+# define INFILE 2
+# define TRU_OUTFILE 3
+# define APP_OUTFILE 4
 # define HEREDOC 5
 # define EXPANSION 6
 # define SPACE 7
@@ -131,6 +137,7 @@ void	free_tokens(t_tokens *tokens);
 void	clean_next_round(t_shell *shell);
 int		clean_all_and_close(t_shell *shell);
 int		clean_and_terminate(t_shell *shell);
+void	free_tokens(t_tokens *tokens);
 
 
 // ===== organize later =====//
@@ -185,12 +192,12 @@ int		open_file(char *file_name, int flag);
 
 // ============= redirections =============== //
 
-void	handle_normal_redir(t_shell *shell, t_tree_node *node);
+void	handle_normal_redir(t_shell *shell, t_tokens *tokens);
 int		is_infile(char *str);
 int		is_outfile(char *str);
 void	dup_from_input(int fd);
 void	dup_to_output(int fd);
-char	**clean_redirs(char **cmd);
+void	clean_redirs(t_tokens *tokens);
 
 // ================== built-ins ==================== //
 //=========== pwd command ===========//
