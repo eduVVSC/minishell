@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 18:10:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/03 13:59:58 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:13:12 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,20 @@ int	get_token_type(char *str)
 	if (ft_strlen(str) == 1)
 	{
 		if (*str == '|')
-			return (1);
-		else if (*str == '&')
-			return (2);
+			return (PIPE);
 		else if (*str == '<')
-			return (3);
+			return (INFILE);
 		else if (*str == '>')
-			return (4);
+			return (TRU_OUTFILE);
 	}
 	else if (ft_strlen(str) == 2)
 	{
 		if (str[0] == '<' && str[1] == '<')
-			return (5);
+			return (HEREDOC);
 		else if (str[0] == '>' && str[1] == '>')
-			return (4);
+			return (APP_OUTFILE);
 	}
 	else if (*str == '$')
-		return (6);
+		return (EXPANSION);
 	return (0);
 }
