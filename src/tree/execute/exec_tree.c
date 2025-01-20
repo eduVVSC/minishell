@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 14:05:36 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/20 10:19:05 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:14:24 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,12 @@ void	handle_pipe(t_shell *shell, t_tree_node *node)
 //	exit(0); // <---- Very Important!!!  Will give leaks, hopefully solved by freeing t_shell :D
 }
 
-/* void	handle_redirection(t_shell *shell, t_tree_node *node)
+void	handle_redirection(t_shell *shell, t_tree_node *node)
 {
- 	if (is_heredoc_command(node->content))
-		handle_heredoc_exec2(shell, node);
 	if (has_redirection(node->content)) // HEREDOCS SHOULD BE HANDLED IN HERE WITH THE REST OF THE OTHER REDIRS.
-	{
-		handle_normal_redir(shell, node);
-		node->content = clean_redirs(node->content);
-	}
+		handle_normal_redir(shell, node->content);
 	return ;
-} */
+}
 
 // Tries to execute the given command.
 void	exec_cmd(t_shell *shell, t_tokens *node_content)
@@ -82,7 +77,7 @@ void	exec_cmd(t_shell *shell, t_tokens *node_content)
 	int		i;
 
 	cmd = build_cmd(&node_content);
-	if (!is_builtin(shell, cmd))
+ 	if (!is_builtin(shell, cmd))
 	{
 		path = find_path(cmd[0], shell->env);
 		envp = transfrom_env_to_array(shell->env);
@@ -107,7 +102,7 @@ void	exec_tree(t_shell *shell, t_tree_node *node)
 		handle_pipe(shell, node);
 	else
 	{
-//		handle_redirection(shell, node);
+		handle_redirection(shell, node);
 		exec_cmd(shell, node->content);
 		clean_and_terminate(shell);
 	}

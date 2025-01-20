@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:11:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/10 12:25:21 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/20 11:37:02 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ int	has_redirection(t_tokens *tokens)
 	{
 		if ((tokens->type == INFILE
 			|| tokens->type == HEREDOC
-			|| tokens->type == OUTFILE)
-			&& tokens->state == general)
+			|| tokens->type == APP_OUTFILE
+			|| tokens->type == TRU_OUTFILE)
+			&& tokens->state == GENERAL)
 			return (1);
 		tokens = tokens->next;
 	}

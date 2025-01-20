@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:18:17 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/07 17:53:01 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:28:41 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,6 @@ void	ft_lstadd_back_a(t_tokens **lst, t_tokens *new)
 	}
 	end->next = new;
 }
-
-// cat | ls
-
 // Builds a linked list of commands for the sake of organization.
 t_cmds	*build_cmd_list(t_tokens *tokens)
 {
@@ -138,11 +135,10 @@ t_cmds	*build_cmd_list(t_tokens *tokens)
 			handle_pipe_case(&cmd, &tokens);
 		if (tokens && tokens->type != 7) // its bad somehow
 			ft_lstadd_back_a(&cmd->token_list ,copy_token_node(tokens));
-		//  cmd: tokens
 		if (tokens)
 			tokens = tokens->next;
 	}
-	print_this_shit(head);
+//	print_this_shit(head);
 	return(head);
 }
 

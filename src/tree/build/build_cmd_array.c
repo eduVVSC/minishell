@@ -6,22 +6,42 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:17:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/20 10:09:29 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:05:21 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	is_redir(t_tokens *tokens)
+{
+	if ((tokens->type == INFILE
+		|| tokens->type == APP_OUTFILE
+		|| tokens->type == TRU_OUTFILE)
+		&& tokens->state == GENERAL)
+			return (1);
+	return (0);
+}
+
 int	count_args(t_tokens *tokens)
 {
 	int	args;
 
-	args = 1;
+	args = 0;
 	if (!tokens)
 		return (0);
 	while(tokens)
 	{
-		if (tokens->type != 7)
+		if (is_redir(tokens))
+		{
+			tokens = tokens->next->next;
+			continue;
+		}
+		else if (tokens->type == HEREDOC && tokens->state == GENERAL)
+		{
+			tokens = tokens->next;
+			continue;
+		}
+		else if (tokens->type != SPACE)
 			args++;
 		if (!tokens->next)
 			break;
@@ -41,14 +61,17 @@ char	**build_cmd(t_tokens **tokens)
 	cmd = malloc((nr_args + 1) * sizeof(char *));
 	while(i < nr_args && (*tokens))
 	{
-		if ((*tokens)->type == 7)
-		{
+		if ((*tokens)->type == SPACE
+			|| ((*tokens)->type == HEREDOC && (*tokens)->state == GENERAL))
 			(*tokens) = (*tokens)->next;
-			continue;
+		else if (is_redir(*tokens))
+			(*tokens) = (*tokens)->next->next;
+		else
+		{
+			cmd[i] = (*tokens)->token;
+			(*tokens) = (*tokens)->next;
+			i++;
 		}
-		cmd[i] = (*tokens)->token;
-		(*tokens) = (*tokens)->next;
-		i++;
 	}
 	cmd[i] = 0;
 	return (cmd);

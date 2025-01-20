@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/20 10:01:46 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/20 12:54:20 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,17 @@ void	build_tree(t_tree_node *top_node, t_cmds *cmd_list)
 	}
 }
 
-/* void	print_tree(t_tree_node *head)
+void	print_tree_tokens(t_tokens *tokens)
+{
+	while (tokens)
+	{
+		printf("(%s) ",tokens->token);
+		tokens = tokens->next;
+	}
+	printf("\n");
+}
+
+void	print_tree(t_tree_node *head)
 {
 	int	layer;
 
@@ -60,11 +70,11 @@ void	build_tree(t_tree_node *top_node, t_cmds *cmd_list)
 	{
 		printf("Layer: %d\n", layer);
 		printf("Node: ");
-		print_cmds(head->content);
+		print_tree_tokens(head->content);
 		if (head->left)
 		{
 			printf("Left: ");
-			print_cmds(head->left->content);
+			print_tree_tokens(head->left->content);
 		}
 		printf("---------------------\n\n");
 	}
@@ -72,22 +82,22 @@ void	build_tree(t_tree_node *top_node, t_cmds *cmd_list)
 	{
 		printf("Layer: %d\n", layer);
 		printf("Node: ");
-		print_cmds(head->content);
+		print_tree_tokens(head->content);
 		if (head->left)
 		{
 			printf("Left: ");
-			print_cmds(head->left->content);
+			print_tree_tokens(head->left->content);
 		}
 		if (head->right)
 		{
 			printf("Right: ");
-			print_cmds(head->right->content);
+			print_tree_tokens(head->right->content);
 		}
 		head = head->right;
 		printf("---------------------\n\n");
 		layer++;
 	}
-} */
+}
 
 // checks if the input given is one of the special cases where it should be executed on the parent process.
 int	is_builtin_special_case(t_cmds *first_cmd)
@@ -105,7 +115,6 @@ int	is_builtin_special_case(t_cmds *first_cmd)
 	return (0);
 }
 
-//takeoff cmd struct
 void	make_tree(t_shell *shell)
 {
 	pid_t		pid;
@@ -115,7 +124,8 @@ void	make_tree(t_shell *shell)
 	shell->tree = init_tree_node();
 	shell->cmd_list = build_cmd_list(shell->tokens);
   		build_tree(shell->tree, shell->cmd_list);
- 	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
+	print_tree(shell->tree);
+  	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
 		exec_cmd(shell, shell->cmd_list->token_list);
 	else // if not executes a fork and creates a child process.
 	{
