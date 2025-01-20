@@ -6,54 +6,52 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 18:03:47 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/12 18:29:40 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/20 12:35:59 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* static int	count_cmd_tokens(char **cmd)
+void	free_token(t_tokens *token)
 {
-	int	i;
-	int	tokens;
-
-	i = 0;
-	tokens = 0;
-	while (cmd[i])
-	{
-		if (is_infile(cmd[i]) || is_outfile(cmd[i]))
-			i += 2;
-		else
-		{
-			tokens++;
-			i++;
-		}
-	}
-	return (tokens);
+	free(token->token);
+	token->token = NULL;
+	token->next = NULL;
+	token->state = 0;
+	token->type = 0;
 }
 
-char	**clean_redirs(char **cmd)
+static int	is_redir(t_tokens *tokens)
 {
-	char	**new_cmd;
-	int		new_cmd_tokens;
-	int		i;
-	int		j;
+	if ((tokens->type == INFILE
+		|| tokens->type == APP_OUTFILE
+		|| tokens->type == TRU_OUTFILE
+		|| tokens->type == HEREDOC)
+		&& tokens->state == GENERAL)
+			return (1);
+	return (0);
+}
 
-	i = 0;
-	j = 0;
-	new_cmd_tokens = count_cmd_tokens(cmd);
-	new_cmd = malloc((new_cmd_tokens + 1) * sizeof(char * ));
-	while (cmd[i])
+void	clean_redirs(t_tokens *tokens)
+{
+	t_tokens	*tmp;
+	t_tokens	*redir;
+
+	tmp = tokens;
+	while (tmp)
 	{
-		if (is_infile(cmd[i]) || is_outfile(cmd[i]))
-			i += 2;
-		if (cmd[i])
+		printf("reading: %s\n", tmp->next->token);
+		if (is_redir(tmp->next) && tmp->next->state == GENERAL)
 		{
-			new_cmd[j] = cmd[i];
-			i++;
-			j++;
+			redir = tmp->next;
+			tmp = tmp->next->next->next;
+			free_token(redir->next);
+			free_token(redir);
+			if (!tmp)
+				break;
 		}
+		if (tmp->next)
+			tmp = tmp->next;
 	}
-	new_cmd[j] = 0;
-	return(free(cmd), new_cmd);
-} */
+	print_tokens(tokens);
+}
