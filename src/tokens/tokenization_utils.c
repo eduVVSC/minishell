@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 09:26:24 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/29 11:52:30 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:46:21 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ char	*clean_tkn_quotes(char *str)
 	j = 0;
 	close_quote = 0;
 	quotes_to_wipe = count_quotes_to_take_off(str);
+	if (quotes_to_wipe == 0)
+		return (str);
 	cmd = (char *)malloc((ft_strlen(str) - quotes_to_wipe + 1) * sizeof(char));
 	while(str[j])
 	{
