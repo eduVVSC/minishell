@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:50:12 by edvieira          #+#    #+#             */
-/*   Updated: 2025/01/07 17:36:14 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:49:13 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	free_tokens(t_tokens *tokens)
 	{
 		tmp = tokens;
 		tokens = tokens->next;
-		if (tmp->type == 7)
-			free(tmp->token);
+	//	if (tmp->type == 7)
+		free(tmp->token);
 		free(tmp);
 	}
 	tokens = NULL;
