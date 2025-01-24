@@ -131,11 +131,13 @@ void	refresh_var_value(t_env *env, t_env *var_with_new_value, int behavior);
 
 // ===== cleaning =====//
 void	free_env_node(t_env *node);
+void	free_env(t_env *env);
 void	free_cmd_list(t_cmds *cmds);
 void	free_tree(t_tree_node *head);
 void	free_tokens(t_tokens *tokens);
 void	clean_next_round(t_shell *shell);
 int		clean_all_and_close(t_shell *shell);
+int		clean_and_terminate_with_status(t_shell *shell, int status);
 int		clean_and_terminate(t_shell *shell);
 void	free_tokens(t_tokens *tokens);
 
@@ -192,7 +194,7 @@ int		open_file(char *file_name, int flag);
 
 // ============= redirections =============== //
 
-void	handle_normal_redir(t_shell *shell, t_tokens *tokens);
+void	handle_redirections(t_shell *shell, t_tokens *tokens);
 int		is_infile(char *str);
 int		is_outfile(char *str);
 void	dup_from_input(int fd);
@@ -243,6 +245,10 @@ int		check_file_type(char *dir_path);
 int		handle_cd_error(char **command);
 int		cd_opitionals(t_env *env, char **command);
 void	refresh_pwd_oldpwd(t_shell *shell, char *old_pwd);
+
+//========= exit command ==========//
+
+void	do_exit(t_shell *shell, char **cmd);
 
 // ===builtins utils=== //
 
