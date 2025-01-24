@@ -22,10 +22,11 @@ void	fork_error(void)
 	printf("fork error lmao!\n go fix ur code dumbass\n");
 }
 
-void	handle_pipe(t_shell *shell, t_tree_node *node)
+int	handle_pipe(t_shell *shell, t_tree_node *node)
 {
 	int		fd[2];
 	pid_t	pid[2];
+	int		status;
 
  	if (pipe(fd) == -1)
 		pipe_error();
@@ -54,18 +55,9 @@ void	handle_pipe(t_shell *shell, t_tree_node *node)
 	// Cleaning up.
 	close(fd[0]);
 	close(fd[1]);
- 	waitpid(pid[0], NULL, 0);
-	waitpid(pid[1], NULL, 0);
-	clean_and_terminate(shell);
-	clean_and_terminate(shell);
-//	exit(0); // <---- Very Important!!!  Will give leaks, hopefully solved by freeing t_shell :D
-}
-
-void	handle_redirection(t_shell *shell, t_tree_node *node)
-{
-	if (has_redirection(node->content)) // HEREDOCS SHOULD BE HANDLED IN HERE WITH THE REST OF THE OTHER REDIRS.
-		handle_normal_redir(shell, node->content);
-	return ;
+ 	waitpid(pid[0], &status, 0);
+	waitpid(pid[1], &status, 0);
+	clean_and_terminate_with_status(shell, WEXITSTATUS(status));
 }
 
 // Tries to execute the given command.
@@ -74,7 +66,6 @@ void	exec_cmd(t_shell *shell, t_tokens *node_content)
 	char	**cmd;
 	char	*path;
 	char	**envp;
-	int		i;
 
 	cmd = build_cmd(&node_content);
  	if (!is_builtin(shell, cmd))
@@ -83,15 +74,15 @@ void	exec_cmd(t_shell *shell, t_tokens *node_content)
 		envp = transfrom_env_to_array(shell->env);
 		if (!path)
 			path = ft_strdup(cmd[0]);
-		printf("path = |%s|\n", path);
 		print_cmds(cmd);
-		if (execve(path, cmd, envp) == -1) // Need to translate the envp list to 2d array.
+		if (execve(path, cmd, envp) == -1)
 		{
-			ft_putstr_fd(cmd[0], 2);
+			ft_putstr_fd(cmd[0], 2); // in case of error display error message and free everything.
 			ft_putstr_fd(" : not found\n", 2);
 			free(path);
 			ft_free_double_arr(&envp);
 			ft_free_double_arr(&cmd);
+			clean_and_terminate_with_status(shell, 127);
 		}
 	}
 }
@@ -102,8 +93,8 @@ void	exec_tree(t_shell *shell, t_tree_node *node)
 		handle_pipe(shell, node);
 	else
 	{
-		handle_redirection(shell, node);
+		if (has_redirection(node->content)) 
+			handle_redirections(shell, node->content);
 		exec_cmd(shell, node->content);
-		clean_and_terminate(shell);
 	}
 }

@@ -68,7 +68,7 @@ char	**build_cmd(t_tokens **tokens)
 			(*tokens) = (*tokens)->next->next;
 		else
 		{
-			cmd[i] = (*tokens)->token;
+			cmd[i] = ft_strdup((*tokens)->token);
 			(*tokens) = (*tokens)->next;
 			i++;
 		}

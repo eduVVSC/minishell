@@ -109,7 +109,8 @@ int	is_builtin_special_case(t_cmds *first_cmd)
 	{
 		if (!ft_strcmp(first_input, "unset") ||
 			!ft_strcmp(first_input, "export") ||
-			!ft_strcmp(first_input, "cd"))
+			!ft_strcmp(first_input, "cd") ||
+			!ft_strcmp(first_input, "exit"))
 			return (1);
 	}
 	return (0);
@@ -118,9 +119,8 @@ int	is_builtin_special_case(t_cmds *first_cmd)
 void	make_tree(t_shell *shell)
 {
 	pid_t		pid;
-	int			i;
+	int			exit_code;
 
-	i = 0;
 	shell->tree = init_tree_node();
 	shell->cmd_list = build_cmd_list(shell->tokens);
   		build_tree(shell->tree, shell->cmd_list);
@@ -132,7 +132,8 @@ void	make_tree(t_shell *shell)
 		pid = fork();
 		if (pid == 0)
 			exec_tree(shell, shell->tree);
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &exit_code, 0);
+		printf("last_exit_code: %d\n", WEXITSTATUS(exit_code));
  		if (pid == 0)
 			clean_and_terminate(shell);
 	}
