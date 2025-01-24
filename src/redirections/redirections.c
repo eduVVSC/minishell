@@ -39,6 +39,7 @@ void	handle_infile(t_tokens *tokens)
 		file_error();
 	dup_from_input(fd);
 }
+
 void	handle_outfile(t_tokens *tokens)
 {
 	char	*file_name;
@@ -63,8 +64,11 @@ void	handle_outfile(t_tokens *tokens)
 	dup_to_output(fd);
 }
 
-void	handle_normal_redir(t_shell *shell, t_tokens *tokens)
+void	handle_redirections(t_shell *shell, t_tokens *tokens)
 {
+
+	// Theres a bug where heredoc opens without a key (syntax error)
+	// trying 'cat <<' opens normal cat because the heredoc is filtered elsewhere hopefuly resolved in syntax,
 	while (tokens)
 	{
 		if (tokens->state == GENERAL)
