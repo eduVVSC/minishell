@@ -75,6 +75,22 @@ void	free_cmd(t_cmds *cmd)
 }
 
 
+/// @brief Clean the Shell and exits with given exit code
+/// @param shell
+/// @return (0)
+int	clean_and_terminate_with_status(t_shell *shell, int exit_code)
+{
+	free_tree(shell->tree);
+	free_tokens(shell->tokens);
+	free_cmd_list(shell->cmd_list);
+	free_env(shell->env);
+	free(shell->dir_now);
+	free(shell);
+	exit(exit_code);
+}
+
+
+
 /// @brief Clean the Shell and exits
 /// @param shell
 /// @return (0)
