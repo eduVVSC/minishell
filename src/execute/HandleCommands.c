@@ -27,8 +27,8 @@ int	is_builtin( t_shell *shell, char **command)
 		printf("Function return |%d|\n",do_env(command, shell->env));
 	else if (ft_strcmp(command[0], "unset") == 0) // last one!!
 		printf("Function return |%d|\n", do_unset(shell->env, command));
-	else
-		return(0);
-	return (1);
+	else if (ft_strcmp(command[0], "exit") == 0)
+		do_exit(shell, command);
+	return(0);
 }
 
