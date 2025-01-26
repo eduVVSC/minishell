@@ -12,40 +12,30 @@
 
 #include "minishell.h"
 
-// Creates a token with a space in it.
-void	create_space_token(t_tokens *tokens)
+// lol
+int	is_redir(char c)
 {
-	tokens->token = ft_strdup(" ");
-	tokens->state = 0;
-	tokens->type = 7;
+	if (c == '>' || c == '<')
+		return (1);
+	return (0);
 }
 
-// Counts the ammount of spaces in the string,
-// it counts as a group of continuos spaces as a single one.
-int	count_spaces(char *str)
+// Helper function for get_token_len
+void	set_quote_state(int *is_in_quotes)
 {
-	int	i;
-	int	spaces;
+	if (*is_in_quotes == FALSE)
+		*is_in_quotes = TRUE;
+	else if (*is_in_quotes = TRUE)
+		*is_in_quotes = FALSE;
+}
 
-	i = 0;
-	spaces = 0;
-	while (str[i] == ' ')
-		i++;
-	while (str[i])
-	{
-		if (str[i] == '\'' || str[i] == '\"')
-			i = handle_quotes(str, i, str[i]);
-		if (str[i] == ' ')
-		{
-			while (str[i] == ' ')
-				i++;
-			if (str[i] != 0)
-				spaces++;
-		}
-		else
-			i++;
-	}
-	return (spaces);
+int	are_there_more_tokens(char *input)
+{
+	while (is_separator(*input))
+		*input++;
+	if (*input)
+		return (1);
+	return (0);
 }
 
 // Counts how many quotes should be taken off from the given sring.
