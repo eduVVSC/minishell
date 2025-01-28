@@ -29,6 +29,9 @@
 # define double_quo 2
 # define expanded 3
 
+# define TRUE 1
+# define FALSE 0
+
 # define GENERAL 0
 # define SINGLE_QUO 1
 # define DOUBLE_QUO 2
@@ -157,7 +160,6 @@ int			handle_quotes(const char *str, int i, char quote_type);
 int			word_count(char *str);
 char		**build_cmd(t_tokens **tokens);
 t_cmds		*build_cmd_list(t_tokens *tokens);
-char		*fill_str(char *str, int target_word, char separator);
 void		print_cmds(char **cmds);
 int			is_builtin( t_shell *shell, char **command);
 void		print_individual_tkn(t_tokens *token);
@@ -175,6 +177,9 @@ void	create_space_token(t_tokens *tokens);
 char	*clean_tkn_quotes(char *str);
 int		count_spaces(char *str);
 int		is_quote(char c);
+int		is_redir(char c);
+void	set_quote_state(int *is_in_quotes);
+int		are_there_more_tokens(char *input);
 
 // =============tree=============== //
 
