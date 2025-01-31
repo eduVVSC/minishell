@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:18:17 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/20 14:28:41 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:29:45 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ static void	handle_pipe_case(t_cmds **cmd, t_tokens **tokens)
 	t_cmds	*next_head;
 
 	pipe_node = make_head(tokens);
-	(*tokens) = (*tokens)->next;
 	next_head = make_head(tokens);
 	(*cmd)->next = pipe_node;
 	pipe_node->next = next_head;

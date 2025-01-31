@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 14:05:36 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/20 13:14:24 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/31 13:36:31 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	exec_cmd(t_shell *shell, t_tokens *node_content)
 			clean_and_terminate_with_status(shell, 127);
 		}
 	}
+	clean_and_terminate_with_status(shell, 0); // Quick patch so it works, but should use exit code from builtin funcs.
 }
 
 void	exec_tree(t_shell *shell, t_tree_node *node)
@@ -93,7 +94,7 @@ void	exec_tree(t_shell *shell, t_tree_node *node)
 		handle_pipe(shell, node);
 	else
 	{
-		if (has_redirection(node->content)) 
+		if (has_redirection(node->content))
 			handle_redirections(shell, node->content);
 		exec_cmd(shell, node->content);
 	}
