@@ -116,6 +116,23 @@ int	is_builtin_special_case(t_cmds *first_cmd)
 	return (0);
 }
 
+int	exec_builtin_especial_cases(t_shell *shell, t_tokens *node_content)
+{
+	int		exit_code;
+	char	**cmd;
+
+	exit_code = 0;
+	cmd = build_cmd(&node_content);
+	if (ft_strcmp(cmd[0], "cd") == 0)
+		exit_code = do_cd(shell, cmd);
+	else if (ft_strcmp(cmd[0], "export") == 0)
+		exit_code = do_export(&shell->env, cmd);
+	else if (ft_strcmp(cmd[0], "env") == 0)
+		exit_code =  do_unset(shell->env, cmd);
+	ft_free_double_arr(&cmd);
+	return (exit_code);
+	}
+
 void	make_tree(t_shell *shell)
 {
 	pid_t		pid;
@@ -126,14 +143,15 @@ void	make_tree(t_shell *shell)
   		build_tree(shell->tree, shell->cmd_list);
 	print_tree(shell->tree);
   	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
-		exec_cmd(shell, shell->cmd_list->token_list);
+		exec_builtin_especial_cases(shell, shell->cmd_list->token_list);
+		//exec_cmd(shell, shell->cmd_list->token_list);
 	else // if not executes a fork and creates a child process.
 	{
 		pid = fork();
 		if (pid == 0)
 			exec_tree(shell, shell->tree);
 		waitpid(pid, &exit_code, 0);
-		printf("last_exit_code: %d\n", WEXITSTATUS(exit_code));
+		//printf("last_exit_code: %d\n", WEXITSTATUS(exit_code));
  		if (pid == 0)
 			clean_and_terminate(shell);
 	}

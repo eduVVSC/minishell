@@ -31,6 +31,8 @@ int	is_builtin( t_shell *shell, char **command)
 		do_exit(shell, command);
 	else
 		return (0);
+	ft_free_double_arr(&command);
 	return(1);
 }
 
+// color = #315589

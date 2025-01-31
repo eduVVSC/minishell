@@ -51,10 +51,7 @@ char	**build_cmd(t_tokens **tokens)
 	cmd = malloc((nr_args + 1) * sizeof(char *));
 	while(i < nr_args && (*tokens))
 	{
-		if ((*tokens)->type == SPACE
-			|| ((*tokens)->type == HEREDOC && (*tokens)->state == GENERAL))
-			(*tokens) = (*tokens)->next;
-		else if (is_redir_token(*tokens))
+		if (is_redir_token(*tokens))
 			(*tokens) = (*tokens)->next->next;
 		else
 		{

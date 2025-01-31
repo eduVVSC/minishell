@@ -85,7 +85,8 @@ void	exec_cmd(t_shell *shell, t_tokens *node_content)
 			clean_and_terminate_with_status(shell, 127);
 		}
 	}
-	clean_and_terminate_with_status(shell, 0); // Quick patch so it works, but should use exit code from builtin funcs.
+//	if (!cmd) // need to be here but cant
+		clean_and_terminate_with_status(shell, 0); // Quick patch so it works, but should use exit code from builtin funcs.
 }
 
 void	exec_tree(t_shell *shell, t_tree_node *node)
