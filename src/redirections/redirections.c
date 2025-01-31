@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 11:35:50 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/20 13:04:08 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/31 13:50:34 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	handle_outfile(t_shell *shell, t_tokens *tokens)
 
 void	handle_redirections(t_shell *shell, t_tokens *tokens)
 {
-
 	// Theres a bug where heredoc opens without a key (syntax error)
 	// trying 'cat <<' opens normal cat because the heredoc is filtered elsewhere hopefuly resolved in syntax,
 	while (tokens)
@@ -74,11 +73,9 @@ void	handle_redirections(t_shell *shell, t_tokens *tokens)
 		if (tokens->state == GENERAL)
 		{
 			if (tokens->type == INFILE)
-				handle_infile(shell, tokens);
+				handle_infile(shell, tokens); // cat < infile1 < infile2 < infile3
 			else if (tokens->type == HEREDOC)
-			{
-				// DO HEREDOC LMAOLMAOLMAO
-			}
+				handle_heredoc(shell, tokens);// cat << ola | cat << a
 			else if (tokens->type == TRU_OUTFILE || tokens->type == APP_OUTFILE)
 				handle_outfile(shell, tokens);
 		}
