@@ -1,33 +1,26 @@
-/*
+
 #include "minishell.h"
 
-int	check_heredoc_token(char *key)
+int	heredoc_error()
 {
-	if (ft_strcmp(key, "<<") == 0)
-		return (1);
-	else if (ft_strcmp(key, ">>") == 0)
-		return (1);
-	else if (ft_strcmp(key, "|") == 0)
-		return (1);
-	return (0);
+	ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
+	return (1);
 }
 
-int	check_heredoc_command(t_tree_node *node)
+t_heredock	*free_heredock(t_heredock *heredock)
 {
-	int	i;
+	t_heredock	*tmp;
 
-	i = 0;
-	while (node->content[++i])
+	while (heredock)
 	{
-		if (ft_strcmp(node->content[i], "<<") == 0)
-		{
-			if (!node->content[++i])
-				return (0);
-			else if (check_heredoc_token(node->content[i]) == 1)
-				return (1);
-		}
+		tmp = heredock->next;
+		free (heredock->key);
+		if (heredock->fullinput_until_key)
+			free (heredock->fullinput_until_key);
+		free(heredock);
+		heredock = tmp;
 	}
-	return (0);
+	return (NULL);
 }
 
 char	*ft_strjoin_w_new_line(char *s1, char *s2)
@@ -58,4 +51,4 @@ char	*ft_strjoin_w_new_line(char *s1, char *s2)
 	str[count + 1] = '\0';
 	return (free(s1), str);
 }
- */
+

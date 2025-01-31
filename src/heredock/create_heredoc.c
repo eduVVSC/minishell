@@ -1,80 +1,47 @@
-/*
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_heredoc.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/31 10:55:04 by dioferre          #+#    #+#             */
+/*   Updated: 2025/01/31 11:05:06 by dioferre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /// @brief Create a heredoc node with everything set to NULL and the key given by read
 /// @param key
 /// @return (NULL -> malloc error) (node -> success)
-t_heredock	*create_heredoc_node(char *key)
+t_heredock	*create_heredoc_node(t_tokens *key)
 {
-	t_heredock	*node;
+	t_heredock	*heredock;
 
-	node = malloc(sizeof(t_heredock));
-	if (!node)
+	heredock = malloc(sizeof(t_heredock));
+	if (!heredock)
 		return (NULL);
 	if (!key)
-		node->key = NULL;
+		heredock->key = NULL;
 	else
-		node->key = ft_strdup(key);
-	node->fullinput_until_key = NULL;
-	node->next = NULL;
-	return (node);
+		heredock->key = ft_strdup(key->token);
+	heredock->state = key->state;
+	heredock->fullinput_until_key = NULL;
+	heredock->next = NULL;
+	return (heredock);
 }
 
-/// @brief Create all the heredoc nodes after the head
-/// @param command
-/// @param i
-/// @return (body_head -> if there is more heredocs) (NULL -> if there ain't no more heredocs)
-t_heredock *create_heredoc_body(t_tree_node *node, int i)
+/// @brief
+/// @param shell
+/// @param redir
+/// @return
+int	handle_heredoc(t_shell *shell, t_tokens *redir)
 {
-	t_heredock	*body_head;
-	t_heredock	*tmp;
+	t_heredock	*heredock;
 
-	body_head = NULL;
-	if (!node->content[i])
-		return (NULL);
-	while (node->content[i])
-	{
-		if (ft_strcmp(node->content[i], "<<") == 0)
-		{
-			if (!body_head)
-			{
-				body_head = create_heredoc_node(node->content[++i]);
-				tmp = body_head;
-			}
-			else
-			{
-				tmp->next = create_heredoc_node(node->content[++i]);
-				tmp = tmp->next;
-			}
-		}
-		if (node->content[i])
-			i++;
-	}
-	return (body_head);
+	heredock = create_heredoc_node(redir->next);
+	if (!heredock)
+		return (-1);
+	return (doing_heredock(shell, heredock));
 }
-
-/// @brief  Function take the command and create its heredoc list, with the needed keys in it node!
-/// @param node
-/// @return (heredoc_head)
-t_heredock	*create_heredoc(t_tree_node *node)
-{
-	t_heredock	*head;
-	int			i;
-
-	i = 0;
-	head = NULL;
-	while (node->content[++i] != NULL)
-	{
-		if (ft_strcmp(node->content[i], "<<") == 0)
-		{
-			if (!node->content[++i])
-				return (create_heredoc_node(NULL));
-			else
-				head = create_heredoc_node(node->content[i]);
-			head->next = create_heredoc_body(node, (i + 1));
-			break ;
-		}
-	}
-	return (head);
-}
- */
