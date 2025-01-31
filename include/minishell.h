@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/20 14:28:51 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/31 09:11:03 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ void		strjoin_and_replace(char **s1, char *s2);
 int			count_words(char *str);
 int			is_pipe_node(char **content);
 int			get_matrix_len(char **matrix);
+int		is_redir_token(t_tokens *tokens);
 // TO ORGANIZE :p
 
 // =============tokens=============== //

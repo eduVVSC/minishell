@@ -6,21 +6,11 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:17:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/20 13:05:21 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/31 09:11:14 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	is_redir(t_tokens *tokens)
-{
-	if ((tokens->type == INFILE
-		|| tokens->type == APP_OUTFILE
-		|| tokens->type == TRU_OUTFILE)
-		&& tokens->state == GENERAL)
-			return (1);
-	return (0);
-}
 
 int	count_args(t_tokens *tokens)
 {
@@ -31,7 +21,7 @@ int	count_args(t_tokens *tokens)
 		return (0);
 	while(tokens)
 	{
-		if (is_redir(tokens))
+		if (is_redir_token(tokens))
 		{
 			tokens = tokens->next->next;
 			continue;
@@ -64,7 +54,7 @@ char	**build_cmd(t_tokens **tokens)
 		if ((*tokens)->type == SPACE
 			|| ((*tokens)->type == HEREDOC && (*tokens)->state == GENERAL))
 			(*tokens) = (*tokens)->next;
-		else if (is_redir(*tokens))
+		else if (is_redir_token(*tokens))
 			(*tokens) = (*tokens)->next->next;
 		else
 		{

@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 18:03:47 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/20 12:35:59 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/31 09:10:48 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	free_token(t_tokens *token)
 	token->type = 0;
 }
 
-static int	is_redir(t_tokens *tokens)
+int	is_redir_token(t_tokens *tokens)
 {
 	if ((tokens->type == INFILE
 		|| tokens->type == APP_OUTFILE
@@ -41,7 +41,7 @@ void	clean_redirs(t_tokens *tokens)
 	while (tmp)
 	{
 		printf("reading: %s\n", tmp->next->token);
-		if (is_redir(tmp->next) && tmp->next->state == GENERAL)
+		if (is_redir_token(tmp->next) && tmp->next->state == GENERAL)
 		{
 			redir = tmp->next;
 			tmp = tmp->next->next->next;
