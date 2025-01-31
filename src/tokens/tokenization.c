@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:00:21 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/03 14:17:03 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:18:46 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	get_token_len(char *str)
 	{
 		if (is_quote(str[len]))
 			set_quote_state(&is_in_quotes);
-		else if (!is_in_quotes 
+		else if (!is_in_quotes
 				&& (is_redir(str[len]) || str[len] == '|')) //checks if current char is a redir or pipe.
 		{
 			if (len == 0)
@@ -107,6 +107,8 @@ t_tokens	*get_tokens(t_shell *shell ,char *input)
 			create_and_link_node(&tmp);
 			tmp = tmp->next;
 		}
+		else
+			break;
 	}
 	tmp = NULL;
 	return (head);

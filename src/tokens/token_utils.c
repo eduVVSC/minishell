@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenization_utils.c                               :+:      :+:    :+:   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 09:26:24 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/20 14:46:21 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:14:33 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	set_quote_state(int *is_in_quotes)
 {
 	if (*is_in_quotes == FALSE)
 		*is_in_quotes = TRUE;
-	else if (*is_in_quotes = TRUE)
+	else if (*is_in_quotes == TRUE)
 		*is_in_quotes = FALSE;
 }
 
