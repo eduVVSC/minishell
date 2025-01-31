@@ -6,13 +6,15 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/31 09:11:03 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:39:05 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+//# define TMPFILE "~/../../tmp/.minishellTempFIle"
+# define TMPFILE "./minishellTempFIle"
 # define true 1
 # define false 0
 # define variable 1
@@ -88,9 +90,7 @@ typedef struct s_cmds
 
 typedef struct s_tree_node
 {
-
 	struct s_tokens		*content;
-//	char			**content;
 	struct s_tree_node	*left;
 	struct s_tree_node	*right;
 }					t_tree_node;
@@ -107,6 +107,7 @@ typedef struct s_tokens
 typedef struct s_heredock
 {
 	char				*key;
+	int 				state;// add it in the conversion from the tokens!!!
 	char				*fullinput_until_key;
 	struct s_heredock	*next;
 }				t_heredock;
@@ -169,7 +170,8 @@ void		strjoin_and_replace(char **s1, char *s2);
 int			count_words(char *str);
 int			is_pipe_node(char **content);
 int			get_matrix_len(char **matrix);
-int		is_redir_token(t_tokens *tokens);
+int			is_redir_token(t_tokens *tokens);
+void		file_error(t_shell *shell);
 // TO ORGANIZE :p
 
 // =============tokens=============== //
@@ -264,20 +266,18 @@ int		ft_strcmp(char *str1, char *str2);
 char	*join_str_char(char *s1, char s2);
 int		check_exist_optionals(char **command);
 
-// =============heredock=============== //
+// =============heredoc=============== //
 
-int	handle_heredoc_exec2(t_shell *shell, t_tree_node *node);
-int	check_heredoc_token(char *key);
-int	check_heredoc_command(t_tree_node *node);
-
-t_heredock	*create_heredoc_node(char *key);
 t_heredock	*create_heredoc(t_tree_node *node);
-t_heredock *create_heredoc_body(t_tree_node *node, int i);
+t_heredock	*create_heredoc_node(t_tokens *key);
+t_heredock	*free_heredock(t_heredock *heredock);
+t_heredock	*create_heredoc_body(t_tree_node *node, int i);
 
+int	creating_temp_file(char *write);
+void	doing_key(t_heredock *heredock);
+int	handle_heredoc(t_shell *shell, t_tokens *redir);
 char		*ft_strjoin_w_new_line(char *s1, char *s2);
-void		key_that_metters(t_heredock *last_node);
-int	doing_heredock(t_heredock *heredock);
-t_heredock	*reading_until_last_key(t_heredock *heredock);
+int			doing_heredock(t_shell *shell, t_heredock *heredock);
 
 // =============handlers=============== //
 
