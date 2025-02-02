@@ -63,9 +63,26 @@ void	handle_outfile(t_shell *shell, t_tokens *tokens)
 	}
 	dup_to_output(fd);
 }
+int	count_heredocs(t_tokens *tokens)
+{
+	int	counter;
+
+	counter = 0;
+	while (tokens)
+	{
+		if (tokens->type == HEREDOC)
+			counter++;
+		tokens = tokens->next;
+	}
+	return (counter);
+}
 
 void	handle_redirections(t_shell *shell, t_tokens *tokens)
 {
+	int	heredoc_fd;
+	int	amount_of_heredocs;
+
+	amount_of_heredocs = count_heredocs(tokens);
 	// Theres a bug where heredoc opens without a key (syntax error)
 	// trying 'cat <<' opens normal cat because the heredoc is filtered elsewhere hopefuly resolved in syntax,
 	while (tokens)
@@ -75,7 +92,14 @@ void	handle_redirections(t_shell *shell, t_tokens *tokens)
 			if (tokens->type == INFILE)
 				handle_infile(shell, tokens); // cat < infile1 < infile2 < infile3
 			else if (tokens->type == HEREDOC)
-				handle_heredoc(shell, tokens);// cat << ola | cat << a
+			{
+				heredoc_fd = handle_heredoc(shell, tokens);// cat << ola | cat << a
+				amount_of_heredocs--;
+				if (amount_of_heredocs)
+					close(heredoc_fd);
+				if (amount_of_heredocs == 0)
+					dup_from_input(heredoc_fd);
+			}
 			else if (tokens->type == TRU_OUTFILE || tokens->type == APP_OUTFILE)
 				handle_outfile(shell, tokens);
 		}
