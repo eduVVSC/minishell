@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:00:21 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/31 11:18:46 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:05:43 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*fill_str(char **str)
 
 	i = 0;
 	while (is_separator(**str) == 1)
-		*(*str)++;
+		*(*str)+= 1;
 	len = get_token_len((*str));
 	token = malloc((len + 1) * sizeof(char));
 	while (i < len)
