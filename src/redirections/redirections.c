@@ -3,20 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 11:35:50 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/03 11:08:52 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:23:28 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-
 On infile redirections bash only uses the last redirection.
 On outfile it does it to all the redirections.
-
 */
 
 void	file_error(t_shell *shell) // Need to do this properly lol
@@ -63,6 +61,7 @@ void	handle_outfile(t_shell *shell, t_tokens *tokens)
 	}
 	dup_to_output(fd);
 }
+
 int	count_heredocs(t_tokens *tokens)
 {
 	int	counter;
@@ -76,6 +75,7 @@ int	count_heredocs(t_tokens *tokens)
 	}
 	return (counter);
 }
+
 int	read_heredocs(t_shell *shell, t_tokens *tokens)
 {
 	int	heredoc_fd;
@@ -118,7 +118,3 @@ void	handle_redirections(t_shell *shell, t_tokens *tokens)
 	if (last_heredoc_fd != -1)
 		close(last_heredoc_fd);
 }
-
-
-
-

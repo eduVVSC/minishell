@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/31 11:39:05 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:02:05 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ void	free_tokens(t_tokens *tokens);
 
 // ===== organize later =====//
 
+void	cleanedHandler(int signum, siginfo_t *info, void *context);
 char		**transfrom_env_to_array(t_env *env);
 int			env_height(t_env *env);
 int			check_input(t_shell *shell, char *input);
@@ -189,7 +190,7 @@ int		are_there_more_tokens(char *input);
 void	pipe_error(void);
 void	fork_error(void);
 void	print_cmds(char **cmds);
-void	make_tree(t_shell *shell);
+char	*make_tree(t_shell *shell);
 void	exec_tree(t_shell *shell, t_tree_node *node);
 void	exec_cmd(t_shell *shell, t_tokens *node_content);
 // Exec Tree Utils

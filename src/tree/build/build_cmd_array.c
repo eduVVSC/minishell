@@ -64,7 +64,6 @@ char	**build_cmd(t_tokens **tokens)
 	return (cmd);
 }
 
-
 void	print_cmds(char **cmds)
 {
 	int	i;

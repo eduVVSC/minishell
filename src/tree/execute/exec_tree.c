@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 14:05:36 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/31 13:36:31 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/03 10:52:20 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,7 @@ void	exec_cmd(t_shell *shell, t_tokens *node_content)
 			clean_and_terminate_with_status(shell, 127);
 		}
 	}
-//	if (!cmd) // need to be here but cant
-		clean_and_terminate_with_status(shell, 0); // Quick patch so it works, but should use exit code from builtin funcs.
+	clean_and_terminate_with_status(shell, 0);
 }
 
 void	exec_tree(t_shell *shell, t_tree_node *node)

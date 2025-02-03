@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/10 14:48:05 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:30:19 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	cleaning_signals()
+{
+	struct	sigaction	sa;
+
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = &cleanedHandler;
+	sigaction(SIGINT, &sa, NULL);
+}
 
 /// @brief Set the signals actions in the program
 void	setting_signals()
@@ -61,13 +71,15 @@ void	runnig_shell(t_shell *shell)
 
 	while (1)
 	{
+		setting_signals();
 		input = readline(shell->dir_now);
 		add_history(input);
 		if (check_input(shell, input) == 0)
 		{
+			cleaning_signals();  //cleaning the signal to exec the command
 			input = check_last_character(input);
 			shell->tokens = get_tokens(shell ,input);
-			make_tree(shell);
+			shell->env->var_value = make_tree(shell);
 			clean_next_round(shell);
 		}
 		free(input);
@@ -78,7 +90,6 @@ int	main(int ac, char **av, char **envp)
 {
 	t_shell		*shell;
 
-	setting_signals();
 	shell = setting_shell(ac, av, envp);
 	if (!shell)
 		exit (ft_printf("Program closing! Could not set shell\n"));

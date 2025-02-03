@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_builder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/20 12:54:20 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:26:23 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,26 +133,29 @@ int	exec_builtin_especial_cases(t_shell *shell, t_tokens *node_content)
 	return (exit_code);
 	}
 
-void	make_tree(t_shell *shell)
+char	*make_tree(t_shell *shell)
 {
 	pid_t		pid;
 	int			exit_code;
 
 	shell->tree = init_tree_node();
 	shell->cmd_list = build_cmd_list(shell->tokens);
-  		build_tree(shell->tree, shell->cmd_list);
+	build_tree(shell->tree, shell->cmd_list);
 	print_tree(shell->tree);
-  	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
-		exec_builtin_especial_cases(shell, shell->cmd_list->token_list);
-		//exec_cmd(shell, shell->cmd_list->token_list);
+	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
+	{
+		free(shell->env->var_value);
+		return (ft_itoa(WEXITSTATUS(exec_builtin_especial_cases(shell, shell->cmd_list->token_list))));
+	}
 	else // if not executes a fork and creates a child process.
 	{
 		pid = fork();
 		if (pid == 0)
 			exec_tree(shell, shell->tree);
 		waitpid(pid, &exit_code, 0);
-		//printf("last_exit_code: %d\n", WEXITSTATUS(exit_code));
- 		if (pid == 0)
+		if (pid == 0)
 			clean_and_terminate(shell);
+		free(shell->env->var_value);
+		return (ft_itoa(WEXITSTATUS(exit_code)));
 	}
 }
