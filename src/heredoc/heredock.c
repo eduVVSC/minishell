@@ -42,15 +42,12 @@ int	doing_heredock(t_shell *shell, t_heredock *heredock)
 
 	doing_key(heredock);
 	heredoc_fd = creating_temp_file(heredock->fullinput_until_key);
-	//printf("heredoc done! fd = |%d|\n", heredoc_fd);
 	if (heredoc_fd == -1)
 	{
 		free_heredock(heredock);
 		file_error(shell);
 	}
 	heredoc_fd = open(TMPFILE, O_RDWR);
-	if(heredoc_fd != -1)
-		dup_from_input(heredoc_fd);
 	free_heredock(heredock);
-	return (0);
+	return (heredoc_fd);
 }
