@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/03 11:02:05 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/03 16:34:52 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,7 @@ int		do_unset(t_env *env, char **command);
 int		on_first_node(t_env **env);
 void	clean_first_node(t_env *node);
 void	clean_env_node_attributes(t_env *node);
-int		remove_env_var(t_env **env, char *env_to_remove);
+int		remove_env_var(t_env *env, char *env_to_remove);
 
 //=========== env command ============//
 

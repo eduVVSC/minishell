@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/03 14:26:23 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/03 16:20:40 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	exec_builtin_especial_cases(t_shell *shell, t_tokens *node_content)
 		exit_code = do_cd(shell, cmd);
 	else if (ft_strcmp(cmd[0], "export") == 0)
 		exit_code = do_export(&shell->env, cmd);
-	else if (ft_strcmp(cmd[0], "env") == 0)
+	else if (ft_strcmp(cmd[0], "unset") == 0)
 		exit_code =  do_unset(shell->env, cmd);
 	ft_free_double_arr(&cmd);
 	return (exit_code);
@@ -145,7 +145,7 @@ char	*make_tree(t_shell *shell)
 	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
 	{
 		free(shell->env->var_value);
-		return (ft_itoa(WEXITSTATUS(exec_builtin_especial_cases(shell, shell->cmd_list->token_list))));
+		return (ft_itoa(exec_builtin_especial_cases(shell, shell->cmd_list->token_list)));
 	}
 	else // if not executes a fork and creates a child process.
 	{
