@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 11:35:50 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/31 13:50:34 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:08:52 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ int	count_heredocs(t_tokens *tokens)
 	}
 	return (counter);
 }
-int	do_heredocs_first(t_shell *shell, t_tokens *tokens)
+int	read_heredocs(t_shell *shell, t_tokens *tokens)
 {
 	int	heredoc_fd;
 	int	amount_of_heredocs;
 
 	amount_of_heredocs = count_heredocs(tokens);
-
+	heredoc_fd = -1;
 	while (tokens && amount_of_heredocs > 0)
 	{
 		if (tokens->type == HEREDOC)
@@ -99,27 +99,24 @@ int	do_heredocs_first(t_shell *shell, t_tokens *tokens)
 
 void	handle_redirections(t_shell *shell, t_tokens *tokens)
 {
-	int	last_infile_fd;
+	int	last_heredoc_fd;
 
-	last_infile_fd = do_heredocs_first(shell,tokens);
-	// working but gets fucked if theres an infile before the heredoc for obvious reasons.
-	// one way to fix it is to dup(STDIN_FILENO), use that dupped one for the following redirections
-	// and dup2 them once this function is finished. - HAVENT TRIED IT THO
-
-
-	// Theres a bug where heredoc opens without a key (syntax error)
-	// trying 'cat <<' opens normal cat because the heredoc is filtered elsewhere hopefuly resolved in syntax,
+	last_heredoc_fd = read_heredocs(shell,tokens);
 	while (tokens)
 	{
 		if (tokens->state == GENERAL)
 		{
 			if (tokens->type == INFILE)
 				handle_infile(shell, tokens); // cat < infile1 < infile2 < infile3
+			else if (tokens->type == HEREDOC)
+				dup2(last_heredoc_fd, STDIN_FILENO);
 			else if (tokens->type == TRU_OUTFILE || tokens->type == APP_OUTFILE)
 				handle_outfile(shell, tokens);
 		}
 		tokens = tokens->next;
 	}
+	if (last_heredoc_fd != -1)
+		close(last_heredoc_fd);
 }
 
 
