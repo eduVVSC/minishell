@@ -104,9 +104,11 @@ int	do_unset(t_env *env, char **command)
 		return (2);
 	while (command[++i])
 	{
-		printf("taking of |%s|\n", command[i]);
-		if (search_in_env(env, command[i]) == 0)
-			remove_env_var(env, command[i]);
+		if (ft_strcmp(command[i], "?") != 0)
+		{
+			if (search_in_env(env, command[i]) == 0)
+				remove_env_var(env, command[i]);
+		}
 	}
 	return (0);
 }
