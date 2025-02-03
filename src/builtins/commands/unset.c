@@ -16,23 +16,21 @@
 /// @param env
 /// @param env_to_remove
 /// @return (0 node removed) (1 node is not in the list)
-int	remove_env_var(t_env **env, char *env_to_remove)
+int	remove_env_var(t_env *env, char *env_to_remove)
 {
 	t_env	*tmp;
 
-	/*	if (ft_strcmp(env_to_remove, (*env)->var_name) == 0)
-		return (on_first_node(env)); */
-	(*env) = (*env)->next;
-	while ((*env)->next)
+	env = env->next;
+	while (env->next)
 	{
-		if (ft_strcmp(env_to_remove, (*env)->next->var_name) == 0)
+		if (ft_strcmp(env_to_remove, env->next->var_name) == 0)
 		{
-			tmp = (*env)->next;
-			(*env)->next = (*env)->next->next;
+			tmp = env->next;
+			env->next = env->next->next;
 			free_env_node(tmp);
 			return (0);
 		}
-		(*env) = (*env)->next;
+		env = env->next;
 	}
 	return (1);
 }
@@ -106,8 +104,11 @@ int	do_unset(t_env *env, char **command)
 		return (2);
 	while (command[++i])
 	{
-		if (search_in_env(env, command[i]) == 0)
-			remove_env_var(&env, command[i]);
+		if (ft_strcmp(command[i], "?") != 0)
+		{
+			if (search_in_env(env, command[i]) == 0)
+				remove_env_var(env, command[i]);
+		}
 	}
 	return (0);
 }

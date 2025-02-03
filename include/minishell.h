@@ -225,7 +225,7 @@ int		do_unset(t_env *env, char **command);
 int		on_first_node(t_env **env);
 void	clean_first_node(t_env *node);
 void	clean_env_node_attributes(t_env *node);
-int		remove_env_var(t_env **env, char *env_to_remove);
+int		remove_env_var(t_env *env, char *env_to_remove);
 
 //=========== env command ============//
 

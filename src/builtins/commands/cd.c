@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 16:52:58 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/03 11:18:38 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/03 16:14:32 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ void	refresh_pwd_oldpwd(t_shell *shell, char *old_pwd)
 	temp = malloc(sizeof(t_env));
 	if (!temp)
 		return ;
-	temp = creating_env_var("PWD=");
-/* 	temp->var_name = ft_strdup("PWD");
-	temp->operant = ft_strdup("="); */
+	temp->behaviour = 0;
+	temp->var_name = ft_strdup("PWD");
+	temp->operant = ft_strdup("=");
 	temp->var_value = getcwd(NULL, 0);
 	if (!temp->var_value)
 		temp->var_value = ft_strdup("");
@@ -88,11 +88,10 @@ void	refresh_pwd_oldpwd(t_shell *shell, char *old_pwd)
 	temp2 = malloc(sizeof(t_env));
 	if (!temp2)
 		return ;
-	temp2 = creating_env_var("OLDPWD=");
-/* 	temp2->behaviour = 0;
+	temp2->behaviour = 0;
 	temp2->var_name = ft_strdup("OLDPWD");
-	temp2->operant = ft_strdup("="); */
-	temp2->var_value = ft_strdup(old_pwd); // added the ft_strdup
+	temp2->operant = ft_strdup("=");
+	temp2->var_value = old_pwd;
 	if (!old_pwd)
 		temp2->var_value = ft_strdup("");
 	adding_var_in_list(&shell->env, temp2);
@@ -118,6 +117,7 @@ int	do_cd(t_shell *shell, char **command)
 		returned_from_exec = cd_args(command);
 	if (returned_from_exec == 0)
 		refresh_pwd_oldpwd(shell, old_pwd);
-	free(old_pwd);
+	else
+		free(old_pwd);
 	return (returned_from_exec);
 }
