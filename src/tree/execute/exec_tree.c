@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 14:05:36 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/03 10:52:20 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/03 16:31:15 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,34 +58,6 @@ int	handle_pipe(t_shell *shell, t_tree_node *node)
  	waitpid(pid[0], &status, 0);
 	waitpid(pid[1], &status, 0);
 	clean_and_terminate_with_status(shell, WEXITSTATUS(status));
-}
-
-// Tries to execute the given command.
-void	exec_cmd(t_shell *shell, t_tokens *node_content)
-{
-	char	**cmd;
-	char	*path;
-	char	**envp;
-
-	cmd = build_cmd(&node_content);
- 	if (!is_builtin(shell, cmd))
-	{
-		path = find_path(cmd[0], shell->env);
-		envp = transfrom_env_to_array(shell->env);
-		if (!path)
-			path = ft_strdup(cmd[0]);
-		print_cmds(cmd);
-		if (execve(path, cmd, envp) == -1)
-		{
-			ft_putstr_fd(cmd[0], 2); // in case of error display error message and free everything.
-			ft_putstr_fd(" : not found\n", 2);
-			free(path);
-			ft_free_double_arr(&envp);
-			ft_free_double_arr(&cmd);
-			clean_and_terminate_with_status(shell, 127);
-		}
-	}
-	clean_and_terminate_with_status(shell, 0);
 }
 
 void	exec_tree(t_shell *shell, t_tree_node *node)

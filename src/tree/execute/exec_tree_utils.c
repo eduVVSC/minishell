@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:11:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/20 11:37:02 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/03 18:20:15 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*find_path(char *cmd, t_env *envp)
 	char	*path;
 	int		i;
 
+	if(!ft_strncmp(cmd, "./", 2))
+		return (ft_strdup(cmd));
 	i = 0;
 	path = get_env_var_value(envp, "PATH");
 	if (path == NULL)
