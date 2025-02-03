@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/03 12:14:53 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:23:51 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ void	runnig_shell(t_shell *shell)
 			input = check_last_character(input);
 			shell->tokens = get_tokens(shell ,input);
 			print_tokens(shell->tokens);
-			shellmake_tree(shell);
-			// refresh_exit_var(); nao percebi como o diogo falou pra mim acessar o exit code value! Perguntar depois!
+			shell->env->var_value = make_tree(shell);
 			clean_next_round(shell);
 		}
 		free(input);
