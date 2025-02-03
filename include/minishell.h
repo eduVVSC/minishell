@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/03 11:02:05 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:18:01 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ void	free_tokens(t_tokens *tokens);
 
 // ===== organize later =====//
 
+void	start_pwd(t_env *temp);
+void	start_old_pwd(t_env *temp, char *old_pwd_value);
 void	cleanedHandler(int signum, siginfo_t *info, void *context);
 char		**transfrom_env_to_array(t_env *env);
 int			env_height(t_env *env);
