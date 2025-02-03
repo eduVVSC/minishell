@@ -68,34 +68,6 @@ int	cd_args(char **command)
 }
 
 /// @brief Will refresh or create the OLDPWD and PWD env variables to the current and latest dir
-/* void	refresh_pwd_oldpwd(t_shell *shell, char *old_pwd)
-{
-	t_env	*temp;
-	t_env	*temp2;
-
-	temp = malloc(sizeof(t_env));
-	if (!temp)
-		return ;
-	temp = creating_env_var("PWD=");
-	free(temp->var_value);
-	temp->var_value = getcwd(NULL, 0);
-	if (!temp->var_value)
-		temp->var_value = ft_strdup("");
-	free (shell->dir_now);
-	shell->dir_now = ft_strjoin(temp->var_value, "$ ");
-	adding_var_in_list(&shell->env, temp);
-	temp2 = malloc(sizeof(t_env));
-	if (!temp2)
-		return ;
-	temp2 = creating_env_var("OLDPWD=");
-	free(temp2->var_value);
-	temp2->var_value = ft_strdup(old_pwd); // added the ft_strdup
-	if (!old_pwd)
-		temp2->var_value = ft_strdup("");
-	adding_var_in_list(&shell->env, temp2);
-//	free(temp->var_value);
-}
- */
 void	refresh_pwd_oldpwd(t_shell *shell, char *old_pwd)
 {
 	t_env	*temp;
@@ -124,7 +96,6 @@ void	refresh_pwd_oldpwd(t_shell *shell, char *old_pwd)
 		temp2->var_value = ft_strdup("");
 	adding_var_in_list(&shell->env, temp2);
 }
-
 
 /// @brief Do the cd command
 /// @return (0 -> success) (2 -> error)
