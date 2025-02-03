@@ -1,8 +1,8 @@
-CC = cc -g
+CC = cc
 NAME = minishell
 
 #FLAGS
-FLAGS = -I$(INC_DIR) -I$(LIB_DIR)
+FLAGS = -g -lreadline -I$(INC_DIR) -I$(LIB_DIR)
 
 # Color variables
 RED = \033[0;31m
@@ -56,5 +56,9 @@ clean:
 fclean: clean
 		@rm -f ${NAME}
 		@rm -f ${LIBFT}
+
+valgrind:
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_readline.supp --track-origins=yes ./minishell
+
 
 re: fclean all

@@ -1,0 +1,11 @@
+REDIRS:
+
+	Doesnt work yet with file name directly after redir.
+		ex: cat teste >outfile.
+	Really rough atm, need to optimize it even more.
+
+
+TODO TODAY:
+	sTOP USING t_cmds;
+	implement token list for commands;
+	

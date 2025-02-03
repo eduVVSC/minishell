@@ -3,86 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:00:21 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/25 16:40:03 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/03 10:39:09 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Function finds where the intended string is
-Return the index of where the string starts. */
-int	command_start(char *str, int target_word, char separator)
+// Returns the len of the next token to be used when allocing memmory.
+int	get_token_len(char *str)
 {
-	int	word_now;
-	int	i;
+	int	len;
+	int	is_in_quotes;
 
-	i = 0;
-	word_now = 0;
-	while (is_separator(str[i]))
-		i++;
-	while (str[i] && word_now < target_word)
+	len = 0;
+	is_in_quotes = FALSE;
+	while (str[len] && !is_separator(str[len]))
 	{
-		if (!is_separator(str[i]))
+		if (is_quote(str[len]))
+			set_quote_state(&is_in_quotes);
+		else if (!is_in_quotes
+				&& (is_redir(str[len]) || str[len] == '|')) //checks if current char is a redir or pipe.
 		{
-			word_now++;
-			if (word_now == target_word)
-				return (i);
-			if (str[i] == '\'' || str[i] == '\"')
-				i = handle_quotes(str, i, str[i]) + 1;
-			else
-				while (!is_separator(str[i]) && str[i])
-					i++;
+			if (len == 0)
+			{
+				if (is_redir(str[1]))
+					len++;
+				len++;
+			}
+			break;
 		}
-		else
-			i++;
+		len++;
 	}
-	return (i);
+	return (len);
 }
 
-/* Fill str part2, populates the given str with chars.*/
-void	populate_str(char *str, char *cmd, int end, int start)
+// Creates, allocs and fills a string with the next token, also iterates through the given string.
+char	*fill_str(char **str)
 {
-	int	i;
+	char	*token;
+	int		len;
+	int		i;
 
 	i = 0;
-	while (start + i <= end)
+	while (is_separator(**str) == 1)
+		*(*str)++;
+	len = get_token_len((*str));
+	token = malloc((len + 1) * sizeof(char));
+	while (i < len)
 	{
-		cmd[i] = str[start + i];
+		token[i] = *(*str)++;
 		i++;
 	}
-	cmd[i] = '\0';
-}
-
-// Creates, allocs and fills a string.
-char	*fill_str(char *str, int target_word, char separator)
-{
-	char	*cmd;
-	char	tmp;
-	int		start;
-	int		end;
-
-	start = command_start(str, target_word, separator);
-	end = start;
-	if (str[start] == '\'' || str[start] == '\"')
-		end = handle_quotes(str, start, str[start]);
-	else
-	{
-		while (!(is_separator(str[end + 1]))
-			&& str[end + 1])
-			end++;
-	}
-	cmd = malloc((end - start + 2) * sizeof(char));
-	if (!cmd)
-		return (NULL);
-	populate_str(str, cmd, end, start);
-	return (cmd);
+	token[i] = 0;
+	return (token);
 }
 
 // Creates a node, allocs memory and sets everything in it to NULL;
-static t_tokens	*fill_node(void)
+static t_tokens	*create_node(void)
 {
 	t_tokens	*node;
 
@@ -90,57 +70,46 @@ static t_tokens	*fill_node(void)
 	if (!node)
 		return (NULL);
 	node->token = NULL;
-	node->index = -1;
 	node->state = -1;
+	node->index = 0;
 	node->type = -1;
 	node->next = NULL;
 	return (node);
 }
 
-// Creates the tokens list
-static void	fill_tokens(t_tokens *tokens, int nr)
+static void	create_and_link_node(t_tokens **node)
 {
-	t_tokens	*tmp;
-	int			i;
+	t_tokens	*new_node;
 
-	tmp = tokens;
-	i = 1;
-	while (i < nr)
-	{
-		tmp->next = fill_node();
-		if (!tmp->next)
-			return ; // void function
-		tmp = tmp->next;
-		i++;
-	}
+	new_node = create_node();
+	(*node)->next = new_node;
 }
 
 // Returns a linked list of tokens based on the given input.
-t_tokens	*get_tokens(char *input)
+t_tokens	*get_tokens(t_shell *shell ,char *input)
 {
 	t_tokens	*tmp;
-	t_tokens	*tokens;
-	int			current_word;
-	int			words;
+	t_tokens	*head;
 
-	current_word = 1;
 	if (!input)
 		return (NULL);
-	words = word_count(input);
-	if (words == -1) // Happens if a quote is left open, shouldnt matter if we handle it on validation.
-		return (NULL);
-	tokens = fill_node();
-	tmp = tokens;
-	fill_tokens(tmp, words);
-	while (current_word <= words)
+	head = create_node();
+	tmp = head;
+	while (*input)
 	{
-		tmp->token = fill_str(input, current_word, ' ');
-		tmp->index = current_word - 1;
+		tmp->token = fill_str(&input);
 		tmp->state = get_token_state(tmp->token);
 		tmp->type = get_token_type(tmp->token);
-		tmp = tmp->next;
-		current_word++;
+		expand_token(shell->env, tmp);
+		tmp->token = clean_tkn_quotes(tmp->token);
+		if (are_there_more_tokens(input))
+		{
+			create_and_link_node(&tmp);
+			tmp = tmp->next;
+		}
+		else
+			break;
 	}
 	tmp = NULL;
-	return (tokens);
+	return (head);
 }
