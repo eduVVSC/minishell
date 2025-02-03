@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 16:52:51 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/03 16:12:45 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:12:47 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,39 @@ int	handle_cd_error(char **command)
 	ft_putstr_fd(message, 2); // writing to the std out
 	free (message);
 	return (2);
+}
+
+/// @brief Start the variable temp as the new pwd variable
+/// @param temp
+void	start_pwd(t_env *temp)
+{
+	temp->var_name = ft_strdup("PWD");
+	temp->operant = ft_strdup("=");
+	temp->var_value = getcwd(NULL, 0);
+	if (!temp->var_value)
+		temp->var_value = ft_strdup("");
+	temp->next = NULL;
+	temp->printed = 0;
+	if (temp->operant[0] == '=')
+		temp->behaviour = 0;
+	else
+		temp->behaviour = 1;
+}
+
+/// @brief starts the variable as the new oldpwd variable
+/// @param temp
+/// @param old_pwd_value
+void	start_old_pwd(t_env *temp, char *old_pwd_value)
+{
+	temp->var_name = ft_strdup("OLDPWD");
+	temp->operant = ft_strdup("=");
+	temp->var_value = old_pwd_value;
+	if (!temp->var_value)
+		temp->var_value = ft_strdup("");
+	temp->next = NULL;
+	temp->printed = 0;
+	if (temp->operant[0] == '=')
+		temp->behaviour = 0;
+	else
+		temp->behaviour = 1;
 }
