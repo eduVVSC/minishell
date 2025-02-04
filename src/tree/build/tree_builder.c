@@ -141,7 +141,7 @@ char	*make_tree(t_shell *shell)
 	shell->tree = init_tree_node();
 	shell->cmd_list = build_cmd_list(shell->tokens);
 	build_tree(shell->tree, shell->cmd_list);
-	print_tree(shell->tree);
+//	print_tree(shell->tree);
 	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
 	{
 		free(shell->env->var_value);
