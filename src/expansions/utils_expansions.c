@@ -11,7 +11,7 @@ char	*var_name(char *str, int start)
 	i = 0;
 	if (!str)
 		return (NULL);
-	if (str[i + 1] == '?')	//added
+	if (str[start + 1] == '?' || str[start] == '?')	//added
 		return(ft_strdup("?"));	//added
 	while((str[start + i] >= 'a' && str[start + i] <= 'z') || (str[start + i] >= 'A' && str[start + i] <= 'Z'))
 		i++;
