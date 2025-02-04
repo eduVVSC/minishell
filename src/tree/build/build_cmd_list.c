@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:18:17 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/31 11:29:45 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:07:51 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ t_cmds	*build_cmd_list(t_tokens *tokens)
 	// criou a head
 	while (tokens)  //populate node (head included )
 	{
-		printf("|%s| |%p|\n", tokens->token, cmd);
 		if (tokens->type == PIPE)
 			handle_pipe_case(&cmd, &tokens);
 		if (tokens && tokens->type != 7) // its bad somehow
