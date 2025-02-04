@@ -41,6 +41,8 @@ int	doing_heredock(t_shell *shell, t_heredock *heredock)
 	int			heredoc_fd;
 
 	doing_key(heredock);
+	if (heredock->state != single_quo)
+		heredock->fullinput_until_key = handle_expension(shell->env, heredock->fullinput_until_key);
 	heredoc_fd = creating_temp_file(heredock->fullinput_until_key);
 	if (heredoc_fd == -1)
 	{

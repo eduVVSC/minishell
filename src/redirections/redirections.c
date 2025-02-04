@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 11:35:50 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/03 14:57:25 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:58:51 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,16 +97,6 @@ int	read_heredocs(t_shell *shell, t_tokens *tokens)
 	return (heredoc_fd);
 }
 
-int	is_same_file(int fd1, int fd2) // need to understand how this works lmaooo.
-{
-	struct stat stat1;
-	struct stat stat2;
-
-	if (fstat(fd1, &stat1) == -1 || fstat(fd2, &stat2) == -1)
-		return 0; // Error during stat
-	return (stat1.st_ino == stat2.st_ino) && (stat1.st_dev == stat2.st_dev);
-}
-
 void	handle_redirections(t_shell *shell, t_tokens *tokens)
 {
 	int	last_heredoc_fd;
@@ -117,12 +107,9 @@ void	handle_redirections(t_shell *shell, t_tokens *tokens)
 		if (tokens->state == GENERAL)
 		{
 			if (tokens->type == INFILE)
-				handle_infile(shell, tokens);
+				handle_infile(shell, tokens); // cat < infile1 < infile2 < infile3
 			else if (tokens->type == HEREDOC)
-			{
-				if (!is_same_file(last_heredoc_fd, STDIN_FILENO)) // checks if the fds point to the same file.
-					dup2(last_heredoc_fd, STDIN_FILENO);
-			}
+				dup2(last_heredoc_fd, STDIN_FILENO);
 			else if (tokens->type == TRU_OUTFILE || tokens->type == APP_OUTFILE)
 				handle_outfile(shell, tokens);
 		}

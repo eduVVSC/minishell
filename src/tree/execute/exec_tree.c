@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 14:05:36 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/03 16:31:15 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/04 18:23:08 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	handle_pipe(t_shell *shell, t_tree_node *node)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		exec_tree(shell, node->left);
+
 	}
 	// Creating second process.
 	pid[1]= fork();
@@ -51,11 +52,12 @@ int	handle_pipe(t_shell *shell, t_tree_node *node)
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 		exec_tree(shell, node->right);
+
 	}
 	// Cleaning up.
 	close(fd[0]);
 	close(fd[1]);
- 	waitpid(pid[0], &status, 0);
+	waitpid(pid[0], &status, 0);
 	waitpid(pid[1], &status, 0);
 	clean_and_terminate_with_status(shell, WEXITSTATUS(status));
 }

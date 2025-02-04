@@ -19,7 +19,6 @@ void	do_exit(t_shell *shell, char **cmd)
 	int	exit_code;
 
 	exit_code = get_exit_code(cmd);
-	printf("exiting...\n");
 	ft_free_double_arr(&cmd);
 	clean_and_terminate_with_status(shell, exit_code);
 }

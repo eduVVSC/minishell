@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/03 11:02:05 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:47:29 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ void	free_tokens(t_tokens *tokens);
 
 // ===== organize later =====//
 
+void	start_pwd(t_env *temp);
+void	start_old_pwd(t_env *temp, char *old_pwd_value);
 void	cleanedHandler(int signum, siginfo_t *info, void *context);
 char		**transfrom_env_to_array(t_env *env);
 int			env_height(t_env *env);
@@ -200,6 +202,8 @@ char	*find_path(char *cmd, t_env *envp);
 void	check_if_builtin(char **cmd, char *envp);
 int		has_redirection(t_tokens *tokens);
 int		open_file(char *file_name, int flag);
+int		execute_builtin_in_parent(t_shell *shell);
+int		exec_builtin_especial_cases(t_shell *shell, t_tokens *node_content);
 
 // ============= redirections =============== //
 
@@ -225,7 +229,7 @@ int		do_unset(t_env *env, char **command);
 int		on_first_node(t_env **env);
 void	clean_first_node(t_env *node);
 void	clean_env_node_attributes(t_env *node);
-int		remove_env_var(t_env **env, char *env_to_remove);
+int		remove_env_var(t_env *env, char *env_to_remove);
 
 //=========== env command ============//
 

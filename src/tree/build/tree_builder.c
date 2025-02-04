@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/04 11:34:08 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:47:18 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,13 @@ int	exec_builtin_especial_cases(t_shell *shell, t_tokens *node_content)
 		exit_code = do_cd(shell, cmd);
 	else if (ft_strcmp(cmd[0], "export") == 0)
 		exit_code = do_export(&shell->env, cmd);
-	else if (ft_strcmp(cmd[0], "env") == 0)
+	else if (ft_strcmp(cmd[0], "unset") == 0)
 		exit_code =  do_unset(shell->env, cmd);
+	else if (ft_strcmp(cmd[0], "exit") == 0)
+		do_exit(shell, cmd);
 	ft_free_double_arr(&cmd);
 	return (exit_code);
-	}
+}
 
 char	*make_tree(t_shell *shell)
 {
@@ -145,7 +147,8 @@ char	*make_tree(t_shell *shell)
 	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
 	{
 		free(shell->env->var_value);
-		return (ft_itoa(WEXITSTATUS(exec_builtin_especial_cases(shell, shell->cmd_list->token_list))));
+		shell->env->var_value = NULL;
+		return(ft_itoa(execute_builtin_in_parent(shell)));
 	}
 	else // if not executes a fork and creates a child process.
 	{
