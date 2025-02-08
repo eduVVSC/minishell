@@ -9,6 +9,11 @@ void	doing_key(t_heredock *heredock)
 	heredock->fullinput_until_key = ft_strdup("");
 	while (1)
 	{
+		if (sig_sign == SIGINT)
+		{
+			free_heredock(heredock);
+			return ;
+		}
 		input = readline("> ");
 		if (!input || ft_strcmp(input, heredock->key) == 0)
 		{
@@ -21,35 +26,21 @@ void	doing_key(t_heredock *heredock)
 	}
 }
 
-/// @brief Function will create and write the inputed heredoc into a temp file
-/// @param write
-/// @return (file_fd -> success) (NULL -> error)
-int	creating_temp_file(char *write)
-{
-	int		file_fd;
-
-	file_fd = open(TMPFILE, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (file_fd != -1)
-		ft_putstr_fd(write, file_fd);
-	close(file_fd);
-	return (0);
-}
-
 // change it to return an error code (1), if heredoc couldnt finish
-int	doing_heredock(t_shell *shell, t_heredock *heredock)
+void	doing_heredock(t_shell *shell, t_heredock *heredock, int fd)
 {
 	int			heredoc_fd;
 
 	doing_key(heredock);
+	if (!heredock)
+		return ;
 	if (heredock->state != single_quo)
 		heredock->fullinput_until_key = handle_expension(shell->env, heredock->fullinput_until_key);
-	heredoc_fd = creating_temp_file(heredock->fullinput_until_key);
-	if (heredoc_fd == -1)
+	if (ft_strlen(heredock->fullinput_until_key) > 1000000)
 	{
 		free_heredock(heredock);
-		file_error(shell);
+		pipe_error();
 	}
-	heredoc_fd = open(TMPFILE, O_RDWR);
+	ft_putstr_fd(heredock->fullinput_until_key, fd);
 	free_heredock(heredock);
-	return (heredoc_fd);
 }

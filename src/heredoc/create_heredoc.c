@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 10:55:04 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/31 11:05:06 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/08 17:15:45 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,11 @@ t_heredock	*create_heredoc_node(t_tokens *key)
 /// @param shell
 /// @param redir
 /// @return
-int	handle_heredoc(t_shell *shell, t_tokens *redir)
+void	handle_heredoc(t_shell *shell, t_tokens *redir, int fd)
 {
 	t_heredock	*heredock;
 
 	heredock = create_heredoc_node(redir->next);
-	if (!heredock)
-		return (-1);
-	return (doing_heredock(shell, heredock));
+	if (heredock)
+		doing_heredock(shell, heredock, fd);
 }

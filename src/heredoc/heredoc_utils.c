@@ -7,6 +7,22 @@ int	heredoc_error()
 	return (1);
 }
 
+int	count_heredocs(t_tokens *tokens)
+{
+	int	counter;
+
+	counter = 0;
+	if (!tokens)
+		return (0);
+	while (tokens)
+	{
+		if (tokens->type == HEREDOC)
+			counter++;
+		tokens = tokens->next;
+	}
+	return (counter);
+}
+
 t_heredock	*free_heredock(t_heredock *heredock)
 {
 	t_heredock	*tmp;

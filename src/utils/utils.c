@@ -14,6 +14,12 @@ int	env_height(t_env *env)
 	return (i);
 }
 
+void	close_fds(int *fd)
+{
+	close (fd[READ]);
+	close (fd[WRITE]);
+}
+
 
 char	**transfrom_env_to_array(t_env *env)
 {

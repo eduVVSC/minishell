@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 14:05:36 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/04 18:23:08 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/08 17:14:45 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	handle_pipe(t_shell *shell, t_tree_node *node)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		exec_tree(shell, node->left);
-
 	}
 	// Creating second process.
 	pid[1]= fork();
@@ -52,7 +51,6 @@ int	handle_pipe(t_shell *shell, t_tree_node *node)
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 		exec_tree(shell, node->right);
-
 	}
 	// Cleaning up.
 	close(fd[0]);
@@ -69,7 +67,7 @@ void	exec_tree(t_shell *shell, t_tree_node *node)
 	else
 	{
 		if (has_redirection(node->content))
-			handle_redirections(shell, node->content);
+			handle_redirections(shell, node->content, node->last_heredoc_fd);
 		exec_cmd(shell, node->content);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/04 14:47:29 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/08 17:16:44 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@
 # define HEREDOC 5
 # define EXPANSION 6
 # define SPACE 7
+
+# define READ 0
+# define WRITE 1
 
 # include <stdio.h>
 # include <dirent.h>
@@ -91,6 +94,7 @@ typedef struct s_cmds
 typedef struct s_tree_node
 {
 	struct s_tokens		*content;
+	int					last_heredoc_fd;
 	struct s_tree_node	*left;
 	struct s_tree_node	*right;
 }					t_tree_node;
@@ -112,6 +116,7 @@ typedef struct s_heredock
 	struct s_heredock	*next;
 }				t_heredock;
 
+extern int sig_sign;
 // =====================functions====================== //
 
 // ===== creating shell =====//
@@ -175,6 +180,8 @@ int			is_pipe_node(char **content);
 int			get_matrix_len(char **matrix);
 int			is_redir_token(t_tokens *tokens);
 void		file_error(t_shell *shell);
+void		close_fds(int *fd);
+void		process_heredocs(t_shell *shell);
 // TO ORGANIZE :p
 
 // =============tokens=============== //
@@ -207,7 +214,7 @@ int		exec_builtin_especial_cases(t_shell *shell, t_tokens *node_content);
 
 // ============= redirections =============== //
 
-void	handle_redirections(t_shell *shell, t_tokens *tokens);
+void	handle_redirections(t_shell *shell, t_tokens *tokens, int last_heredoc_fd);
 int		is_infile(char *str);
 int		is_outfile(char *str);
 void	dup_from_input(int fd);
@@ -278,11 +285,12 @@ t_heredock	*create_heredoc_node(t_tokens *key);
 t_heredock	*free_heredock(t_heredock *heredock);
 t_heredock	*create_heredoc_body(t_tree_node *node, int i);
 
-int	creating_temp_file(char *write);
-void	doing_key(t_heredock *heredock);
-int	handle_heredoc(t_shell *shell, t_tokens *redir);
+int			creating_temp_file(char *write);
+void		doing_key(t_heredock *heredock);
+void		handle_heredoc(t_shell *shell, t_tokens *redir, int fd);
 char		*ft_strjoin_w_new_line(char *s1, char *s2);
-int			doing_heredock(t_shell *shell, t_heredock *heredock);
+void		doing_heredock(t_shell *shell, t_heredock *heredock, int fd);
+int			count_heredocs(t_tokens *tokens);
 
 // =============handlers=============== //
 

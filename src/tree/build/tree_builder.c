@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/04 14:47:18 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/08 17:17:00 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_tree_node	*init_tree_node(void)
 	new_node->content = NULL;
 	new_node->left = NULL;
 	new_node->right = NULL;
+	new_node->last_heredoc_fd = -7;
 	return (new_node);
 }
 
@@ -143,7 +144,9 @@ char	*make_tree(t_shell *shell)
 	shell->tree = init_tree_node();
 	shell->cmd_list = build_cmd_list(shell->tokens);
 	build_tree(shell->tree, shell->cmd_list);
-//	print_tree(shell->tree);
+	process_heredocs(shell); // cat << a |
+	if (sig_sign == SIGINT)
+		return (NULL);
 	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
 	{
 		free(shell->env->var_value);
