@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-sig_sign = 0;
+int sig_sign = 0;
 
 void	cleaning_signals()
 {

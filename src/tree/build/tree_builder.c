@@ -42,7 +42,6 @@ void	build_tree(t_tree_node *top_node, t_cmds *cmd_list)
 		top_node->left = left;
 		if (cmd_list->next)
 			build_tree(right, cmd_list);
-		//ELSE -> OPEN HEREDOC!!!! - Handled already before
 	}
 	else
 	{
@@ -145,6 +144,7 @@ char	*make_tree(t_shell *shell)
 	shell->cmd_list = build_cmd_list(shell->tokens);
 	build_tree(shell->tree, shell->cmd_list);
 	process_heredocs(shell); // cat << a |
+	//print_tree(shell->tree);
 	if (sig_sign == SIGINT)
 		return (NULL);
 	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
@@ -162,6 +162,7 @@ char	*make_tree(t_shell *shell)
 		if (pid == 0)
 			clean_and_terminate(shell);
 		free(shell->env->var_value);
+		close (shell->tree->last_heredoc_fd); // need to close open fds
 		return (ft_itoa(WEXITSTATUS(exit_code)));
 	}
 }

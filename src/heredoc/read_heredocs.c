@@ -12,56 +12,54 @@
 
 #include "minishell.h"
 
-int	is_there_a_heredoc_in_node(t_tree_node *node)
-{
-	if (!node)
-		return (FALSE);
-	while (node->content)
-	{
-		if (node->content->type == HEREDOC)
-			return (TRUE);
-		node->content = node->content->next;
-	}
-	return (FALSE);
-}
-
 void	read_heredocs(t_shell *shell, t_tree_node *node)
 {
 	int	fd[2];
 	int	nr_of_heredocs;
-	t_tokens	*tmp;
+	t_tokens	*current;
 
-	tmp = node->content;
-	nr_of_heredocs = count_heredocs(tmp);
+	current = node->content;
+	nr_of_heredocs = count_heredocs(current);
+	if (!nr_of_heredocs) // this is a check to see if the node has a a
+		return ;
  	if (pipe(fd) == -1)
 		pipe_error();
-	while (nr_of_heredocs)
+	while (current)
 	{
-		if (tmp->type == HEREDOC)
+		if (current->type == HEREDOC)
 		{
-			handle_heredoc(shell, tmp, fd[WRITE]);
-			nr_of_heredocs--;
+			handle_heredoc(shell, current, fd[WRITE]);
+			if (nr_of_heredocs > 1)
+			{
+				nr_of_heredocs--;
+				close_fds(fd);
+			 	if (pipe(fd) == -1)
+					pipe_error();
+			}
+			else
+				close(fd[WRITE]);
 		}
 		if (sig_sign == SIGINT)
 		{
 			close_fds(fd);
 			clean_and_terminate_with_status(shell, 130);
 		}
-		tmp = tmp->next;
+		current = current->next;
 	}
-	close (fd[WRITE]);
 	node->last_heredoc_fd = fd[READ];
 }
 
 void	check_for_heredocs(t_shell *shell, t_tree_node *node)
 {
-	if (is_there_a_heredoc_in_node(node->left) && sig_sign != SIGINT)
-		read_heredocs(shell, node->left);
-	if (node->right && sig_sign != SIGINT)
+	if (!node || sig_sign == SIGINT)
+		return;
+	if (node->content->type == PIPE)
+	{
+		check_for_heredocs(shell, node->left);
 		check_for_heredocs(shell, node->right);
-	else if(sig_sign != SIGINT)
+	} 
+	else
 		read_heredocs(shell, node);
-	return ;
 }
 
 void	process_heredocs(t_shell *shell)
