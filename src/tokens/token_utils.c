@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 09:26:24 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/31 11:14:33 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:25:53 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,25 @@ int	is_redir(char c)
 }
 
 // Helper function for get_token_len
-void	set_quote_state(int *is_in_quotes)
+void	set_quote_state(char c, int *quote_state)
 {
-	if (*is_in_quotes == FALSE)
-		*is_in_quotes = TRUE;
-	else if (*is_in_quotes == TRUE)
-		*is_in_quotes = FALSE;
+	if (*quote_state == GENERAL)
+	{
+		if (c == '\'')
+			*quote_state = SINGLE_QUO;
+		else if (c == '\"')
+			*quote_state = DOUBLE_QUO;
+	}
+	else if (*quote_state == SINGLE_QUO)
+	{
+		if (c == '\'')
+			*quote_state = GENERAL;
+	}
+	else if (*quote_state == DOUBLE_QUO)
+	{
+		if (c == '\"')
+			*quote_state = GENERAL;
+	}
 }
 
 int	are_there_more_tokens(char *input)

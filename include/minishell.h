@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/10 11:05:11 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:15:47 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,12 @@
 
 # define READ 0
 # define WRITE 1
+
+// DEFINE ERRORS
+
+# define OPEN_PIPE_ERROR -1
+# define OPEN_QUOTE_ERROR -2
+# define INVALID_CHAR_ERROR -3
 
 # include <stdio.h>
 # include <dirent.h>
@@ -159,7 +165,7 @@ void	start_old_pwd(t_env *temp, char *old_pwd_value);
 void	cleanedHandler(int signum, siginfo_t *info, void *context);
 char		**transfrom_env_to_array(t_env *env);
 int			env_height(t_env *env);
-int			check_input(t_shell *shell, char *input);
+int	check_invalid_chars(char *input, int i);
 t_tokens	*get_tokens(t_shell *shell, char *input);
 int			is_separator(char c);
 int			get_token_state(char *str);
@@ -192,7 +198,7 @@ char	*clean_tkn_quotes(char *str);
 int		count_spaces(char *str);
 int		is_quote(char c);
 int		is_redir(char c);
-void	set_quote_state(int *is_in_quotes);
+void	set_quote_state(char c, int *quote_state);
 int		are_there_more_tokens(char *input);
 
 // =============tree=============== //
@@ -300,6 +306,12 @@ void	cntrl_D();
 void	cntrl_Backslash();
 void	handle_commands(t_shell *shell);
 void	signalHandler(int signum, siginfo_t *info, void *context);
+
+
+// ============Syntax============== //
+
+int	check_syntax(t_shell *shell, char *input);
+void	print_syntax_error(int error_num);
 
 // ============Expansion============== //
 

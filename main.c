@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/10 10:38:51 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/10 16:56:59 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,14 @@ void	runnig_shell(t_shell *shell)
 		setting_signals();
 		input = readline(shell->dir_now);
 		add_history(input);
-		if (check_input(shell, input) == 0)
+		if (check_syntax(shell, input) == 0)
 		{
-			cleaning_signals();  //cleaning the signal to exec the command
 			input = check_last_character(input);
+			cleaning_signals();  //cleaning the signal to exec the command
 			shell->tokens = get_tokens(shell ,input);
 			shell->env->var_value = make_tree(shell);
-			clean_next_round(shell);
 		}
+		clean_next_round(shell);
 		free(input);
 	}
 }

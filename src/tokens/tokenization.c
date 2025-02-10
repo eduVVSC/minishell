@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:00:21 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/03 10:39:09 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:25:01 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 int	get_token_len(char *str)
 {
 	int	len;
-	int	is_in_quotes;
+	int	quote_state;
 
 	len = 0;
-	is_in_quotes = FALSE;
-	while (str[len] && !is_separator(str[len]))
+	quote_state = GENERAL;
+	while (str[len])
 	{
 		if (is_quote(str[len]))
-			set_quote_state(&is_in_quotes);
-		else if (!is_in_quotes
+			set_quote_state(str[len], &quote_state);
+		else if (!quote_state
 				&& (is_redir(str[len]) || str[len] == '|')) //checks if current char is a redir or pipe.
 		{
 			if (len == 0)
@@ -35,6 +35,8 @@ int	get_token_len(char *str)
 			}
 			break;
 		}
+		if (is_separator(str[len]) && quote_state == GENERAL)
+			break;
 		len++;
 	}
 	return (len);

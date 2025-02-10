@@ -1,0 +1,13 @@
+total 1084
+-rw-r--r--  1 dioferre 2024_lisboa   4705 Feb  4 15:00 a
+drwxr-xr-x  2 dioferre 2024_lisboa     25 Feb  4 11:55 include
+drwxr-xr-x  2 dioferre 2024_lisboa   4096 Feb 10 11:11 libft
+-rw-r--r--  1 dioferre 2024_lisboa   2801 Feb 10 10:38 main.c
+-rw-r--r--  1 dioferre 2024_lisboa   1223 Feb 10 11:09 Makefile
+-rwxr-xr-x  1 dioferre 2024_lisboa 132688 Feb 10 11:11 minishell
+-rw-r--r--  1 dioferre 2024_lisboa 941655 Feb  3 14:44 minishell.pdf
+drwxr-xr-x 13 dioferre 2024_lisboa    169 Feb 10 11:11 obj
+-rw-r--r--  1 dioferre 2024_lisboa      0 Feb 10 14:29 outfile
+-rw-r--r--  1 dioferre 2024_lisboa     11 Feb  3 14:44 README.md
+drwxr-xr-x 13 dioferre 2024_lisboa    169 Feb  3 14:44 src
+-rw-r--r--  1 dioferre 2024_lisboa    138 Feb  3 14:44 sup_readline.supp

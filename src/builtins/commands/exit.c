@@ -1,5 +1,24 @@
 #include "minishell.h"
 
+static int	has_only_nrs(char *arg)
+{
+	int	i;
+
+	i = 0;
+	while (arg[i])
+	{
+		if (!ft_isdigit(arg[i]))
+		{
+			ft_putstr_fd("minishell: exit: ",2);
+			ft_putstr_fd(arg, 2);
+			ft_putstr_fd(": numeric argument requitred\n", 2);
+			return (2);
+		}
+		i++;
+	}
+	return (0);
+}
+
 static int	get_exit_code(char **cmd)
 {
 	int	exit_code;
@@ -10,6 +29,8 @@ static int	get_exit_code(char **cmd)
 		exit_code = 0;
 	if (exit_code < 0 || exit_code > 255)
 		exit_code = 255;
+	if (has_only_nrs(cmd[1]) == 2)
+		return (2);
 	return (exit_code);
 }
 
