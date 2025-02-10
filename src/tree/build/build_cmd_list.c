@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:18:17 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/04 12:07:51 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/10 10:23:33 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,21 +122,19 @@ t_cmds	*build_cmd_list(t_tokens *tokens)
 {
 	t_cmds		*cmd;
 	t_cmds		*head;
-	t_tokens	*tmp;
 
 	head = make_head(&tokens);
 	cmd = head;
-	// criou a head
 	while (tokens)  //populate node (head included )
 	{
-		if (tokens->type == PIPE)
+		if (tokens->type == PIPE) // if it's pipe, create new node, fill it with pipe, make another node, fill it with next node
 			handle_pipe_case(&cmd, &tokens);
-		if (tokens && tokens->type != 7) // its bad somehow
+		if (tokens && tokens->type != PIPE) // if it's a normal token, it appends to the back and jumps to the next one.
+		{
 			ft_lstadd_back_a(&cmd->token_list ,copy_token_node(tokens));
-		if (tokens)
 			tokens = tokens->next;
+		}
 	}
-//	print_this_shit(head);
 	return(head);
 }
 
