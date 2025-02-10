@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:50:12 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/03 11:35:44 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:06:45 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	free_cmd(t_cmds *cmd)
 /// @return (0)
 int	clean_and_terminate_with_status(t_shell *shell, int exit_code)
 {
+	clean_fds(shell->tree);
 	free_tree(shell->tree);
 	free_tokens(shell->tokens);
 	free_cmd_list(shell->cmd_list);
@@ -120,6 +121,19 @@ int	clean_all_and_close(t_shell *shell)
 	free(shell->dir_now);
 	free(shell);
 	return (0);
+}
+
+void	clean_fds(t_tree_node *node)
+{
+	if (!node)
+		return;
+	if (node->content->type == PIPE)
+	{
+		clean_fds(node->left);
+		clean_fds(node->right);
+	}
+	else if (node->last_heredoc_fd >= 0)
+		close(node->last_heredoc_fd);
 }
 
 /// @brief Clean the used variable trought one input(tree, tokens and cmd_list) and set them to NULL

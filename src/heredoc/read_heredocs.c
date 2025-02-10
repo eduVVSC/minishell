@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 15:55:30 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/08 17:44:00 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/10 10:58:52 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	check_for_heredocs(t_shell *shell, t_tree_node *node)
 	{
 		check_for_heredocs(shell, node->left);
 		check_for_heredocs(shell, node->right);
-	} 
+	}
 	else
 		read_heredocs(shell, node);
 }

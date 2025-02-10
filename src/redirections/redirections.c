@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 11:35:50 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/08 17:44:28 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:08:55 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,4 @@ void	handle_redirections(t_shell *shell, t_tokens *tokens, int last_heredoc_fd)
 		}
 		tokens = tokens->next;
 	}
-	if (last_heredoc_fd != -1)
-		close(last_heredoc_fd);
 }

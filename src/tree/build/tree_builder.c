@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/08 17:17:00 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:06:51 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ int	exec_builtin_especial_cases(t_shell *shell, t_tokens *node_content)
 	return (exit_code);
 }
 
+
 char	*make_tree(t_shell *shell)
 {
 	pid_t		pid;
@@ -161,8 +162,8 @@ char	*make_tree(t_shell *shell)
 		waitpid(pid, &exit_code, 0);
 		if (pid == 0)
 			clean_and_terminate(shell);
+		clean_fds(shell->tree);
 		free(shell->env->var_value);
-		close (shell->tree->last_heredoc_fd); // need to close open fds
 		return (ft_itoa(WEXITSTATUS(exit_code)));
 	}
 }

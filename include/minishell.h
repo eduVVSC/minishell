@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/08 17:16:44 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:05:11 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ void	clean_next_round(t_shell *shell);
 int		clean_all_and_close(t_shell *shell);
 int		clean_and_terminate_with_status(t_shell *shell, int status);
 int		clean_and_terminate(t_shell *shell);
+void	clean_fds(t_tree_node *node);
 void	free_tokens(t_tokens *tokens);
 
 
