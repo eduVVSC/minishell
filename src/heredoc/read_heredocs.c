@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_heredocs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 15:55:30 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/11 12:13:15 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:31:08 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void	read_heredocs(t_shell *shell, t_tree_node *node)
 {
-	int	fd[2];
-	int	nr_of_heredocs;
+	int			fd[2];
+	int			nr_of_heredocs;
 	t_tokens	*current;
 
 	current = node->content;
 	nr_of_heredocs = count_heredocs(current);
-	if (!nr_of_heredocs) // this is a check to see if the node has a a
+	if (!nr_of_heredocs)
 		return ;
- 	if (pipe(fd) == -1)
+	if (pipe(fd) == -1)
 		pipe_error();
 	while (current)
 	{
@@ -33,7 +33,7 @@ void	read_heredocs(t_shell *shell, t_tree_node *node)
 			{
 				nr_of_heredocs--;
 				close_fds(fd);
-			 	if (pipe(fd) == -1)
+				if (pipe(fd) == -1)
 					pipe_error();
 			}
 			else
