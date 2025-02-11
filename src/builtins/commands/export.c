@@ -1,5 +1,14 @@
-
-// seems to be working well now!!
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 14:57:13 by edvieira          #+#    #+#             */
+/*   Updated: 2025/02/11 15:15:52 by edvieira         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -16,19 +25,10 @@ int	handle_export_error(char *bad_export)
 	return (1);
 }
 
-/// @brief create a new variable, with or without values in it
-/// @param command string with full declaration of new variable
-/// @return created_node
-t_env	*creating_var(char *command)
-{
-	if (check_if_have_equal_sign(command) != -1)
-		return (creating_env_var(command));
-	return (creating_env_var_w_no_value(command));
-}
-
-/// @brief add the new variable to the list, if the already exist it will refresh it's value.
+/// @brief add the new variable to the list,
+/// @brief if the already exist it will refresh it's value.
 /// @param env list of enviroment var
-/// @param node var to add in the list or to refresh the value of an existing one
+/// @param node var to add/refresh in the env list
 void	adding_var_in_list(t_env **env, t_env *node)
 {
 	if (!((*env)->var_name) || ((*env)->var_name) == NULL)
@@ -37,9 +37,9 @@ void	adding_var_in_list(t_env **env, t_env *node)
 		node->next = NULL;
 	}
 	else if (search_in_env(*env, node->var_name) == 0)
-		refresh_var_value(*env, node, node->behaviour); // free of node
+		refresh_var_value(*env, node, node->behaviour);
 	else
-		add_new_variable(*env, node); // no free, node is added to the list
+		add_new_variable(*env, node);
 }
 
 /// @brief print env variables sorted
@@ -74,7 +74,7 @@ void	print_sorted(t_env *env)
 
 /// @brief do the export function
 /// @return (0) succes (1) error
-int do_export(t_env **env, char **command)
+int	do_export(t_env **env, char **command)
 {
 	t_env	*node;
 	int		exit_code;
@@ -92,7 +92,7 @@ int do_export(t_env **env, char **command)
 	}
 	if (i == 1)
 	{
-		if (*env ||*env != NULL)
+		if (*env || *env != NULL)
 			print_sorted(*env);
 	}
 	zero_all_env(*env);

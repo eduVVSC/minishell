@@ -41,7 +41,7 @@ void	clean_first_node(t_env *node)
 {
 	free(node->var_name);
 	if (node->operant)
-		free(node->operant); // some problems here
+		free(node->operant);
 	if (node->var_value)
 		free(node->var_value);
 	node->var_name = NULL;
@@ -49,7 +49,8 @@ void	clean_first_node(t_env *node)
 	node->var_value = NULL;
 }
 
-/// @brief Free the node attributes and set them to NULL(var_name, operant, var_value)
+/// @brief Free the node attributes and set
+/// @brief /// @briefthem to NULL(var_name, operant, var_value)
 /// @param node
 void	clean_env_node_attributes(t_env *node)
 {

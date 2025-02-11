@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:44:39 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/30 14:12:21 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:16:31 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 /// @brief Separate the name from the hole declaration
 /// @param str
 /// @return variable name
-char *only_name(char *str)
+char	*only_name(char *str)
 {
 	char	*name;
-	int	i;
+	int		i;
 
-	i  = 0;
+	i = 0;
 	name = malloc(sizeof(char) * 1);
 	name[0] = 0;
-	while(str[i] != '=' && str[i] != '+')
+	while (str[i] != '=' && str[i] != '+')
 	{
 		name = join_str_char(name, str[i]);
 		i++;
@@ -34,17 +34,17 @@ char *only_name(char *str)
 /// @brief Separate the value from the hole declaration
 /// @param str
 /// @return variable value
-char *only_value(char *str)
+char	*only_value(char *str)
 {
 	char	*var_value;
-	int	i;
+	int		i;
 
-	i  = 0;
+	i = 0;
 	var_value = malloc(sizeof(char) * 1);
 	var_value[0] = 0;
-	while(str[i] != '=')
+	while (str[i] != '=')
 		i++;
-	while(str[++i] != '\0')
+	while (str[++i] != '\0')
 		var_value = join_str_char(var_value, str[i]);
 	return (var_value);
 }
@@ -52,13 +52,13 @@ char *only_value(char *str)
 /// @brief Separate the operant from the hole declaration
 /// @param str
 /// @return variable operant
-char *only_operant(char *str)
+char	*only_operant(char *str)
 {
 	char	*operand;
-	int	i;
+	int		i;
 
-	i  = 0;
-	while(str[i] != '=')
+	i = 0;
+	while (str[i] != '=')
 		i++;
 	if (str[i - 1] == '+')
 		operand = ft_strdup("+=");
@@ -75,14 +75,17 @@ int	check_var_name(char *var_name)
 	int	i;
 
 	i = 0;
-	if (!((var_name[i] >= 'a' && var_name[i] <= 'z') || (var_name[i] >= 'A' && var_name[i] <= 'Z')))
+	if (!((var_name[i] >= 'a' && var_name[i] <= 'z')
+			|| (var_name[i] >= 'A' && var_name[i] <= 'Z')))
 		return (1);
 	while (var_name[++i])
-		if (!((var_name[i] >= 'a' && var_name[i] <= 'z') || (var_name[i] >= 'A' && var_name[i] <= 'Z') || var_name[i] == '_' || (var_name[i] >= '0' && var_name[i] <= '9')))
+		if (!((var_name[i] >= 'a' && var_name[i] <= 'z')
+				|| (var_name[i] >= 'A' && var_name[i] <= 'Z')
+				|| var_name[i] == '_'
+				|| (var_name[i] >= '0' && var_name[i] <= '9')))
 			return (1);
 	return (0);
 }
-
 
 /// @brief Check if the variable declaration has a equal sign
 /// @param declaration
@@ -93,22 +96,7 @@ int	check_if_have_equal_sign(char *declaration)
 
 	i = 0;
 	while (declaration[++i] != '\0')
-		if(declaration[i] == '=')
+		if (declaration[i] == '=')
 			return (i);
 	return (-1);
-}
-
-/// @brief Search for the given variable name in the env list
-/// @param env
-/// @param searching_var
-/// @return (0 found) (1 not found)
-int	search_in_env(t_env *env, char *searching_var)
-{
-	while (env != NULL)
-	{
-		if (ft_strcmp(env->var_name, searching_var) == 0)
-			return (0);
-		env = env->next;
-	}
-	return (1);
 }

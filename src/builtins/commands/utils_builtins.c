@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:44:39 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/30 14:14:27 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:11:19 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,14 @@ int	check_exist_optionals(char **command)
 	int	i;
 
 	i = 0;
-	while(command[i])
+	while (command[i])
 	{
 		if (command[i][0] == '-')
-			return(-1);
+			return (-1);
 		i++;
 	}
 	return (i);
 }
-
 
 /// @brief joins a strinf with a character
 /// @param s1
@@ -53,8 +52,8 @@ char	*join_str_char(char *s1, char charac)
 	return (str);
 }
 
-
-/// @brief Will compare the string characters until they are different or both string ended
+/// @brief Will compare the string characters
+/// @brief  until they are different or both string ended
 /// @param str1
 /// @param str2
 /// @return (0 equal) (!0 if they are different)
@@ -63,7 +62,7 @@ int	ft_strcmp(char *str1, char *str2)
 	int	i;
 
 	i = 0;
-	while (str1[i] != '\0' || 	str2[i] != '\0')
+	while (str1[i] != '\0' || str2[i] != '\0')
 	{
 		if (str1[i] != str2[i])
 			return ((unsigned char) str1[i] - (unsigned char) str2[i]);
@@ -105,11 +104,10 @@ char	*ft_strjoin_free_s1(char *str1, char *str2)
 	return (str);
 }
 
-
 /// @brief Count the height of and bidimensional array
 /// @param array
 /// @return (array_height)
-int		get_height(char **array)
+int	get_height(char **array)
 {
 	int	i;
 

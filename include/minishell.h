@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/11 11:58:35 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:17:38 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,13 +159,14 @@ void	free_tokens(t_tokens *tokens);
 
 // ===== organize later =====//
 
-void	cntrl_c_heredoc();
-void	start_pwd(t_env *temp);
-void	start_old_pwd(t_env *temp, char *old_pwd_value);
-void	cleanedHandler(int signum, siginfo_t *info, void *context);
+t_env		*creating_var(char *declaration);
+void		cntrl_c_heredoc();
+void		start_pwd(t_env *temp);
+void		start_old_pwd(t_env *temp, char *old_pwd_value);
+void		cleanedHandler(int signum, siginfo_t *info, void *context);
 char		**transfrom_env_to_array(t_env *env);
 int			env_height(t_env *env);
-int	check_invalid_chars(char *input, int i);
+int			check_invalid_chars(char *input, int i);
 t_tokens	*get_tokens(t_shell *shell, char *input);
 int			is_separator(char c);
 int			get_token_state(char *str);
