@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 14:05:36 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/10 11:05:28 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:56:09 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	handle_pipe(t_shell *shell, t_tree_node *node)
 	waitpid(pid[0], &status, 0);
 	waitpid(pid[1], &status, 0);
 	clean_and_terminate_with_status(shell, WEXITSTATUS(status));
+	return (0);
 }
 
 void	exec_tree(t_shell *shell, t_tree_node *node)

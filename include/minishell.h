@@ -6,15 +6,13 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/10 17:15:47 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:58:35 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-//# define TMPFILE "~/../../tmp/.minishellTempFIle"
-# define TMPFILE "./minishellTempFIle"
 # define true 1
 # define false 0
 # define variable 1
@@ -64,6 +62,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <sys/ioctl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "../libft/libft.h"
@@ -122,7 +121,7 @@ typedef struct s_heredock
 	struct s_heredock	*next;
 }				t_heredock;
 
-extern int sig_sign;
+extern int g_sig_sign;
 // =====================functions====================== //
 
 // ===== creating shell =====//
@@ -160,6 +159,7 @@ void	free_tokens(t_tokens *tokens);
 
 // ===== organize later =====//
 
+void	cntrl_c_heredoc();
 void	start_pwd(t_env *temp);
 void	start_old_pwd(t_env *temp, char *old_pwd_value);
 void	cleanedHandler(int signum, siginfo_t *info, void *context);
@@ -267,7 +267,7 @@ int		search_in_env(t_env *env, char *searching_var);
 
 int		do_cd(t_shell *s_heredock, char **command);
 int		cd_no_args(t_env *env);
-int		cd_args(char **command);
+int		cd_args(t_env * env, char **command);
 int		check_file_type(char *dir_path);
 int		handle_cd_error(char **command);
 int		cd_opitionals(t_env *env, char **command);
@@ -293,7 +293,7 @@ t_heredock	*free_heredock(t_heredock *heredock);
 t_heredock	*create_heredoc_body(t_tree_node *node, int i);
 
 int			creating_temp_file(char *write);
-void		doing_key(t_heredock *heredock);
+int		doing_key(t_heredock *heredock);
 void		handle_heredoc(t_shell *shell, t_tokens *redir, int fd);
 char		*ft_strjoin_w_new_line(char *s1, char *s2);
 void		doing_heredock(t_shell *shell, t_heredock *heredock, int fd);

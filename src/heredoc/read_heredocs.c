@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 15:55:30 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/10 10:58:52 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:13:15 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	read_heredocs(t_shell *shell, t_tree_node *node)
 			else
 				close(fd[WRITE]);
 		}
-		if (sig_sign == SIGINT)
+		if (g_sig_sign == SIGINT)
 		{
 			close_fds(fd);
-			clean_and_terminate_with_status(shell, 130);
+			return ;
 		}
 		current = current->next;
 	}
@@ -51,14 +51,14 @@ void	read_heredocs(t_shell *shell, t_tree_node *node)
 
 void	check_for_heredocs(t_shell *shell, t_tree_node *node)
 {
-	if (!node || sig_sign == SIGINT)
-		return;
-	if (node->content->type == PIPE)
+	if (!node || g_sig_sign == SIGINT)
+		return ;
+	if (node->content->type == PIPE && g_sig_sign != SIGINT)
 	{
 		check_for_heredocs(shell, node->left);
 		check_for_heredocs(shell, node->right);
 	}
-	else
+	else if (g_sig_sign != SIGINT)
 		read_heredocs(shell, node);
 }
 
@@ -67,8 +67,4 @@ void	process_heredocs(t_shell *shell)
 	int		exit_status;
 
 	check_for_heredocs(shell, shell->tree);
-	if (sig_sign)
-	{
-		//lol deu merda hahahahahhahahah
-	}
 }

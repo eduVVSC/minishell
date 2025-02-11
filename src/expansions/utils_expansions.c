@@ -71,7 +71,7 @@ int	check_expand(char *str)
 			else if (state == 2)
 				state = 0;
 		}
-		if(str[i] == '$' && (state % 2 == 0)) // SECOND CONDITION IS A TEMPORARY FIX FOR THE "'"$USER"'" CASE, FIX THIS SHIT IDIOT.
+		if((str[i] == '$' && state % 2 == 0 ) && ft_isalnum(str[i + 1])) // SECOND CONDITION IS A TEMPORARY FIX FOR THE "'"$USER"'" CASE, FIX THIS SHIT IDIOT.
 			return (i);
 	}
 	return (-1);

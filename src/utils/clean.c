@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:50:12 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/10 11:06:45 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:58:28 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,4 +146,5 @@ void	clean_next_round(t_shell *shell)
 	shell->tree = NULL;
 	shell->tokens = NULL;
 	shell->cmd_list = NULL;
+	g_sig_sign = 0;
 }

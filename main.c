@@ -6,28 +6,18 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/10 16:56:59 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:01:46 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int sig_sign = 0;
-
-void	cleaning_signals()
-{
-	struct	sigaction	sa;
-
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = &cleanedHandler;
-	sigaction(SIGINT, &sa, NULL);
-}
+int	g_sig_sign = 0;
 
 /// @brief Set the signals actions in the program
-void	setting_signals()
+void	setting_signals(void)
 {
-	struct	sigaction	sa;
+	struct sigaction	sa;
 
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
@@ -36,7 +26,8 @@ void	setting_signals()
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-/// @brief Function check if the last character of the user's input is a |, if so will display a readline and concatnate it to the old input
+/// @brief Function check if the last character of the user's input is a
+/// @brief |, if so will display a readline and concatnate it to the old input
 /// @param input
 /// @return (new_input if end in '|')  (old_input if doesn't end in '|')
 char	*check_last_character(char	*input)
@@ -47,7 +38,7 @@ char	*check_last_character(char	*input)
 	i = ft_strlen(input);
 	while (--i > 0)
 		if (input[i] != ' ' && input[i] != '\t' && input[i] != '\n')
-			break;
+			break ;
 	if (input[i] == '|')
 	{
 		next_input = readline(">");
@@ -79,8 +70,7 @@ void	runnig_shell(t_shell *shell)
 		if (check_syntax(shell, input) == 0)
 		{
 			input = check_last_character(input);
-			cleaning_signals();  //cleaning the signal to exec the command
-			shell->tokens = get_tokens(shell ,input);
+			shell->tokens = get_tokens(shell, input);
 			shell->env->var_value = make_tree(shell);
 		}
 		clean_next_round(shell);

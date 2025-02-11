@@ -11,7 +11,7 @@ static int	has_only_nrs(char *arg)
 		{
 			ft_putstr_fd("minishell: exit: ",2);
 			ft_putstr_fd(arg, 2);
-			ft_putstr_fd(": numeric argument requitred\n", 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
 			return (2);
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:30:50 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/10 10:56:11 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:14:36 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void	exec_cmd(t_shell *shell, t_tokens *node_content)
 	int		error;
 
 	cmd = build_cmd(&node_content);
- 	if (!is_builtin(shell, cmd))
+	error = is_builtin(shell, cmd); //holder for exit code of builtins cause lack of variables lololol
+ 	if (error == -1)
 	{
 		path = find_path(cmd[0], shell->env);
 		envp = transfrom_env_to_array(shell->env);
@@ -87,5 +88,5 @@ void	exec_cmd(t_shell *shell, t_tokens *node_content)
 		ft_free_double_arr(&cmd);
 		clean_and_terminate_with_status(shell, error);
 	}
-	clean_and_terminate_with_status(shell, 0);
+	clean_and_terminate_with_status(shell, error);
 }

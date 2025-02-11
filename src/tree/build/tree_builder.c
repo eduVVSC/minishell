@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/10 11:06:51 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:22:48 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,15 +144,15 @@ char	*make_tree(t_shell *shell)
 	shell->tree = init_tree_node();
 	shell->cmd_list = build_cmd_list(shell->tokens);
 	build_tree(shell->tree, shell->cmd_list);
+	signal(SIGINT, cntrl_c_heredoc);
 	process_heredocs(shell); // cat << a |
-	//print_tree(shell->tree);
-	if (sig_sign == SIGINT)
-		return (NULL);
+	if (g_sig_sign == SIGINT)
+		return (clean_fds(shell->tree), free(shell->env->var_value), ft_itoa(WEXITSTATUS(130)));
 	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
 	{
 		free(shell->env->var_value);
 		shell->env->var_value = NULL;
-		return(ft_itoa(execute_builtin_in_parent(shell)));
+		return (ft_itoa(WEXITSTATUS(execute_builtin_in_parent(shell))));
 	}
 	else // if not executes a fork and creates a child process.
 	{

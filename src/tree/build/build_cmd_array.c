@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:17:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/31 09:11:14 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:08:34 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char	**build_cmd(t_tokens **tokens)
 	int		i;
 
 	i = 0;
+	while ((*tokens)->token[0] == 0)
+		(*tokens) = (*tokens)->next;
 	nr_args = count_args((*tokens));
 	cmd = malloc((nr_args + 1) * sizeof(char *));
 	while(i < nr_args && (*tokens))

@@ -1,18 +1,6 @@
 
 #include "minishell.h"
 
-// need to stop the tre
-void	break_command()
-{
-	//clean_and_terminate_with_status(shell, 130);
-}
-
-void	cleanedHandler(int signum, siginfo_t *info, void *context)
-{
-	if (signum == SIGINT)
-		break_command();
-}
-
 
 void	signalHandler(int signum, siginfo_t *info, void *context)
 {
@@ -23,9 +11,16 @@ void	signalHandler(int signum, siginfo_t *info, void *context)
 
 }
 
+void	cntrl_c_heredoc()
+{
+	g_sig_sign = SIGINT;
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+}
+
 void	cntrl_C()
 {
-	char	*str;
 	printf("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();

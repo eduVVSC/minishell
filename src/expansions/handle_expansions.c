@@ -80,8 +80,14 @@ char	*handle_expension(t_env *env, char *str)
 // function check if it needs to be expanded and if needed expand the token
 void	expand_token(t_env *env, t_tokens *token)
 {
+	static int	heredoc_flag;
+
 	if (!token->token)
 		return ;
-	//if (token->state == double_quo || token->state == general || token->state == expanded)
-	token->token = handle_expension(env, token->token);
+	if (token->type == HEREDOC)
+		heredoc_flag = TRUE;
+	else if (heredoc_flag == TRUE)
+		heredoc_flag = FALSE;
+	else
+		token->token = handle_expension(env, token->token);
 }
