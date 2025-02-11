@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:47:58 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/10 16:33:48 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:36:56 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	syntax_open_quote_error(void)
 
 void	syntax_invalid_char_error(void)
 {
-	ft_putstr_fd("minishell: syntax error: invalid char detected, '\\' and ';' not supported.\n", 2);
+	ft_putstr_fd("minishell: syntax error: ", 2);
+	ft_putstr_fd("invalid char detected, '\\' and ';' not supported.\n", 2);
 }
 
 void	print_syntax_error(int error_num)

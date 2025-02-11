@@ -1,6 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 15:47:47 by edvieira          #+#    #+#             */
+/*   Updated: 2025/02/11 15:52:40 by edvieira         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
+/// @brief Count how many nodes in env
+/// @param env
+/// @return (height)
 int	env_height(t_env *env)
 {
 	int	i;
@@ -14,13 +28,18 @@ int	env_height(t_env *env)
 	return (i);
 }
 
+/// @brief Close fd[read & write]
+/// @param fd
 void	close_fds(int *fd)
 {
 	close (fd[READ]);
 	close (fd[WRITE]);
 }
 
-
+/// @brief Will take the linked list env, and trasnfrom it
+/// @brief to array
+/// @param env
+/// @return (**envp -> success) (NULL -> malloc error)
 char	**transfrom_env_to_array(t_env *env)
 {
 	char	**envp;
@@ -29,7 +48,6 @@ char	**transfrom_env_to_array(t_env *env)
 
 	i = 0;
 	height = env_height(env);
-	// set pwd oldpwd and home anyway
 	envp = malloc(sizeof(char **) * (height + 1));
 	if (!envp)
 		return (NULL);

@@ -6,18 +6,19 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 17:50:39 by edvieira          #+#    #+#             */
-/*   Updated: 2025/01/07 15:06:34 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:41:12 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/// @brief Will uptade the SHLVL value, and if there is no value, it will start it to 1
+/// @brief Will uptade the SHLVL value, and
+/// @brief if there is no value, it will start it to 1
 /// @param env
 void	update_shell_lvl(t_env *env)
 {
 	t_env	*tmp;
-	int	new_value;
+	int		new_value;
 
 	new_value = 1;
 	tmp = env;
@@ -27,7 +28,7 @@ void	update_shell_lvl(t_env *env)
 		{
 			if (tmp->var_value != NULL)
 				new_value = ft_atoi(tmp->var_value) + 1;
-			break;
+			break ;
 		}
 		tmp = tmp->next;
 	}
