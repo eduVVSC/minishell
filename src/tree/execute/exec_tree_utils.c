@@ -22,9 +22,8 @@ char	*find_path(char *cmd, t_env *envp)
 	char	*path;
 	int		i;
 
-	if(!ft_strncmp(cmd, "./", 2))
+	if(!ft_strncmp(cmd, "./", 2) || !ft_strncmp(cmd, "/", 1))
 		return (ft_strdup(cmd));
-	i = 0;
 	path = get_env_var_value(envp, "PATH");
 	if (path == NULL)
 		return (NULL);
@@ -39,8 +38,7 @@ char	*find_path(char *cmd, t_env *envp)
 		free(path);
 		path = NULL;
 	}
-	ft_free_double_arr(&paths);
-	return (path);
+	return (ft_free_double_arr(&paths), path);
 }
 
 // Checks if a command has a redirection in it lol, lmao

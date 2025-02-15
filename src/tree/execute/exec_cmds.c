@@ -27,34 +27,42 @@ int	check_for_cmd_errors(char *path)
 	return (0);
 }
 
+void	print_executable_errors(char *cmd, int error_code)
+{
+	if (error_code > 0)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		if (error_code == 127)
+			ft_putstr_fd(": No such file or directory\n", 2);
+		else if (error_code == 126)
+			ft_putstr_fd(": Permission denied\n", 2);
+		else if (error_code == 128)
+			ft_putstr_fd(": Is a directory\n", 2);
+	}
+}
+
 int	print_execve_error(char *path, char *cmd, int error_code)
 {
-	// ERROR MSGS VARY DEPENDING ON IF THE CMD STARTS W './' OR '/' GOTTA CHECK THIS LATER
-	if (error_code == 127)
+	int	user_trying_to_execute;
+
+	user_trying_to_execute = FALSE;
+	if (!ft_strncmp(cmd, "./", 2))
+		user_trying_to_execute = TRUE;
+	if (error_code != 0)
 	{
-		if (!ft_strncmp(cmd, "./", 2) || !ft_strncmp(cmd, "/", 1))
-		{
-			ft_putstr_fd(cmd, 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
-		}
+		if (user_trying_to_execute || !ft_strncmp(cmd, "/", 1))
+			print_executable_errors(cmd, error_code);
 		else
 		{
+			ft_putstr_fd("minishell: ", 2);		
 			ft_putstr_fd(path, 2);
 			ft_putstr_fd(": command not found\n", 2);
+			return (127);
 		}
+		if (error_code == 128)
+			error_code = 126;
 		return (error_code);
-	}
-	else if (error_code == 126)
-	{
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd(": Permission denied\n", 2);
-		return (error_code);
-	}
-	else if (error_code == 128)
-	{
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd(": Is a directory\n", 2);
-		return (126);
 	}
 	return (0);
 }
@@ -67,26 +75,20 @@ void	exec_cmd(t_shell *shell, t_tokens *node_content)
 	int		error;
 
 	cmd = build_cmd(&node_content);
-	error = is_builtin(shell, cmd); //holder for exit code of builtins cause lack of variables lololol
- 	if (error == -1)
+	error = 0;
+ 	if (is_builtin(shell, cmd) == -1)
 	{
 		path = find_path(cmd[0], shell->env);
 		envp = transfrom_env_to_array(shell->env);
-		if (!path) // gotta check if this is really necessary.
-			path = ft_strdup(cmd[0]);
 		error = check_for_cmd_errors(path);
-		if (!error && ft_strncmp(cmd[0], "./", 2))
+		if (!error && (ft_strncmp(cmd[0], "./", 2) && ft_strncmp(cmd[0], "/", 1)))
 			error = execve(path, cmd, envp);
-		else
-		{
-			if (!error)
-				error = execve(cmd[0], cmd, envp);
-		}
+		else if (!error)
+			error = execve(cmd[0], cmd, envp);
 		error = print_execve_error(path, cmd[0], error);
 		free(path);
 		ft_free_double_arr(&envp);
 		ft_free_double_arr(&cmd);
-		clean_and_terminate_with_status(shell, error);
 	}
 	clean_and_terminate_with_status(shell, error);
 }
