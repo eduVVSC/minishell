@@ -302,9 +302,9 @@ int			count_heredocs(t_tokens *tokens);
 
 // =============handlers=============== //
 
-void	cntrl_C();
+void	cntrl_c();
 void	cntrl_D();
-void	cntrl_Backslash();
+void	cntrl_backslash();
 void	handle_commands(t_shell *shell);
 void	signalHandler(int signum, siginfo_t *info, void *context);
 

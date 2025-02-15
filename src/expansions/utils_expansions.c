@@ -58,20 +58,17 @@ int	check_expand(char *str)
 	while (str[++i])
 	{
 		if (str[i] == '\'')
-		{
 			if (state == 0)
 				state = 1;
 			else if (state == 1)
 				state = 0;
-		}
 		else if (str[i] == '\"')
-		{
 			if (state == 0)
 				state = 2;
 			else if (state == 2)
 				state = 0;
-		}
-		if((str[i] == '$' && state % 2 == 0 ) && ft_isalnum(str[i + 1])) // SECOND CONDITION IS A TEMPORARY FIX FOR THE "'"$USER"'" CASE, FIX THIS SHIT IDIOT.
+		if((str[i] == '$' && state % 2 == 0 ) 
+			&& (ft_isalnum(str[i + 1]) || str[i + 1] == '?')) // SECOND CONDITION IS A TEMPORARY FIX FOR THE "'"$USER"'" CASE, FIX THIS SHIT IDIOT.
 			return (i);
 	}
 	return (-1);
