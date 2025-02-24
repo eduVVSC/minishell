@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/11 15:17:38 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/24 09:08:10 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,6 @@ int			count_words(char *str);
 int			is_pipe_node(char **content);
 int			get_matrix_len(char **matrix);
 int			is_redir_token(t_tokens *tokens);
-void		file_error(t_shell *shell);
 void		close_fds(int *fd);
 void		process_heredocs(t_shell *shell);
 // TO ORGANIZE :p

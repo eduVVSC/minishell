@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:42:43 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/11 12:43:11 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/24 13:12:45 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,20 @@ static int	has_only_nrs(char *arg)
 
 static int	get_exit_code(char **cmd)
 {
-	int	exit_code;
+	unsigned char	exit_code;
 
 	if (cmd[1])
-		exit_code = ft_atoi(cmd[1]);
+		exit_code = ((unsigned char) ft_atoi(cmd[1]));
 	else
 		exit_code = 0;
-	if (exit_code < 0 || exit_code > 255)
-		exit_code = 255;
 	if (has_only_nrs(cmd[1]) == 2)
 		return (2);
+	else if (get_matrix_len(cmd) > 2)
+	{
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd("too many arguments\n", 2);
+		return (2);
+	}
 	return (exit_code);
 }
 

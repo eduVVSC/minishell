@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:11:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/03 18:20:15 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/24 11:21:47 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char	*find_path(char *cmd, t_env *envp)
 		free(path);
 		path = NULL;
 	}
+	if (path == NULL && !access(cmd, F_OK))
+		path = ft_strdup(cmd);
 	return (ft_free_double_arr(&paths), path);
 }
 
