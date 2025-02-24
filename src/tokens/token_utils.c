@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 09:26:24 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/24 11:55:33 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/24 14:55:15 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	is_redir(char c)
 // Helper function for get_token_len
 void	set_quote_state(char c, int *quote_state)
 {
+	if (c != '\'' && c != '\"')
+		return ;
 	if (*quote_state == GENERAL)
 	{
 		if (c == '\'')

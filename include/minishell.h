@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/24 09:08:10 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/24 14:57:28 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,9 @@ extern int g_sig_sign;
 // =====================functions====================== //
 
 // ===== creating shell =====//
+void	create_env(t_shell *shell, char **envp);
 t_env	*create_env_no_envp();
 t_env	*create_env_envp(char **envp);
-void	*create_env(t_shell *shell, char **envp);
 t_shell	*setting_shell(int ac, char **av, char **envp);
 
 
@@ -189,6 +189,8 @@ int			get_matrix_len(char **matrix);
 int			is_redir_token(t_tokens *tokens);
 void		close_fds(int *fd);
 void		process_heredocs(t_shell *shell);
+char		*expand_heredoc(t_env *env, char *str);
+int			search_exp_heredoc(char *str);
 // TO ORGANIZE :p
 
 // =============tokens=============== //

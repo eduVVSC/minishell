@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:25:43 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/11 15:32:24 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/24 14:41:13 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	doing_heredock(t_shell *shell, t_heredock *heredock, int fd)
 	}
 	if (heredock->state != single_quo)
 		heredock->fullinput_until_key
-			= handle_expension(shell->env, heredock->fullinput_until_key);
+			= expand_heredoc(shell->env, heredock->fullinput_until_key);
 	if (ft_strlen(heredock->fullinput_until_key) > 1000000)
 	{
 		free_heredock(heredock);

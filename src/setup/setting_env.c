@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setting_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:37:08 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/11 15:38:13 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/24 14:57:08 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ t_env	*create_env_envp(char **envp)
 
 /// @brief create the enviroment with the envp inputs
 /// @param envp
-/// @return (Head node - success) (NULL - malloc error)
-void	*create_env(t_shell *shell, char **envp)
+void	create_env(t_shell *shell, char **envp)
 {
 	if (envp[0])
 		shell->env = create_env_envp(envp);

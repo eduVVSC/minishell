@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 16:30:45 by dioferre          #+#    #+#             */
-/*   Updated: 2024/10/14 15:17:14 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/24 13:29:39 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	ft_atoi(const char *nptr)
 	ncheck = handle_negs(nptr, i);
 	if (ncheck == 0)
 		return (0);
+	while (nptr[i] == '+' || nptr[i] == '-')
+		i++;
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		result *= 10;
