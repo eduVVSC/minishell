@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:30:50 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/25 10:44:26 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 16:05:37 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int	print_cmd_errors(char *cmd, int error_code)
 			return (ft_putstr_fd(": Command not found\n", 2), 127);
 		else if (error_code == 128)
 		{
-			if (cmd[ft_strlen(cmd) - 1] == '/' || cmd[0] == '/')
+			if ((ft_strlen(cmd) > 0 && cmd[ft_strlen(cmd) - 1] == '/')
+					|| cmd[0] == '/')
 				ft_putstr_fd(": Is a directory\n", 2);
 			else
 				return (ft_putstr_fd(": Command not found\n", 2), 127);

@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:00:21 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/24 11:54:05 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:41:14 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,25 @@ static t_tokens	*create_node(void)
 	return (node);
 }
 
-static void	create_and_link_node(t_tokens **node)
+static void	create_and_link_node(char *input, t_tokens **node)
 {
 	t_tokens	*new_node;
 
-	new_node = create_node();
-	(*node)->next = new_node;
+	if ((*node)->token[0] == 0 && (*node)->state == EXPANDED)
+	{
+		free ((*node)->token);
+		(*node)->token = NULL;
+		(*node)->state = -1;
+		(*node)->index = 0;
+		(*node)->type = -1;
+		(*node)->next = NULL;
+	}
+	else if (are_there_more_tokens(input))
+	{
+		new_node = create_node();
+		(*node)->next = new_node;
+		(*node) = (*node)->next;
+	}
 }
 
 // Returns a linked list of tokens based on the given input.
@@ -100,18 +113,19 @@ t_tokens	*get_tokens(t_shell *shell ,char *input)
 	while (*input)
 	{
 		tmp->token = fill_str(&input);
+			if (tmp->token[0] == 0)
+				break;
 		tmp->state = get_token_state(tmp->token);
 		tmp->type = get_token_type(tmp->token);
 		expand_token(shell->env, tmp);
 		tmp->token = clean_tkn_quotes(tmp->token);
-		if (are_there_more_tokens(input))
-		{
-			create_and_link_node(&tmp);
-			tmp = tmp->next;
-		}
-		else
-			break;
+		create_and_link_node(input, &tmp); // Needs to enter here even if there are no more tokens ex: $EMPTY;
+		if (!are_there_more_tokens(input))
+			break ;
 	}
 	tmp = NULL;
 	return (head);
 }
+
+/// token => (NULL)
+/// token => ("")

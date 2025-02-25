@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/25 14:41:49 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:55:57 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,30 @@ char	*check_last_character(char	*input)
 	return (input);
 }
 
+int	check_token(t_shell *shell, t_tokens *tokens)
+{
+	t_tokens	*tmp;
+
+	tmp = tokens;
+	if (tmp->state == -1)
+	{
+		free_n_add_exit_status(shell, "0");
+		return (FALSE);
+	}
+	while (tmp->next)
+	{
+		if (tmp->next->state == -1)
+		{
+			free(tmp->next);
+			tmp->next = NULL;
+		}
+		if (tmp->next)
+			tmp = tmp->next;
+	}
+	return (TRUE);
+}
+
+
 /// @brief Run the shell implementations
 /// @param shell
 void	runnig_shell(t_shell *shell)
@@ -72,7 +96,8 @@ void	runnig_shell(t_shell *shell)
 		{
 			input = check_last_character(input);
 			shell->tokens = get_tokens(shell, input);
-			shell->env->var_value = make_tree(shell);
+			if (check_token(shell, shell->tokens))
+				shell->env->var_value = make_tree(shell);
 		}
 		else
 			free_n_add_exit_status(shell, "2");

@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:17:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/11 11:08:34 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 16:02:11 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	count_args(t_tokens *tokens)
 	args = 0;
 	if (!tokens)
 		return (0);
-	while(tokens)
+	while (tokens)
 	{
 		if (is_redir_token(tokens))
 		{
@@ -29,12 +29,12 @@ int	count_args(t_tokens *tokens)
 		else if (tokens->type == HEREDOC && tokens->state == GENERAL)
 		{
 			tokens = tokens->next;
-			continue;
+			continue ;
 		}
 		else if (tokens->type != SPACE)
 			args++;
 		if (!tokens->next)
-			break;
+			break ;
 		tokens = tokens->next;
 	}
 	return (args);
@@ -47,11 +47,9 @@ char	**build_cmd(t_tokens **tokens)
 	int		i;
 
 	i = 0;
-	while ((*tokens)->token[0] == 0)
-		(*tokens) = (*tokens)->next;
 	nr_args = count_args((*tokens));
 	cmd = malloc((nr_args + 1) * sizeof(char *));
-	while(i < nr_args && (*tokens))
+	while (i < nr_args && (*tokens))
 	{
 		if (is_redir_token(*tokens))
 			(*tokens) = (*tokens)->next->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/25 14:32:30 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:15:09 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,5 +323,8 @@ int		count_words(char *str);
 
 int		check_open_brackets(const char *str);
 int		check_open_quotes(const char *str);
+
+//remove
+void	print_tokens(t_tokens *tokens);
 
 #endif
