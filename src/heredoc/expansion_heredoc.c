@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_heredoc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:36:20 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/24 14:47:06 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:23:52 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int	search_exp_heredoc(char *str)
 {
 	int	i;
-	int	state; //0 general   1 single   2 double
+	int	state;
 
 	i = -1;
 	state = 0;
 	while (str[++i])
 	{
-		if((str[i] == '$' && state % 2 == 0 )
+		if((str[i] == '$' && state % 2 == 0)
 			&& (ft_isalnum(str[i + 1]) || str[i + 1] == '?'))
 			return (i);
 	}
@@ -39,13 +39,14 @@ char	*expand_heredoc(t_env *env, char *str)
 	while (flag != -1)
 	{
 		flag = search_exp_heredoc(str);
-		if(flag != -1)
+		if (flag != -1)
 		{
 			var = var_name(str, (flag + 1));
-			var_value =  get_env_var_value(env, var);
+			var_value = get_env_var_value(env, var);
 			if (var_value == NULL)
 				var_value = "";
-			str = re_wrinting_string(str, var_value, flag, (ft_strlen(var) + 1));
+			str = re_wrinting_string(str, var_value, flag,
+					(ft_strlen(var) + 1));
 			free(var);
 		}
 	}

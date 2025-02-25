@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:47:47 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/11 15:52:40 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:31:52 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,10 @@ char	**transfrom_env_to_array(t_env *env)
 	}
 	envp[i] = NULL;
 	return (envp);
+}
+
+void	free_n_add_exit_status(t_shell *shell, char *new_value)
+{
+	free(shell->env->var_value);
+	shell->env->var_value = ft_strdup(new_value);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/25 11:46:21 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:32:30 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ void	adding_var_in_list(t_env **env, t_env *node);
 void	add_new_variable(t_env *env ,t_env *new_variable);
 char	*get_env_var_value(t_env *env, char *var_searching);
 t_env	*creating_env_var_w_no_value(char *full_declaration);
+void	free_n_add_exit_status(t_shell *shell, char *new_value);
 void	refresh_var_value(t_env *env, t_env *var_with_new_value, int behavior);
 
 

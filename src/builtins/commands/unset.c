@@ -20,7 +20,6 @@ int	remove_env_var(t_env *env, char *env_to_remove)
 {
 	t_env	*tmp;
 
-	env = env->next;
 	while (env->next)
 	{
 		if (ft_strcmp(env_to_remove, env->next->var_name) == 0)

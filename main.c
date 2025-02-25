@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/25 14:14:34 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:33:09 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,16 @@ void	runnig_shell(t_shell *shell)
 		setting_signals();
 		input = readline(shell->dir_now);
 		add_history(input);
-		if (check_syntax(shell, input) == 0)
+		if (g_sig_sign == SIGINT)
+			free_n_add_exit_status(shell, "130");
+		else if (check_syntax(shell, input) == 0)
 		{
 			input = check_last_character(input);
 			shell->tokens = get_tokens(shell, input);
 			shell->env->var_value = make_tree(shell);
 		}
 		else
-		{
-			free (shell->env->var_value);
-			shell->env->var_value = ft_itoa(2);
-		}
+			free_n_add_exit_status(shell, "2");
 		clean_next_round(shell);
 		free(input);
 	}

@@ -1,8 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_expansions.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/25 14:21:27 by edvieira          #+#    #+#             */
+/*   Updated: 2025/02/25 14:22:53 by edvieira         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-// Receive the string and where the variable starts and Returns the variable name
-// Function will search for the $ and get the inputed variable name
+/// @brief Separate the name of a variable defined
+/// @brief in a string
+/// @param str
+/// @param start
+/// @return (success - the var name)
 char	*var_name(char *str, int start)
 {
 	char	*var_name;
@@ -13,11 +27,13 @@ char	*var_name(char *str, int start)
 		return (NULL);
 	if (str[start + 1] == '?' || str[start] == '?')
 		return(ft_strdup("?"));
-	while ((str[start + i] >= 'a' && str[start + i] <= 'z') || (str[start + i] >= 'A' && str[start + i] <= 'Z'))
+	while ((str[start + i] >= 'a' && str[start + i] <= 'z')
+			|| (str[start + i] >= 'A' && str[start + i] <= 'Z'))
 		i++;
 	var_name = malloc(sizeof(char) * (i + 1));
 	i = 0;
-	while ((str[start + i] >= 'a' && str[start + i] <= 'z') || (str[start + i] >= 'A' && str[start + i] <= 'Z'))
+	while ((str[start + i] >= 'a' && str[start + i] <= 'z')
+			|| (str[start + i] >= 'A' && str[start + i] <= 'Z'))
 	{
 		var_name[i] = str[start + i];
 		i++;
@@ -58,7 +74,7 @@ int	check_expand(char *str)
 	while (str[++i])
 	{
 		set_quote_state(str[i], &state);
-		if ((str[i] == '$' && state % 2 == 0 )
+		if ((str[i] == '$' && state % 2 == 0)
 			&& (ft_isalnum(str[i + 1]) || str[i + 1] == '?'))
 			return (i);
 	}

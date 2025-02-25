@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_builder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/25 11:02:59 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:37:05 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char	*make_tree(t_shell *shell)
 	signal(SIGINT, cntrl_c_heredoc);
 	process_heredocs(shell); // cat << a |
 	if (g_sig_sign == SIGINT)
-		return (clean_fds(shell->tree), free(shell->env->var_value), ft_itoa(WEXITSTATUS(130)));
+		return (clean_fds(shell->tree), free(shell->env->var_value), ft_strdup("130"));
 	if (is_builtin_special_case(shell->cmd_list)) // checks if its one of the special cases where it should be executed on parent process.
 	{
 		free(shell->env->var_value);

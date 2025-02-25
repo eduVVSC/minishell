@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:41:27 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/11 15:47:13 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:28:38 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void	cntrl_c_heredoc(void)
 
 void	cntrl_c(void)
 {
-	printf("\n");
-	rl_replace_line("", 0);
+	g_sig_sign = SIGINT;
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 	rl_on_new_line();
-	rl_redisplay();
+	rl_replace_line("", 0);
 }
 
 void	cntrl_backslash(void)

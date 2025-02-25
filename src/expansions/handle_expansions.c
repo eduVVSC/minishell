@@ -1,9 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_expansions.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/25 14:19:35 by edvieira          #+#    #+#             */
+/*   Updated: 2025/02/25 14:21:18 by edvieira         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-// Receive the string, the value of the var and where it is Returns the new string with the value in it
-// Function will rewrite the string to the value of the variable inputed, free the received string
-char	*re_wrinting_string(char *str, char *expand_value, int where_to_change, int var_len)
+/// @brief Will rewrite the string adding the variable expended value to it
+/// @param str
+/// @param expand_value
+/// @param where_to_change
+/// @param var_len
+/// @return (success - the rewritten string)
+char	*re_wrinting_string(char *str, char *expand_value,
+	int where_to_change, int var_len)
 {
 	char	*new_str;
 	int		k;
@@ -32,8 +48,9 @@ char	*re_wrinting_string(char *str, char *expand_value, int where_to_change, int
 	return (new_str);
 }
 
-// Receive the string and returns the new_string
-// Function take the quotes of the string and free the old string
+/// @brief Take of the quotes from the str
+/// @param str
+/// @return (success - return the no quoted string)
 char	*takeoff_quotes(char *str)
 {
 	char	*new_str;
@@ -45,14 +62,18 @@ char	*takeoff_quotes(char *str)
 	new_str = malloc((strlen - 1) * sizeof(char));
 	if (!new_str)
 		return (NULL);
-	while (++i < (strlen- 1))
+	while (++i < (strlen - 1))
 		new_str[i - 1] = str[i];
 	new_str[i -1] = '\0';
 	free(str);
 	return (new_str);
 }
 
-// Function will search for the expansion(if it has something to be expanded) and rewrite the string with the var value
+/// @brief Function will search and do the expansions
+/// @brief on the string(if they exist)
+/// @param env
+/// @param str
+/// @return (success - will return the expanded string)
 char	*handle_expension(t_env *env, char *str)
 {
 	int		flag;
@@ -64,20 +85,23 @@ char	*handle_expension(t_env *env, char *str)
 	while (flag != -1)
 	{
 		flag = check_expand(str);
-		if(flag != -1)
+		if (flag != -1)
 		{
 			var = var_name(str, (flag + 1));
-			var_value =  get_env_var_value(env, var);
+			var_value = get_env_var_value(env, var);
 			if (var_value == NULL)
 				var_value = "";
-			str = re_wrinting_string(str, var_value, flag, (ft_strlen(var) + 1));
+			str = re_wrinting_string(str, var_value, flag,
+					(ft_strlen(var) + 1));
 		}
 	}
 	free(var);
 	return (str);
 }
 
-// function check if it needs to be expanded and if needed expand the token
+/// @brief Function checks the type of the token and expand if needed of wanted
+/// @param env
+/// @param token
 void	expand_token(t_env *env, t_tokens *token)
 {
 	static int	heredoc_flag;

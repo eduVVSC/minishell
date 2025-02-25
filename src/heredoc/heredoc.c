@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:25:43 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/24 14:41:13 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:24:03 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_eof_heredoc(char *key)
+{
+	ft_printf("warning: here-document ");
+	ft_printf("delimited by end-of-file (wanted '%s')!\n", key);
+}
 
 /// @brief Do the heredoc of one key and concatenate the string to
 /// @brief the desired location in the structure
@@ -34,7 +40,7 @@ int	doing_key(t_heredock *heredock)
 		if (!input || ft_strcmp(input, heredock->key) == 0)
 		{
 			if (!input)
-				ft_printf("warning: here-document delimited by end-of-file (wanted '%s')!\n", heredock->key);
+				print_eof_heredoc(heredock->key);
 			return (FALSE);
 		}
 		else
