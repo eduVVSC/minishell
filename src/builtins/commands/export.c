@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:57:13 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/25 10:41:07 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:06:41 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ int	do_export(t_env **env, char **command)
 	exit_code = 0;
 	while (command[++i] != NULL)
 	{
-		node = creating_var(command[i]);
+		node = NULL;
+		if (command[i][0] != '\0')
+			node = creating_var(command[i]);
 		if (node == NULL && exit_code == 0)
 			exit_code = handle_export_error(command[i]);
 		else
