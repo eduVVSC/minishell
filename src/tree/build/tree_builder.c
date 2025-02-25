@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/24 10:00:32 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:02:59 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,26 +116,6 @@ int	is_builtin_special_case(t_cmds *first_cmd)
 	return (0);
 }
 
-int	exec_builtin_especial_cases(t_shell *shell, t_tokens *node_content)
-{
-	int		exit_code;
-	char	**cmd;
-
-	exit_code = 0;
-	cmd = build_cmd(&node_content);
-	if (ft_strcmp(cmd[0], "cd") == 0)
-		exit_code = do_cd(shell, cmd);
-	else if (ft_strcmp(cmd[0], "export") == 0)
-		exit_code = do_export(&shell->env, cmd);
-	else if (ft_strcmp(cmd[0], "unset") == 0)
-		exit_code =  do_unset(shell->env, cmd);
-	else if (ft_strcmp(cmd[0], "exit") == 0)
-		do_exit(shell, cmd);
-	ft_free_double_arr(&cmd);
-	return (exit_code);
-}
-
-
 char	*make_tree(t_shell *shell)
 {
 	pid_t		pid;
@@ -152,7 +132,7 @@ char	*make_tree(t_shell *shell)
 	{
 		free(shell->env->var_value);
 		shell->env->var_value = NULL;
-		return (ft_itoa(WEXITSTATUS(execute_builtin_in_parent(shell))));
+		return (ft_itoa(execute_builtin_in_parent(shell)));
 	}
 	else // if not executes a fork and creates a child process.
 	{

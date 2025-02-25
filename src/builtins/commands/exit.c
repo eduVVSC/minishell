@@ -6,17 +6,19 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:42:43 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/24 13:30:21 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:43:42 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	has_only_nrs(char *arg)
+int	has_only_nrs(char *arg)
 {
 	int	i;
 
 	i = 0;
+	if (!arg)
+		return (0);
 	while (arg[i])
 	{
 		if (!ft_isdigit(arg[i]) && i > 0)
@@ -31,7 +33,7 @@ static int	has_only_nrs(char *arg)
 	return (0);
 }
 
-static int	get_exit_code(char **cmd)
+int	get_exit_code(char **cmd)
 {
 	unsigned char	exit_code;
 
@@ -55,6 +57,8 @@ void	do_exit(t_shell *shell, char **cmd)
 	int	exit_code;
 
 	exit_code = get_exit_code(cmd);
+	if (!cmd[1])
+		printf("exit\n");
 	ft_free_double_arr(&cmd);
 	clean_and_terminate_with_status(shell, exit_code);
 }

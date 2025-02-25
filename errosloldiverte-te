@@ -1,7 +1,5 @@
 --leak-check=full --show-leak-kinds=all --suppressions=sup_readline.supp --track-origins=yes --track-fds=yes ./minishell
 
-exit
-
 export $asasdsadsad
 
 
@@ -13,12 +11,8 @@ env nao apaga na totalidade. apagar o ultimo de todos
 exit code CTRL C
 heredocs e commands
 
-pipe no inicio
-| echo fodeu
-
-leak
-echo fodeu |
-> grep fodeu
-
 ambiguous redirect porque o $ASD da pop ATENCAO se mudares isto noutros comandos
 echo >$ASDASD
+
+cat | cat | ls -> ctrl c printa 3 nl
+

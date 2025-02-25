@@ -20,30 +20,27 @@ int	exclamation_validation(char *input, int pos, int val_num)
 	return (true);
 }
 
-int	parenthesis_validation(char *input, int pos)
+void	parenthesis_validation(char *input, int pos)
 {
-	char	*str;
-
 	ft_putstr_fd("minishell: syntax error near unexpected token '" , 2);
 	ft_putchar_fd(input[pos], 2);
 	ft_putstr_fd("'\n", 2);
-	return (2);
 }
 
 int	check_invalid_chars(char *input, int i)
 {
 	int	val_num;
 
-	val_num = general;
+	val_num = GENERAL;
 	while (input[i])
 	{
-		if ((input[i] == '(' || input[i] == ')') && val_num == general)
-			return (parenthesis_validation(input, i));
+		if ((input[i] == '(' || input[i] == ')') && val_num == GENERAL)
+			return (parenthesis_validation(input, i), 0);
 		else if (exclamation_validation(input, i, val_num) == false)
-			return (1);
+			return (0);
 		else if ((input[i] == '\\' || input[i] == ';') && val_num == GENERAL)
-			return (print_syntax_error(INVALID_CHAR_ERROR), 1);
+			return (print_syntax_error(INVALID_CHAR_ERROR), 0);
 		i++;
 	}
-	return (val_num);
+	return (1);
 }

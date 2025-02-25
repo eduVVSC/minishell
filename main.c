@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/11 12:01:46 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:14:34 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,8 @@ char	*check_last_character(char	*input)
 	if (input[i] == '|')
 	{
 		next_input = readline(">");
-		if (!next_input) // might work, check laters
+		if (!next_input)
 		{
-			printf("in here\n");
 			free(input);
 			input = NULL;
 			return (input);
@@ -72,6 +71,11 @@ void	runnig_shell(t_shell *shell)
 			input = check_last_character(input);
 			shell->tokens = get_tokens(shell, input);
 			shell->env->var_value = make_tree(shell);
+		}
+		else
+		{
+			free (shell->env->var_value);
+			shell->env->var_value = ft_itoa(2);
 		}
 		clean_next_round(shell);
 		free(input);
