@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:30:50 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/25 16:05:37 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:28:51 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,11 @@ int	print_execve_error(char *path, char *cmd, int error_code)
 	return (0);
 }
 
+void dont_do_anything_beach(int signum)
+{
+	signum = 777;
+}
+
 void	exec_cmd(t_shell *shell, t_tokens *node_content)
 {
 	char	**cmd;
@@ -100,6 +105,7 @@ void	exec_cmd(t_shell *shell, t_tokens *node_content)
 
 	cmd = build_cmd(&node_content);
 	error = is_builtin(shell, cmd);
+	signal(SIGINT, dont_do_anything_beach);
  	if (error == -1)
 	{
 		path = find_path(cmd[0], shell->env);

@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 11:35:50 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/25 13:49:32 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:08:28 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	file_error(char *file_name, t_shell *shell, int redirection_type) // Need t
 
 void	print_ambiguous_redirection(t_shell *shell)
 {
-	ft_putstr_fd("minishell: ambiguous redirect.", 2);
+	ft_putstr_fd("minishell: ambiguous redirect.\n", 2);
 	clean_and_terminate_with_status(shell, 1);
 }
 

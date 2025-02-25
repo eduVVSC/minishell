@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/25 17:55:57 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:34:25 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	runnig_shell(t_shell *shell)
 	while (1)
 	{
 		setting_signals();
+		//signal(SIGINT, cntrl_c);
 		input = readline(shell->dir_now);
 		add_history(input);
 		if (g_sig_sign == SIGINT)

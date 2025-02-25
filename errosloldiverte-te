@@ -1,18 +1,5 @@
 --leak-check=full --show-leak-kinds=all --suppressions=sup_readline.supp --track-origins=yes --track-fds=yes ./minishell
 
-export $asasdsadsad
-
-
-argumentos que expandem para null devem ser popped do comando
-ex: grep $ASD  ou export $ASDASD
-
-env nao apaga na totalidade. apagar o ultimo de todos
-
-exit code CTRL C
-heredocs e commands
-
-ambiguous redirect porque o $ASD da pop ATENCAO se mudares isto noutros comandos
-echo >$ASDASD
 
 cat | cat | ls -> ctrl c printa 3 nl
 

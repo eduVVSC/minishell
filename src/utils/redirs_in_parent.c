@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:34:25 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/25 11:04:13 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:11:43 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	parent_exit(t_shell *shell, char **cmd, int fd1, int fd2)
 
 	close(fd1);
 	close(fd2);
+	if (!cmd[1])
+		printf("exit\n");
 	exit_code = get_exit_code(cmd);
 	ft_free_double_arr(&cmd);
 	clean_and_terminate_with_status(shell, exit_code);
