@@ -49,7 +49,7 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 clean:
-		@rm -f ${OBJ}
+		@rm -rf ${OBJ_DIR}
 		@rm -f $(LIB_DIR)/*.o
 		@echo "$(WHT)Clean command executed.$(RES)"
 
@@ -58,7 +58,7 @@ fclean: clean
 		@rm -f ${LIBFT}
 
 valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_readline.supp --track-origins=yes ./minishell
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_readline.supp --track-origins=yes --track-fds=yes ./minishell
 
 
 re: fclean all

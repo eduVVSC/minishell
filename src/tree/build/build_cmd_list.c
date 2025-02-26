@@ -3,36 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   build_cmd_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:18:17 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/04 12:07:51 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:45:20 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Creates an enpty t_cmds node
-static t_cmds	*make_node(void)
-{
-	t_cmds	*node;
-
-	node = malloc(sizeof(t_cmds));
-	if (!node)
-		return (NULL);
-	node->token_list = NULL;
-	node->next = NULL;
-	return (node);
-}
-
 void	make_nodes(t_cmds *head, int nr_of_nodes)
 {
 	t_cmds	*tmp;
-	int	i;
+	int		i;
 
 	tmp = head;
 	i = 0;
-	while (i < nr_of_nodes - 1) // creates a new node and links it to the current one.
+	while (i < nr_of_nodes - 1)
 	{
 		tmp->next = make_node();
 		tmp = tmp->next;
@@ -82,64 +69,27 @@ static void	handle_pipe_case(t_cmds **cmd, t_tokens **tokens)
 	pipe_node->next = next_head;
 	(*cmd) = next_head;
 }
-void print_this_shit(t_cmds *cmds)
-{
-	while (cmds)
-	{
-		print_tokens(cmds->token_list);
-		cmds = cmds->next;
-	}
-}
 
-
-t_tokens	*ft_lstlast_a(t_tokens *lst)
-{
-	t_tokens	*temp;
-
-	if (!lst)
-		return (NULL);
-	temp = lst;
-	while ((temp->next) != NULL)
-		temp = temp->next;
-	return (temp);
-}
-
-
-void	ft_lstadd_back_a(t_tokens **lst, t_tokens *new)
-{
-	t_tokens	*end;
-
-	end = ft_lstlast_a(*lst);
-	if (end == NULL)
-	{
-		*lst = new;
-		return ;
-	}
-	end->next = new;
-}
 // Builds a linked list of commands for the sake of organization.
 t_cmds	*build_cmd_list(t_tokens *tokens)
 {
 	t_cmds		*cmd;
 	t_cmds		*head;
-	t_tokens	*tmp;
 
 	head = make_head(&tokens);
 	cmd = head;
-	// criou a head
-	while (tokens)  //populate node (head included )
+	while (tokens)
 	{
 		if (tokens->type == PIPE)
 			handle_pipe_case(&cmd, &tokens);
-		if (tokens && tokens->type != 7) // its bad somehow
-			ft_lstadd_back_a(&cmd->token_list ,copy_token_node(tokens));
-		if (tokens)
+		if (tokens && tokens->type != PIPE)
+		{
+			ft_lstadd_back_a(&cmd->token_list, copy_token_node(tokens));
 			tokens = tokens->next;
+		}
 	}
-//	print_this_shit(head);
-	return(head);
+	return (head);
 }
-
 
 /* // Builds a linked list of commands for the sake of organization.
 t_cmds	*build_cmd_list(t_tokens *tokens)

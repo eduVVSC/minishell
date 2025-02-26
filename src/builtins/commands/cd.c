@@ -6,14 +6,15 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 16:52:58 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/03 17:11:51 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:39:55 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/// @brief Handle the "cd -..." the only executable one is the "cd -" that will try to go to the OLDPWD.
-/// @brief If it won't work, it delivers a error message to the stderror
+/// @brief Handle the "cd -..." the only executable one is the "cd -"
+/// @brief that will try to go to the OLDPWD. If it won't work,
+/// @brief it delivers a error message to the stderror
 /// @return (0 -> success) (2 -> error [OLDPWD not set or difrrent optional])
 int	cd_opitionals(t_env *env, char **command)
 {
@@ -36,15 +37,16 @@ int	cd_opitionals(t_env *env, char **command)
 	return (2);
 }
 
-/// @brief Handle the "cd", in this case it should go to the HOME, if not set, it will deliver the error message
+/// @brief Handle the "cd", in this case it should go to the
+/// @brief HOME, if not set, it will deliver the error message
 /// @return (0 -> success) (2 -> error [HOME not set])
 int	cd_no_args(t_env *env)
 {
-	int	returned_from_exec;
+	int		returned_from_exec;
 	char	*home;
 
 	home = get_env_var_value(env, "HOME");
-	if(home == NULL)
+	if (home == NULL)
 	{
 		ft_putstr_fd("bash: cd: HOME not set\n", 2);
 		return (1);
@@ -55,19 +57,33 @@ int	cd_no_args(t_env *env)
 	return (0);
 }
 
-/// @brief Handle the "cd [.]", it will try to go to the expecified path, if bad path will deliver the error message to the stderror
+/// @brief Handle the "cd [.]", it will try to go to the expecified
+/// @brief path, if bad path will deliver the error message to the stderror
 /// @return (0 -> success) (2 -> error [not a good path])
-int	cd_args(char **command)
+int	cd_args(t_env *env, char **command)
 {
-	int	returned_value;
+	int		returned_value;
+	char	*where_to;
 
+	if (ft_strcmp(command[1], "~") == 0)
+	{
+		where_to = get_env_var_value(env, "HOME");
+		if (!where_to)
+		{
+			ft_putstr_fd("bash: cd: HOME not set\n", 2);
+			return (2);
+		}
+		chdir(where_to);
+		return (0);
+	}
 	returned_value = chdir(command[1]);
 	if (returned_value == -1)
 		return (handle_cd_error(command));
 	return (0);
 }
 
-/// @brief Will refresh or create the OLDPWD and PWD env variables to the current and latest dir
+/// @brief Will refresh or create the OLDPWD and
+/// @brief PWD env variables to the current and latest dir
 void	refresh_pwd_oldpwd(t_shell *shell, char *old_pwd)
 {
 	t_env	*temp;
@@ -87,7 +103,6 @@ void	refresh_pwd_oldpwd(t_shell *shell, char *old_pwd)
 	adding_var_in_list(&shell->env, temp2);
 }
 
-
 /// @brief Do the cd command
 /// @return (0 -> success) (2 -> error)
 int	do_cd(t_shell *shell, char **command)
@@ -105,7 +120,7 @@ int	do_cd(t_shell *shell, char **command)
 	else if (many_args == 1)
 		returned_from_exec = cd_no_args(shell->env);
 	else
-		returned_from_exec = cd_args(command);
+		returned_from_exec = cd_args(shell->env, command);
 	if (returned_from_exec == 0)
 		refresh_pwd_oldpwd(shell, old_pwd);
 	else

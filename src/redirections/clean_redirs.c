@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_redirs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 18:03:47 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/31 09:10:48 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:18:07 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	free_token(t_tokens *token)
 int	is_redir_token(t_tokens *tokens)
 {
 	if ((tokens->type == INFILE
-		|| tokens->type == APP_OUTFILE
-		|| tokens->type == TRU_OUTFILE
-		|| tokens->type == HEREDOC)
+			|| tokens->type == APP_OUTFILE
+			|| tokens->type == TRU_OUTFILE
+			|| tokens->type == HEREDOC)
 		&& tokens->state == GENERAL)
-			return (1);
+		return (1);
 	return (0);
 }
 
@@ -48,7 +48,7 @@ void	clean_redirs(t_tokens *tokens)
 			free_token(redir->next);
 			free_token(redir);
 			if (!tmp)
-				break;
+				break ;
 		}
 		if (tmp->next)
 			tmp = tmp->next;

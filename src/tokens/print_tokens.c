@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2024/12/09 14:04:28 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:30:32 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,11 @@ void	print_token_state(int token_state)
 
 void	print_token_content(char *str)
 {
-	int	i = 0;
+	int	i;
 	int	len;
 	int	spaces;
 
+	i = 0;
 	len = ft_strlen(str);
 	spaces = 13 - len;
 	while (i < (spaces / 2) + (spaces % 2))
@@ -83,7 +84,6 @@ void	print_individual_tkn(t_tokens *token)
 		ft_printf("|      %d      |\n", token->index);
 }
 
-
 void	print_tokens(t_tokens *tokens)
 {
 	if (!tokens->token)
@@ -98,7 +98,10 @@ void	print_tokens(t_tokens *tokens)
 		print_individual_tkn(tokens);
 		tokens = tokens->next;
 		if (tokens->next)
-			printf("|-------------|------------|-------------|-------------|\n");
+		{
+			printf("|-------------|------------|");
+			printf("-------------|-------------|\n");
+		}
 	}
 	printf("|-------------|------------|-------------|-------------|\n");
 	print_individual_tkn(tokens);

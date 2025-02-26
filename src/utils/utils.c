@@ -1,6 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 15:47:47 by edvieira          #+#    #+#             */
+/*   Updated: 2025/02/25 14:31:52 by edvieira         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
+/// @brief Count how many nodes in env
+/// @param env
+/// @return (height)
 int	env_height(t_env *env)
 {
 	int	i;
@@ -14,7 +28,18 @@ int	env_height(t_env *env)
 	return (i);
 }
 
+/// @brief Close fd[read & write]
+/// @param fd
+void	close_fds(int *fd)
+{
+	close (fd[READ]);
+	close (fd[WRITE]);
+}
 
+/// @brief Will take the linked list env, and trasnfrom it
+/// @brief to array
+/// @param env
+/// @return (**envp -> success) (NULL -> malloc error)
 char	**transfrom_env_to_array(t_env *env)
 {
 	char	**envp;
@@ -23,7 +48,6 @@ char	**transfrom_env_to_array(t_env *env)
 
 	i = 0;
 	height = env_height(env);
-	// set pwd oldpwd and home anyway
 	envp = malloc(sizeof(char **) * (height + 1));
 	if (!envp)
 		return (NULL);
@@ -41,4 +65,10 @@ char	**transfrom_env_to_array(t_env *env)
 	}
 	envp[i] = NULL;
 	return (envp);
+}
+
+void	free_n_add_exit_status(t_shell *shell, char *new_value)
+{
+	free(shell->env->var_value);
+	shell->env->var_value = ft_strdup(new_value);
 }

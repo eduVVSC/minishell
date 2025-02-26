@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 09:26:24 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/31 11:14:33 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:28:39 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,27 @@ int	is_redir(char c)
 }
 
 // Helper function for get_token_len
-void	set_quote_state(int *is_in_quotes)
+void	set_quote_state(char c, int *quote_state)
 {
-	if (*is_in_quotes == FALSE)
-		*is_in_quotes = TRUE;
-	else if (*is_in_quotes == TRUE)
-		*is_in_quotes = FALSE;
+	if (c != '\'' && c != '\"')
+		return ;
+	if (*quote_state == GENERAL)
+	{
+		if (c == '\'')
+			*quote_state = SINGLE_QUO;
+		else if (c == '\"')
+			*quote_state = DOUBLE_QUO;
+	}
+	else if (*quote_state == SINGLE_QUO)
+	{
+		if (c == '\'')
+			*quote_state = GENERAL;
+	}
+	else if (*quote_state == DOUBLE_QUO)
+	{
+		if (c == '\"')
+			*quote_state = GENERAL;
+	}
 }
 
 int	are_there_more_tokens(char *input)
@@ -50,12 +65,13 @@ int	count_quotes_to_take_off(char *str)
 	quote_searching = '\0';
 	while (str[i])
 	{
-		if(quote_searching == '\0' && (str[i] == 34 || str[i] == 39)) // doble e single quote
+		if (quote_searching == '\0'
+			&& (str[i] == '\'' || str[i] == '\"'))
 		{
 			quote_searching = str[i];
 			nr_of_quotes++;
 		}
-		else if(str[i] == quote_searching)
+		else if (str[i] == quote_searching)
 		{
 			quote_searching = '\0';
 			nr_of_quotes++;
@@ -81,18 +97,18 @@ char	*clean_tkn_quotes(char *str)
 	if (quotes_to_wipe == 0)
 		return (str);
 	cmd = (char *)malloc((ft_strlen(str) - quotes_to_wipe + 1) * sizeof(char));
-	while(str[j])
+	while (str[j])
 	{
 		if (is_quote(str[j]))
 		{
-			close_quote = handle_quotes(str, j, str[j]); // gets the index of where the closed quote is.
+			close_quote = handle_quotes(str, j, str[j]);
 			j++;
-			while (j < close_quote) // iterates and copies the chars in the string until it finds the closed quote;
+			while (j < close_quote)
 				cmd[i++] = str[j++];
-			continue;
+			continue ;
 		}
 		cmd[i++] = str[j++];
 	}
 	cmd[i] = 0;
-	return(free(str), cmd);
+	return (free(str), cmd);
 }

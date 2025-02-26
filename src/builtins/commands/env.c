@@ -27,7 +27,7 @@ void	print_env(t_env *env)
 	{
 		return ;
 	}
-	env = env->next; // this will jump the "?" variable
+	env = env->next;
 	while (env != NULL)
 	{
 		if (env->operant != 0)

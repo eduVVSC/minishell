@@ -1,0 +1,5 @@
+--leak-check=full --show-leak-kinds=all --suppressions=sup_readline.supp --track-origins=yes --track-fds=yes ./minishell
+
+
+cat | cat | ls -> ctrl c printa 3 nl
+

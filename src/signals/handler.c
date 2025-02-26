@@ -1,38 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handler.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 15:41:27 by edvieira          #+#    #+#             */
+/*   Updated: 2025/02/26 14:20:44 by edvieira         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-// need to stop the tre
-void	break_command()
-{
-	//clean_and_terminate_with_status(shell, 130);
-}
-
-void	cleanedHandler(int signum, siginfo_t *info, void *context)
+void	signal_handler(int signum, siginfo_t *info, void *context)
 {
 	if (signum == SIGINT)
-		break_command();
-}
-
-
-void	signalHandler(int signum, siginfo_t *info, void *context)
-{
-	if (signum == SIGINT)
-		cntrl_C();
+		cntrl_c();
 	if (signum == SIGQUIT)
-		cntrl_Backslash();
-
+		cntrl_backslash();
 }
 
-void	cntrl_C()
+void	cntrl_c(void)
 {
-	char	*str;
-	printf("\n");
-	rl_replace_line("", 0);
+	g_sig_sign = SIGINT;
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 	rl_on_new_line();
-	rl_redisplay();
+	rl_replace_line("", 0);
 }
 
-void	cntrl_Backslash()
+void	cntrl_backslash(void)
 {
 	rl_on_new_line();
 	rl_replace_line("    ", 0);

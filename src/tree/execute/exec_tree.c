@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 14:05:36 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/03 16:31:15 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:54:44 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,10 @@ int	handle_pipe(t_shell *shell, t_tree_node *node)
 	// Cleaning up.
 	close(fd[0]);
 	close(fd[1]);
- 	waitpid(pid[0], &status, 0);
+	waitpid(pid[0], &status, 0);
 	waitpid(pid[1], &status, 0);
 	clean_and_terminate_with_status(shell, WEXITSTATUS(status));
+	return (0);
 }
 
 void	exec_tree(t_shell *shell, t_tree_node *node)
@@ -67,7 +68,7 @@ void	exec_tree(t_shell *shell, t_tree_node *node)
 	else
 	{
 		if (has_redirection(node->content))
-			handle_redirections(shell, node->content);
+			handle_redirections(shell, node->content, node->last_heredoc_fd);
 		exec_cmd(shell, node->content);
 	}
 }

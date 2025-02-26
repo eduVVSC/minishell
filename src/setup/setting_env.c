@@ -1,18 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   setting_env.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 15:37:08 by edvieira          #+#    #+#             */
+/*   Updated: 2025/02/24 14:57:08 by dioferre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
 /// @brief Create the ? variable in the env list!
 /// @return (node - success) (NULL - malloc error)
-t_env	*creating_exit_code_var()
+t_env	*creating_exit_code_var(void)
 {
 	t_env	*new_node;
 
 	new_node = malloc(sizeof(t_env));
 	if (!new_node)
 		return (NULL);
-	new_node->var_name = ft_strdup("?"); // name
-	new_node->operant = NULL; // operant
-	new_node->var_value = ft_strdup("0"); // value
+	new_node->var_name = ft_strdup("?");
+	new_node->operant = NULL;
+	new_node->var_value = ft_strdup("0");
 	new_node->next = NULL;
 	new_node->behaviour = 0;
 	new_node->printed = 0;
@@ -21,7 +32,7 @@ t_env	*creating_exit_code_var()
 
 /// @brief Create the enviroment when envp is null
 /// @return (Head node - success) (NULL - malloc error)
-t_env	*create_env_no_envp()
+t_env	*create_env_no_envp(void)
 {
 	t_env	*env;
 
@@ -44,10 +55,10 @@ t_env	*create_env_envp(char **envp)
 {
 	t_env	*env_head;
 	t_env	*tmp;
-	int	i;
+	int		i;
 
 	i = 0;
-	env_head = creating_exit_code_var(); // modified the order, it wil lcreate the first var as the ?
+	env_head = creating_exit_code_var();
 	if (!env_head)
 		return (NULL);
 	tmp = env_head;
@@ -64,8 +75,7 @@ t_env	*create_env_envp(char **envp)
 
 /// @brief create the enviroment with the envp inputs
 /// @param envp
-/// @return (Head node - success) (NULL - malloc error)
-void	*create_env(t_shell *shell, char **envp)
+void	create_env(t_shell *shell, char **envp)
 {
 	if (envp[0])
 		shell->env = create_env_envp(envp);

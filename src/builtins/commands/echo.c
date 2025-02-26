@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:48:28 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/03 10:21:39 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:41:10 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	check_type(char *dependency)
 	return (1);
 }
 
-/// @brief check the dependencies accept (-n or -nnnnnn), if there is "-n" it will disable the \n
+/// @brief check the dependencies accept (-n or -nnnnnn)
+/// @brief, if there is "-n" it will disable the \n
 /// @return (0 has new_line) (1 no new_line)
 int	checking_dependecies(char **cmd)
 {
@@ -46,10 +47,8 @@ int	checking_dependecies(char **cmd)
 		value_returned = check_type(cmd[i]);
 		if (value_returned == -1)
 			return (-1);
-		if(value_returned == 1)
-		{
+		if (value_returned == 1)
 			what_to_do = value_returned;
-		}
 	}
 	return (what_to_do);
 }
@@ -66,7 +65,7 @@ void	printing(char **command, int new_line_flag)
 	while (command[i])
 	{
 		ft_printf("%s", command[i]);
-		if(command[i + 1] != NULL)
+		if (command[i + 1] != NULL)
 			ft_printf(" ");
 		i++;
 	}
@@ -81,11 +80,11 @@ int	do_echo(char **command)
 	int	new_line_flag;
 
 	new_line_flag = 0;
-	if (command[1] == NULL) // echo whithout argumments
+	if (command[1] == NULL)
 		ft_printf("\n");
 	else
 	{
-		if (checking_dependecies(command) == 1) // no new line
+		if (checking_dependecies(command) == 1)
 			new_line_flag = 1;
 		printing(command, new_line_flag);
 	}

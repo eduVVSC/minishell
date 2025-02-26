@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   create_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 10:55:04 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/31 11:05:06 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:22:11 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/// @brief Create a heredoc node with everything set to NULL and the key given by read
+/// @brief Create a heredoc node with
+/// @brief everything set to NULL and the key given by read
 /// @param key
 /// @return (NULL -> malloc error) (node -> success)
 t_heredock	*create_heredoc_node(t_tokens *key)
@@ -32,16 +33,14 @@ t_heredock	*create_heredoc_node(t_tokens *key)
 	return (heredock);
 }
 
-/// @brief
+/// @brief Will create the heredoc node and execute it
 /// @param shell
 /// @param redir
-/// @return
-int	handle_heredoc(t_shell *shell, t_tokens *redir)
+void	handle_heredoc(t_shell *shell, t_tokens *redir, int fd)
 {
 	t_heredock	*heredock;
 
 	heredock = create_heredoc_node(redir->next);
-	if (!heredock)
-		return (-1);
-	return (doing_heredock(shell, heredock));
+	if (heredock)
+		doing_heredock(shell, heredock, fd);
 }

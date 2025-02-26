@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:11:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/03 18:20:15 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:33:30 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@
 returns a NULL str if it wasn't found. */
 char	*find_path(char *cmd, t_env *envp)
 {
-	// Imported from pipex, need to see if this works lol, lmao.
 	char	**paths;
 	char	*part_path;
 	char	*path;
 	int		i;
 
-	if(!ft_strncmp(cmd, "./", 2))
+	if (!ft_strncmp(cmd, "./", 2) || !ft_strncmp(cmd, "/", 1))
 		return (ft_strdup(cmd));
-	i = 0;
 	path = get_env_var_value(envp, "PATH");
 	if (path == NULL)
 		return (NULL);
@@ -39,8 +37,9 @@ char	*find_path(char *cmd, t_env *envp)
 		free(path);
 		path = NULL;
 	}
-	ft_free_double_arr(&paths);
-	return (path);
+	if (path == NULL && !access(cmd, F_OK))
+		path = ft_strdup(cmd);
+	return (ft_free_double_arr(&paths), path);
 }
 
 // Checks if a command has a redirection in it lol, lmao
@@ -50,14 +49,14 @@ int	has_redirection(t_tokens *tokens)
 	while (tokens)
 	{
 		if ((tokens->type == INFILE
-			|| tokens->type == HEREDOC
-			|| tokens->type == APP_OUTFILE
-			|| tokens->type == TRU_OUTFILE)
+				|| tokens->type == HEREDOC
+				|| tokens->type == APP_OUTFILE
+				|| tokens->type == TRU_OUTFILE)
 			&& tokens->state == GENERAL)
 			return (1);
 		tokens = tokens->next;
 	}
-	return(0);
+	return (0);
 }
 
 // Opens a file and returns the fd.

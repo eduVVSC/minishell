@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:00:21 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/03 10:39:09 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:32:17 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@
 int	get_token_len(char *str)
 {
 	int	len;
-	int	is_in_quotes;
+	int	quote_state;
 
 	len = 0;
-	is_in_quotes = FALSE;
-	while (str[len] && !is_separator(str[len]))
+	quote_state = GENERAL;
+	while (str[len])
 	{
 		if (is_quote(str[len]))
-			set_quote_state(&is_in_quotes);
-		else if (!is_in_quotes
-				&& (is_redir(str[len]) || str[len] == '|')) //checks if current char is a redir or pipe.
+			set_quote_state(str[len], &quote_state);
+		else if (!quote_state
+			&& (is_redir(str[len]) || str[len] == '|'))
 		{
 			if (len == 0)
 			{
@@ -33,14 +33,17 @@ int	get_token_len(char *str)
 					len++;
 				len++;
 			}
-			break;
+			break ;
 		}
+		if (is_separator(str[len]) && quote_state == GENERAL)
+			break ;
 		len++;
 	}
 	return (len);
 }
 
-// Creates, allocs and fills a string with the next token, also iterates through the given string.
+// Creates, allocs and fills a string with the
+//next token, also iterates through the given string.
 char	*fill_str(char **str)
 {
 	char	*token;
@@ -77,16 +80,29 @@ static t_tokens	*create_node(void)
 	return (node);
 }
 
-static void	create_and_link_node(t_tokens **node)
+static void	create_and_link_node(char *input, t_tokens **node)
 {
 	t_tokens	*new_node;
 
-	new_node = create_node();
-	(*node)->next = new_node;
+	if ((*node)->token[0] == 0 && (*node)->state == EXPANDED)
+	{
+		free ((*node)->token);
+		(*node)->token = NULL;
+		(*node)->state = -1;
+		(*node)->index = 0;
+		(*node)->type = -1;
+		(*node)->next = NULL;
+	}
+	else if (are_there_more_tokens(input))
+	{
+		new_node = create_node();
+		(*node)->next = new_node;
+		(*node) = (*node)->next;
+	}
 }
 
 // Returns a linked list of tokens based on the given input.
-t_tokens	*get_tokens(t_shell *shell ,char *input)
+t_tokens	*get_tokens(t_shell *shell, char *input)
 {
 	t_tokens	*tmp;
 	t_tokens	*head;
@@ -98,17 +114,15 @@ t_tokens	*get_tokens(t_shell *shell ,char *input)
 	while (*input)
 	{
 		tmp->token = fill_str(&input);
+		if (tmp->token[0] == 0)
+			break ;
 		tmp->state = get_token_state(tmp->token);
 		tmp->type = get_token_type(tmp->token);
 		expand_token(shell->env, tmp);
 		tmp->token = clean_tkn_quotes(tmp->token);
-		if (are_there_more_tokens(input))
-		{
-			create_and_link_node(&tmp);
-			tmp = tmp->next;
-		}
-		else
-			break;
+		create_and_link_node(input, &tmp);
+		if (!are_there_more_tokens(input))
+			break ;
 	}
 	tmp = NULL;
 	return (head);

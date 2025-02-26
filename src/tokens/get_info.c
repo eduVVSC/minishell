@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_info.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 18:10:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/20 13:13:12 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:24:59 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // Returns a value based on the state of the given string.
 int	get_token_state(char *str)
 {
-	int last_index;
+	int	last_index;
 
 	last_index = ft_strlen(str) - 1;
 	if ((str[0] == '\'' || str[0] == '\"') && (str[last_index] == str[0]))

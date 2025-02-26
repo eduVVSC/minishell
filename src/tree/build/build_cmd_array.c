@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_cmd_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:17:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/01/31 09:11:14 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:45:43 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,22 @@ int	count_args(t_tokens *tokens)
 	args = 0;
 	if (!tokens)
 		return (0);
-	while(tokens)
+	while (tokens)
 	{
 		if (is_redir_token(tokens))
 		{
 			tokens = tokens->next->next;
-			continue;
+			continue ;
 		}
 		else if (tokens->type == HEREDOC && tokens->state == GENERAL)
 		{
 			tokens = tokens->next;
-			continue;
+			continue ;
 		}
 		else if (tokens->type != SPACE)
 			args++;
 		if (!tokens->next)
-			break;
+			break ;
 		tokens = tokens->next;
 	}
 	return (args);
@@ -49,7 +49,7 @@ char	**build_cmd(t_tokens **tokens)
 	i = 0;
 	nr_args = count_args((*tokens));
 	cmd = malloc((nr_args + 1) * sizeof(char *));
-	while(i < nr_args && (*tokens))
+	while (i < nr_args && (*tokens))
 	{
 		if (is_redir_token(*tokens))
 			(*tokens) = (*tokens)->next->next;
@@ -71,7 +71,7 @@ void	print_cmds(char **cmds)
 	i = 0;
 	while (cmds[i])
 	{
-		printf("(%s) ",cmds[i]);
+		printf("(%s) ", cmds[i]);
 		i++;
 	}
 	printf("\n");
