@@ -6,23 +6,25 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 14:42:56 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/26 14:43:24 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:14:29 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Creates an enpty t_cmds node
-static t_cmds	*make_node(void)
+t_tokens	*copy_token_node(t_tokens *token)
 {
-	t_cmds	*node;
+	t_tokens	*tmp;
 
-	node = malloc(sizeof(t_cmds));
-	if (!node)
+	tmp = malloc(sizeof(t_tokens));
+	if (!tmp)
 		return (NULL);
-	node->token_list = NULL;
-	node->next = NULL;
-	return (node);
+	tmp->type = token->type;
+	tmp->index = token->index;
+	tmp->state = token->state;
+	tmp->token = ft_strdup(token->token);
+	tmp->next = NULL;
+	return (tmp);
 }
 
 t_tokens	*ft_lstlast_a(t_tokens *lst)

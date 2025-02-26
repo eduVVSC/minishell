@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:18:17 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/26 14:45:20 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:15:22 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,17 @@ void	make_nodes(t_cmds *head, int nr_of_nodes)
 	}
 }
 
-t_tokens	*copy_token_node(t_tokens *token)
+// Creates an enpty t_cmds node
+static t_cmds	*make_node(void)
 {
-	t_tokens	*tmp;
+	t_cmds	*node;
 
-	tmp = malloc(sizeof(t_tokens));
-	if (!tmp)
+	node = malloc(sizeof(t_cmds));
+	if (!node)
 		return (NULL);
-	tmp->type = token->type;
-	tmp->index = token->index;
-	tmp->state = token->state;
-	tmp->token = ft_strdup(token->token);
-	tmp->next = NULL;
-	return (tmp);
+	node->token_list = NULL;
+	node->next = NULL;
+	return (node);
 }
 
 /// @brief Creates a new cmd and fills it with the current token.
@@ -90,25 +88,3 @@ t_cmds	*build_cmd_list(t_tokens *tokens)
 	}
 	return (head);
 }
-
-/* // Builds a linked list of commands for the sake of organization.
-t_cmds	*build_cmd_list(t_tokens *tokens)
-{
-	t_cmds *cmd_list;
-	t_cmds *head;
-	int	i;
-	int	nr_of_nodes;
-
-	i = 0;
-	nr_of_nodes = count_nodes(tokens);
-	head = make_node();
-	cmd_list = head;
-	make_nodes(head, nr_of_nodes);
-	while (i < nr_of_nodes)
-	{
-		cmd_list->cmd = build_cmd(&tokens);
-		cmd_list = cmd_list->next;
-		i++;
-	}
-	return(head);
-} */

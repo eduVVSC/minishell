@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 09:26:24 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/26 14:28:39 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:25:33 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,7 @@ char	*clean_tkn_quotes(char *str)
 	int		j;
 	int		close_quote;
 
-	i = 0;
-	j = 0;
-	close_quote = 0;
+	initializing_values(&i, &j, &close_quote);
 	quotes_to_wipe = count_quotes_to_take_off(str);
 	if (quotes_to_wipe == 0)
 		return (str);

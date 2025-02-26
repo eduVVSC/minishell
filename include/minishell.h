@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/26 14:44:36 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:25:05 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,10 +170,13 @@ int			is_quote(char c);
 int			is_redir(char c);
 void		set_quote_state(char c, int *quote_state);
 int			are_there_more_tokens(char *input);
+void		initializing_values(int *i, int *j, int *close_quote);
 
 // =============tree=============== //
 
-void			spipe_error(void);
+t_tokens	*copy_token_node(t_tokens *token);
+static t_cmds	*make_node(void);
+void			pipe_error(void);
 void			fork_error(void);
 void			print_cmds(char **cmds);
 char			*make_tree(t_shell *shell);
@@ -184,7 +187,6 @@ t_cmds			*build_cmd_list(t_tokens *tokens);
 char			*find_path(char *cmd, t_env *envp);
 t_tokens		*ft_lstlast_a(t_tokens *lst);
 void			ft_lstadd_back_a(t_tokens **lst, t_tokens *new);
-static t_cmds	*make_node(void);
 // Exec Tree Utils
 int		is_heredoc_command(char **cmd);
 int		get_matrix_len(char **matrix);

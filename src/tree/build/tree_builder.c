@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/26 15:58:18 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:16:09 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,61 @@ void	print_tree_tokens(t_tokens *tokens)
 	printf("\n");
 }
 
+// checks if the input given is one of the
+// special cases where it should be executed on the parent process.
+int	is_builtin_special_case(t_cmds *first_cmd)
+{
+	char	*first_input;
+
+	first_input = first_cmd->token_list->token;
+	if (first_cmd->next == NULL)
+	{
+		if (!ft_strcmp(first_input, "unset")
+			|| !ft_strcmp(first_input, "export")
+			|| !ft_strcmp(first_input, "cd")
+			|| !ft_strcmp(first_input, "exit"))
+			return (1);
+	}
+	return (0);
+}
+
+char	*tree_exec(t_shell *shell, pid_t pid)
+{
+	int	exit_code;
+	if (is_builtin_special_case(shell->cmd_list))
+	{
+		free(shell->env->var_value);
+		shell->env->var_value = NULL;
+		return (ft_itoa(execute_builtin_in_parent(shell)));
+	}
+	else
+	{
+		pid = fork();
+		if (pid == 0)
+			exec_tree(shell, shell->tree);
+		waitpid(pid, &exit_code, 0);
+		if (pid == 0)
+			clean_and_terminate(shell);
+		clean_fds(shell->tree);
+		free(shell->env->var_value);
+		return (ft_itoa(WEXITSTATUS(exit_code)));
+	}
+}
+
+char	*make_tree(t_shell *shell)
+{
+	pid_t		pid;
+	int			exit_code;
+
+	shell->tree = init_tree_node();
+	shell->cmd_list = build_cmd_list(shell->tokens);
+	build_tree(shell->tree, shell->cmd_list);
+	process_heredocs(shell);
+	if (g_sig_sign == SIGINT)
+		return (clean_fds(shell->tree), free(shell->env->var_value), ft_strdup("130"));
+	return (tree_exec(shell, pid));
+}
+
 /* void	print_tree(t_tree_node *head)
 {
 	int	layer;
@@ -98,74 +153,3 @@ void	print_tree_tokens(t_tokens *tokens)
 		layer++;
 	}
 } */
-
-// checks if the input given is one of the
-// special cases where it should be executed on the parent process.
-int	is_builtin_special_case(t_cmds *first_cmd)
-{
-	char	*first_input;
-
-	first_input = first_cmd->token_list->token;
-	if (first_cmd->next == NULL)
-	{
-		if (!ft_strcmp(first_input, "unset")
-			|| !ft_strcmp(first_input, "export")
-			|| !ft_strcmp(first_input, "cd")
-			|| !ft_strcmp(first_input, "exit"))
-			return (1);
-	}
-	return (0);
-}
-
-/* char	*tree_exec(t_shell *shell, pid_t pid)
-{
-	if (is_builtin_special_case(shell->cmd_list))
-	{
-		free(shell->env->var_value);
-		shell->env->var_value = NULL;
-		return (ft_itoa(execute_builtin_in_parent(shell)));
-	}
-	else
-	{
-		pid = fork();
-		if (pid == 0)
-			exec_tree(shell, shell->tree);
-		waitpid(pid, &exit_code, 0);
-		if (pid == 0)
-			clean_and_terminate(shell);
-		clean_fds(shell->tree);
-		free(shell->env->var_value);
-		return (ft_itoa(WEXITSTATUS(exit_code)));
-	}
-} */
-
-char	*make_tree(t_shell *shell)
-{
-	pid_t		pid;
-	int			exit_code;
-
-	shell->tree = init_tree_node();
-	shell->cmd_list = build_cmd_list(shell->tokens);
-	build_tree(shell->tree, shell->cmd_list);
-	process_heredocs(shell);
-	if (g_sig_sign == SIGINT)
-		return (clean_fds(shell->tree), free(shell->env->var_value), ft_strdup("130"));
-	if (is_builtin_special_case(shell->cmd_list))
-	{
-		free(shell->env->var_value);
-		shell->env->var_value = NULL;
-		return (ft_itoa(execute_builtin_in_parent(shell)));
-	}
-	else
-	{
-		pid = fork();
-		if (pid == 0)
-			exec_tree(shell, shell->tree);
-		waitpid(pid, &exit_code, 0);
-		if (pid == 0)
-			clean_and_terminate(shell);
-		clean_fds(shell->tree);
-		free(shell->env->var_value);
-		return (ft_itoa(WEXITSTATUS(exit_code)));
-	}
-}

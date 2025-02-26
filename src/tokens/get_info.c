@@ -6,11 +6,18 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 18:10:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/26 14:24:59 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:24:05 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	initializing_values(int *i, int *j, int *close_quote)
+{
+	(*i) = 0;
+	(*j) = 0;
+	(*close_quote) = 0;
+}
 
 // Returns a value based on the state of the given string.
 int	get_token_state(char *str)
