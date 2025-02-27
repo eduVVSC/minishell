@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:30:50 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/27 16:17:53 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:32:19 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	exec_cmd(t_shell *shell, t_tokens *node_content)
 
 	cmd = build_cmd(&node_content);
 	error = is_builtin(shell, cmd);
- 	if (error == -1)
+	if (error == -1)
 	{
 		path = find_path(cmd[0], shell->env);
 		envp = transfrom_env_to_array(shell->env);

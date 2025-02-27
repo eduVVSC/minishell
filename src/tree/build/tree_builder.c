@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/27 16:22:34 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:39:50 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ char	*make_tree(t_shell *shell)
 	pid_t		pid;
 	int			exit_code;
 
-	exit_code = 0;
 	shell->tree = init_tree_node();
 	shell->cmd_list = build_cmd_list(shell->tokens);
 	build_tree(shell->tree, shell->cmd_list);
@@ -147,6 +146,6 @@ char	*make_tree(t_shell *shell)
 			clean_and_terminate(shell);
 		clean_fds(shell->tree);
 		free(shell->env->var_value);
-		return (ft_itoa(exit_code));
+		return (ft_itoa(WEXITSTATUS(exit_code)));
 	}
 }
