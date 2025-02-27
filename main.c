@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/26 16:27:01 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:07:26 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	runnig_shell(t_shell *shell)
 	while (1)
 	{
 		setting_signals();
-		//signal(SIGINT, cntrl_c);
 		input = readline(shell->dir_now);
 		add_history(input);
 		if (g_sig_sign == SIGINT)

@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/26 16:16:09 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:01:21 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int	is_builtin_special_case(t_cmds *first_cmd)
 char	*tree_exec(t_shell *shell, pid_t pid)
 {
 	int	exit_code;
+
+	exit_code = 0;
 	if (is_builtin_special_case(shell->cmd_list))
 	{
 		free(shell->env->var_value);
@@ -92,13 +94,16 @@ char	*tree_exec(t_shell *shell, pid_t pid)
 	{
 		pid = fork();
 		if (pid == 0)
+		{
+			signal(SIGINT, SIG_IGN);
 			exec_tree(shell, shell->tree);
+		}
 		waitpid(pid, &exit_code, 0);
 		if (pid == 0)
 			clean_and_terminate(shell);
 		clean_fds(shell->tree);
 		free(shell->env->var_value);
-		return (ft_itoa(WEXITSTATUS(exit_code)));
+		return (ft_itoa(exit_code));
 	}
 }
 

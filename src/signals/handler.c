@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:41:27 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/26 16:14:12 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:32:09 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,13 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 
 void	cntrl_c(void)
 {
-	g_sig_sign = SIGINT;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
+	if (g_sig_sign != SIGINT)
+	{
+		g_sig_sign = SIGINT;
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+	}
 }
 
 void	cntrl_backslash(void)

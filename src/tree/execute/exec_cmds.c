@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:30:50 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/26 15:54:56 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:35:24 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,14 @@ void	exec_cmd(t_shell *shell, t_tokens *node_content)
 
 	cmd = build_cmd(&node_content);
 	error = is_builtin(shell, cmd);
-	//signal(SIGINT, dont_do_anything_beach); // commented to fix the signal!!!
 	if (error == -1)
 	{
 		path = find_path(cmd[0], shell->env);
 		envp = transfrom_env_to_array(shell->env);
 		error = check_for_cmd_errors(path);
 		if (!error && (ft_strncmp(cmd[0], "./", 2)
-				&& ft_strncmp(cmd[0], "/", 1)))
+				&& ft_strncmp(cmd[0], "/", 1))
+				&& g_sig_sign != SIGINT)
 			error = execve(path, cmd, envp);
 		else if (!error)
 			error = execve(cmd[0], cmd, envp);
