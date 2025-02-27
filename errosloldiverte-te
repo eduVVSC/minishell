@@ -3,3 +3,6 @@
 
 cat | cat | ls -> ctrl c printa 3 nl
 
+
+error in the exit code in the builtins, the exit code are correct but they aint being get by
+exit right(Ex: exit code 2 -> result = 512)

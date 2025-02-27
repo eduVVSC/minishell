@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/27 15:01:21 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:39:34 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	*tree_exec(t_shell *shell, pid_t pid)
 			clean_and_terminate(shell);
 		clean_fds(shell->tree);
 		free(shell->env->var_value);
-		return (ft_itoa(exit_code));
+		return (ft_itoa(WEXITSTATUS(exit_code)));
 	}
 }
 
