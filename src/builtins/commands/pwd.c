@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:44:39 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/11 14:59:58 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:18:52 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	do_pwd(char **command)
 	if (check_exist_optionals(command) == -1)
 		return (handle_pwd_error(command));
 	directory = getcwd(NULL, 0);
-	if (directory == NULL)
-		return (-1);
+	if (!directory || directory == NULL)
+		return (1);
 	ft_printf("%s\n", directory);
 	free (directory);
 	return (0);

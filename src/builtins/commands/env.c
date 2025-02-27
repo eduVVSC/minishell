@@ -13,11 +13,11 @@
 #include "minishell.h"
 
 /// @brief Print the error message in the stderror
-/// @return (127) exit_code for error
+/// @return (125) exit_code for error
 int	handle_env_error(char *command)
 {
 	ft_putstr_fd("env: Take no options or arguments\n", 2);
-	return (127);
+	return (125);
 }
 
 /// @brief Print all the env var with the "=" in the enviroment list
@@ -41,7 +41,7 @@ void	print_env(t_env *env)
 }
 
 /// @brief do the env function without arguments
-/// @return (0) succes (127) error
+/// @return (0) succes (125) error
 int	do_env(char **command, t_env *env)
 {
 	if (check_exist_optionals(command) != 1)
