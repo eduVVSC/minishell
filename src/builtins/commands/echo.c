@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:48:28 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/11 12:41:10 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:02:23 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	check_type(char *dependency)
 	int	i;
 
 	i = 1;
+	if (!dependency)
+		return (0);
 	if (dependency[0] != '-')
 		return (0);
 	while (dependency[i] != '\0')
