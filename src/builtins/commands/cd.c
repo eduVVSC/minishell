@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 16:52:58 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/11 12:39:55 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 09:21:26 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ int	cd_opitionals(t_env *env, char **command)
 		where_to = get_env_var_value(env, "OLDPWD");
 		if (!where_to)
 		{
-			ft_putstr_fd("bash: cd: OLDPWD not set\n", 2);
+			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
 			return (2);
 		}
 		chdir(where_to);
 		return (0);
 	}
-	ft_putstr_fd("bash: cd: ", 2);
+	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd(command[1], 2);
 	ft_putstr_fd(" not set\n", 2);
 	return (2);
@@ -48,7 +48,7 @@ int	cd_no_args(t_env *env)
 	home = get_env_var_value(env, "HOME");
 	if (home == NULL)
 	{
-		ft_putstr_fd("bash: cd: HOME not set\n", 2);
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		return (1);
 	}
 	returned_from_exec = chdir(home);
@@ -70,7 +70,7 @@ int	cd_args(t_env *env, char **command)
 		where_to = get_env_var_value(env, "HOME");
 		if (!where_to)
 		{
-			ft_putstr_fd("bash: cd: HOME not set\n", 2);
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 			return (2);
 		}
 		chdir(where_to);
@@ -113,7 +113,7 @@ int	do_cd(t_shell *shell, char **command)
 
 	old_pwd = getcwd(NULL, 0);
 	if (get_height(command) > 2)
-		ft_putstr_fd("bash: cd: too many arguments\n", 2);
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 	many_args = check_exist_optionals(command);
 	if (many_args == -1)
 		returned_from_exec = cd_opitionals(shell->env, command);

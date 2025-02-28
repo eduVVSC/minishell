@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 14:57:13 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/25 15:06:41 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 09:21:30 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	handle_export_error(char *bad_export)
 {
 	char	*message;
 
-	message = ft_strjoin("bash: export: '", bad_export);
+	message = ft_strjoin("minishell: export: '", bad_export);
 	message = ft_strjoin_free_s1(message, "': not a valid identifier\n");
 	ft_putstr_fd(message, 2);
 	free (message);

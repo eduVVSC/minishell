@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:30:50 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/27 14:35:24 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 09:14:09 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	exec_cmd(t_shell *shell, t_tokens *node_content)
 		error = check_for_cmd_errors(path);
 		if (!error && (ft_strncmp(cmd[0], "./", 2)
 				&& ft_strncmp(cmd[0], "/", 1))
-				&& g_sig_sign != SIGINT)
+			&& g_sig_sign != SIGINT)
 			error = execve(path, cmd, envp);
 		else if (!error)
 			error = execve(cmd[0], cmd, envp);

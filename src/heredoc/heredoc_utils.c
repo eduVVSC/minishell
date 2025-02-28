@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:22:29 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/26 15:52:51 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 09:24:10 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 /// @return (1)
 int	heredoc_error(void)
 {
-	ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(" syntax error near unexpected token `newline'\n", 2);
 	return (1);
 }
 

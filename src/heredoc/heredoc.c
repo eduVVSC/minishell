@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:25:43 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/27 14:10:43 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 09:09:55 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	doing_heredock(t_shell *shell, t_heredock *heredock, int fd)
 	if (ft_strlen(heredock->fullinput_until_key) > 1000000)
 	{
 		free_heredock(heredock);
-		pipe_error();
+		pipe_error(shell);
 		return ;
 	}
 	ft_putstr_fd(heredock->fullinput_until_key, fd);

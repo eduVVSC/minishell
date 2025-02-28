@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_builder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/27 17:45:05 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 09:13:23 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,6 @@ void	build_tree(t_tree_node *top_node, t_cmds *cmd_list)
 		free(left);
 		free(right);
 	}
-}
-
-void	print_tree_tokens(t_tokens *tokens)
-{
-	while (tokens)
-	{
-		printf("(%s) ", tokens->token);
-		tokens = tokens->next;
-	}
-	printf("\n");
 }
 
 // checks if the input given is one of the
@@ -117,44 +107,7 @@ char	*make_tree(t_shell *shell)
 	build_tree(shell->tree, shell->cmd_list);
 	process_heredocs(shell);
 	if (g_sig_sign == SIGINT)
-		return (clean_fds(shell->tree), free(shell->env->var_value), ft_strdup("130"));
+		return (clean_fds(shell->tree),
+			free(shell->env->var_value), ft_strdup("130"));
 	return (tree_exec(shell, pid));
 }
-
-/* void	print_tree(t_tree_node *head)
-{
-	int	layer;
-
-	layer = 1;
-	if (!head->right)
-	{
-		printf("Layer: %d\n", layer);
-		printf("Node: ");
-		print_tree_tokens(head->content);
-		if (head->left)
-		{
-			printf("Left: ");
-			print_tree_tokens(head->left->content);
-		}
-		printf("---------------------\n\n");
-	}
-	while (head->right)
-	{
-		printf("Layer: %d\n", layer);
-		printf("Node: ");
-		print_tree_tokens(head->content);
-		if (head->left)
-		{
-			printf("Left: ");
-			print_tree_tokens(head->left->content);
-		}
-		if (head->right)
-		{
-			printf("Right: ");
-			print_tree_tokens(head->right->content);
-		}
-		head = head->right;
-		printf("---------------------\n\n");
-		layer++;
-	}
-} */

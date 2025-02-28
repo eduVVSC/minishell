@@ -3,19 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   read_heredocs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 15:55:30 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/27 14:10:35 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 09:11:56 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	read_heredoc_on_loop(t_shell *s, t_tokens *curr, int *fd, int nr_heredocs)
+{
+	while (curr)
+	{
+		if (curr->type == HEREDOC)
+		{
+			handle_heredoc(s, curr, fd[WRITE]);
+			if (nr_heredocs > 1)
+			{
+				nr_heredocs--;
+				close_fds(fd);
+				if (pipe(fd) == -1)
+					pipe_error(s);
+			}
+			else
+				close(fd[WRITE]);
+		}
+		if (g_sig_sign == SIGINT)
+		{
+			close_fds(fd);
+			return (-1);
+		}
+		curr = curr->next;
+	}
+	return (fd[READ]);
+}
+
 void	read_heredocs(t_shell *shell, t_tree_node *node)
 {
 	int			fd[2];
 	int			nr_of_heredocs;
+	int			last_fd;
 	t_tokens	*current;
 
 	current = node->content;
@@ -23,27 +51,11 @@ void	read_heredocs(t_shell *shell, t_tree_node *node)
 	if (!nr_of_heredocs)
 		return ;
 	if (pipe(fd) == -1)
-		pipe_error();
-	while (current)
-	{
-		if (current->type == HEREDOC)
-		{
-			handle_heredoc(shell, current, fd[WRITE]);
-			if (nr_of_heredocs > 1)
-			{
-				nr_of_heredocs--;
-				close_fds(fd);
-				if (pipe(fd) == -1)
-					pipe_error();
-			}
-			else
-				close(fd[WRITE]);
-		}
-		if (g_sig_sign == SIGINT)
-			return (close_fds(fd));
-		current = current->next;
-	}
-	node->last_heredoc_fd = fd[READ];
+		pipe_error(shell);
+	last_fd = read_heredoc_on_loop(shell, current, fd, nr_of_heredocs);
+	if (last_fd == -1)
+		return ;
+	node->last_heredoc_fd = last_fd;
 }
 
 void	check_for_heredocs(t_shell *shell, t_tree_node *node)

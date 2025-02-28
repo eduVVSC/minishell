@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/27 15:01:30 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 09:07:42 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,8 +176,8 @@ void		initializing_values(int *i, int *j, int *close_quote);
 
 t_tokens	*copy_token_node(t_tokens *token);
 static t_cmds	*make_node(void);
-void			pipe_error(void);
-void			fork_error(void);
+void			pipe_error(t_shell *shell);
+void			fork_error(t_shell *shell);
 void			print_cmds(char **cmds);
 char			*make_tree(t_shell *shell);
 void			exec_tree(t_shell *shell, t_tree_node *node);

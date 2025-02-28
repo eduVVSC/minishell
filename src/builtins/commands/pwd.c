@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:44:39 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/27 17:48:28 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 09:21:34 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	handle_pwd_error(char **command)
 {
 	char	*message;
 
-	message = ft_strjoin("bash: pwd: ", command[1]);
+	message = ft_strjoin("minishell: pwd: ", command[1]);
 	message = ft_strjoin_free_s1(message, ": invalid option\n");
 	ft_putstr_fd(message, 2);
 	free (message);
