@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/28 10:40:56 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:46:40 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,8 @@ typedef struct s_shell
 	struct s_tokens		*tokens;
 	struct s_tree_node	*tree;
 	struct s_cmds		*cmd_list;
-	char				*dir_now; // thi will be pwd with an $ in the end
 	struct s_heredock	*heredock;
-	//t_tree_node	*tree;
-	//char		*message;?
+	char				*dir_now;
 }			t_shell;
 
 typedef struct s_env
@@ -69,7 +67,7 @@ typedef struct s_env
 	char			*var_name;
 	char			*operant;
 	char			*var_value;
-	int				printed; // to be used on the export with no args
+	int				printed;
 	int				behaviour;
 	struct s_env	*next;
 }				t_env;

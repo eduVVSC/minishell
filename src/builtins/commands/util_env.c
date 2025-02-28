@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:44:39 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/11 15:16:31 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:54:46 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*only_name(char *str)
 
 	i = 0;
 	name = malloc(sizeof(char) * 1);
+	if (!name)
+		return (NULL);
 	name[0] = 0;
 	while (str[i] != '=' && str[i] != '+')
 	{
@@ -41,6 +43,8 @@ char	*only_value(char *str)
 
 	i = 0;
 	var_value = malloc(sizeof(char) * 1);
+	if (!var_value)
+		return (NULL);
 	var_value[0] = 0;
 	while (str[i] != '=')
 		i++;

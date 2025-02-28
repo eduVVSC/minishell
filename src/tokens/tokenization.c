@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 15:00:21 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/26 16:22:49 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:56:01 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ char	*fill_str(char **str)
 		*(*str)++;
 	len = get_token_len((*str));
 	token = malloc((len + 1) * sizeof(char));
+	if (!token)
+		return (NULL);
 	while (i < len)
 	{
 		token[i] = *(*str)++;

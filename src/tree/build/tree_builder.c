@@ -6,7 +6,7 @@
 /*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/28 09:13:23 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:56:37 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_tree_node	*init_tree_node(void)
 	t_tree_node	*new_node;
 
 	new_node = malloc(sizeof(t_tree_node));
+	if (!new_node)
+		return (NULL);
 	new_node->content = NULL;
 	new_node->left = NULL;
 	new_node->right = NULL;

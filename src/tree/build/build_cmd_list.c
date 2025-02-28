@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   build_cmd_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:18:17 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/26 16:15:22 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:14:10 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// Creates an enpty t_cmds node
+static t_cmds	*make_node(void)
+{
+	t_cmds	*node;
+
+	node = malloc(sizeof(t_cmds));
+	if (!node)
+		return (NULL);
+	node->token_list = NULL;
+	node->next = NULL;
+	return (node);
+}
 
 void	make_nodes(t_cmds *head, int nr_of_nodes)
 {
@@ -25,19 +38,6 @@ void	make_nodes(t_cmds *head, int nr_of_nodes)
 		tmp = tmp->next;
 		i++;
 	}
-}
-
-// Creates an enpty t_cmds node
-static t_cmds	*make_node(void)
-{
-	t_cmds	*node;
-
-	node = malloc(sizeof(t_cmds));
-	if (!node)
-		return (NULL);
-	node->token_list = NULL;
-	node->next = NULL;
-	return (node);
 }
 
 /// @brief Creates a new cmd and fills it with the current token.

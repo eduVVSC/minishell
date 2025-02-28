@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_redirs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 18:03:47 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/26 14:18:07 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:14:44 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,4 @@ int	is_redir_token(t_tokens *tokens)
 		&& tokens->state == GENERAL)
 		return (1);
 	return (0);
-}
-
-void	clean_redirs(t_tokens *tokens)
-{
-	t_tokens	*tmp;
-	t_tokens	*redir;
-
-	tmp = tokens;
-	while (tmp)
-	{
-		printf("reading: %s\n", tmp->next->token);
-		if (is_redir_token(tmp->next) && tmp->next->state == GENERAL)
-		{
-			redir = tmp->next;
-			tmp = tmp->next->next->next;
-			free_token(redir->next);
-			free_token(redir);
-			if (!tmp)
-				break ;
-		}
-		if (tmp->next)
-			tmp = tmp->next;
-	}
-	print_tokens(tokens);
 }

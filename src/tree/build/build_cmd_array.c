@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_cmd_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:17:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/26 14:45:43 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:56:13 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	**build_cmd(t_tokens **tokens)
 	i = 0;
 	nr_args = count_args((*tokens));
 	cmd = malloc((nr_args + 1) * sizeof(char *));
+	if (!cmd)
+		return (NULL);
 	while (i < nr_args && (*tokens))
 	{
 		if (is_redir_token(*tokens))

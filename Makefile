@@ -35,7 +35,7 @@ OBJ_FILES := $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC_FILES))
 all: ${NAME}
 
 ${NAME}: ${LIBFT} ${MAIN_FILE} $(OBJ_FILES) | $(OBJ_DIR)
-	@${CC} ${FLAGS} ${MAIN_FILE} -lreadline $(OBJ_FILES) $(LIBFT) -o $(NAME)
+	@${CC} ${FLAGS} -Wall -Wextra -Werror ${MAIN_FILE} -lreadline $(OBJ_FILES) $(LIBFT) -o $(NAME)
 	@echo "$(GRN)[ ${NAME} ] compiled successfully.$(RES)"
 
 ${LIBFT}:

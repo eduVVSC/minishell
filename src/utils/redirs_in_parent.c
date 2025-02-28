@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs_in_parent.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:34:25 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/26 14:47:29 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 12:57:37 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,25 @@
 
 void	parent_exit(t_shell *shell, char **cmd, int fd1, int fd2)
 {
+	// parent exit because it behaves a bit diffently than in a child process.
 	int	exit_code;
 
+	printf("%s\n", get_env_var_value(shell->env, "?"));// -> (null)
 	close(fd1);
 	close(fd2);
-	if (!cmd[1])
-		printf("exit\n");
+	printf("exit\n"); // prints exit even if theres an error.
 	exit_code = get_exit_code(cmd);
-	ft_free_double_arr(&cmd);
-	clean_and_terminate_with_status(shell, exit_code);
+	if (exit_code != -1 && exit_code != -2) // error code -1 or -2 means there was an actual error in the use, this is done to distinguish from inputed exit codes (ex: exit 2)
+	{
+		ft_free_double_arr(&cmd);
+		clean_and_terminate_with_status(shell, exit_code);
+	}
+	if (exit_code < 0) // this verifies if the exit code is negative, meaning an actual error occured during the execution of the command.
+	{
+		exit_code = exit_code * -1; // exit code is now ready to be set.
+		shell->env->var_value = ft_strdup(ft_itoa((exit_code))); // setting exit code.
+	}
+	printf("%s\n", shell->env->var_value);// -> (null)
 }
 
 int	exec_builtin_especial_cases(t_shell *shell,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_expansions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 14:21:27 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/26 14:15:09 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:55:15 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char	*var_name(char *str, int start)
 		|| (str[start + i] >= 'A' && str[start + i] <= 'Z'))
 		i++;
 	var_name = malloc(sizeof(char) * (i + 1));
+	if (!var_name)
+		return (NULL);
 	i = 0;
 	while ((str[start + i] >= 'a' && str[start + i] <= 'z')
 		|| (str[start + i] >= 'A' && str[start + i] <= 'Z'))
