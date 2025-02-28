@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 14:23:03 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/26 14:24:31 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:09:17 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@
 int	exclamation_validation(char *input, int pos, int val_num)
 {
 	if ((input[pos] == '!'
-			&& input[pos + 1] == '\'' && val_num == single_quo))
-		return (true);
+			&& input[pos + 1] == '\'' && val_num == SINGLE_QUO))
+		return (TRUE);
 	else if ((input[pos] == '!'
-			&& input[pos + 1] == '\"' && val_num == double_quo))
-		return (true);
+			&& input[pos + 1] == '\"' && val_num == DOUBLE_QUO))
+		return (TRUE);
 	else if (input[pos] == '!'
 		&& (input[pos + 1] != ' ' && input[pos + 1] != '\0'))
 	{
 		ft_putstr_fd("minishell: event not found\n", 2);
-		return (false);
+		return (FALSE);
 	}
-	return (true);
+	return (TRUE);
 }
 
 void	parenthesis_validation(char *input, int pos)
@@ -51,7 +51,7 @@ int	check_invalid_chars(char *input, int i)
 	{
 		if ((input[i] == '(' || input[i] == ')') && val_num == GENERAL)
 			return (parenthesis_validation(input, i), 0);
-		else if (exclamation_validation(input, i, val_num) == false)
+		else if (exclamation_validation(input, i, val_num) == FALSE)
 			return (0);
 		else if ((input[i] == '\\' || input[i] == ';') && val_num == GENERAL)
 			return (print_syntax_error(INVALID_CHAR_ERROR), 0);

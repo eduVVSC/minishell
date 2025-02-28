@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_brackets.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 12:37:40 by dioferre          #+#    #+#             */
-/*   Updated: 2024/11/19 12:37:41 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:10:00 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	is_bracket(char c)
 {
 	if (c == '(' || c == '{' || c == '[')
 		return (c);
-	return (false);
+	return (FALSE);
 }
 
 /* Checks for open bracks in the string
@@ -44,9 +44,9 @@ int	check_open_brackets(const char *str)
 			while (str[i + j] && str[i + j] != closed_bracket)
 				j++;
 			if (str[i + j] == '\0')
-				return (true);
+				return (TRUE	);
 		}
 		i++;
 	}
-	return (false);
+	return (FALSE);
 }

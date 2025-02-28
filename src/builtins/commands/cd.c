@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 16:52:58 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/28 09:21:26 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:06:04 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	cd_opitionals(t_env *env, char **command)
 			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
 			return (2);
 		}
+		ft_printf("%s\n", where_to);
 		chdir(where_to);
 		return (0);
 	}
