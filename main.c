@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/28 11:05:25 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/02/28 14:00:00 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	check_token(t_shell *shell, t_tokens *tokens)
 
 /// @brief Run the shell implementations
 /// @param shell
+
 void	runnig_shell(t_shell *shell)
 {
 	char	*input;

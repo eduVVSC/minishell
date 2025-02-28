@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs_in_parent.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:34:25 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/28 12:57:37 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/28 13:59:08 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 void	parent_exit(t_shell *shell, char **cmd, int fd1, int fd2)
 {
-	// parent exit because it behaves a bit diffently than in a child process.
 	int	exit_code;
 
-	printf("%s\n", get_env_var_value(shell->env, "?"));// -> (null)
 	close(fd1);
 	close(fd2);
-	printf("exit\n"); // prints exit even if theres an error.
 	exit_code = get_exit_code(cmd);
 	if (exit_code != -1 && exit_code != -2) // error code -1 or -2 means there was an actual error in the use, this is done to distinguish from inputed exit codes (ex: exit 2)
 	{
@@ -32,7 +29,6 @@ void	parent_exit(t_shell *shell, char **cmd, int fd1, int fd2)
 		exit_code = exit_code * -1; // exit code is now ready to be set.
 		shell->env->var_value = ft_strdup(ft_itoa((exit_code))); // setting exit code.
 	}
-	printf("%s\n", shell->env->var_value);// -> (null)
 }
 
 int	exec_builtin_especial_cases(t_shell *shell,
@@ -73,5 +69,7 @@ int	execute_builtin_in_parent(t_shell *shell)
 	dup2(original_stdin, STDOUT_FILENO);
 	close(original_stdin);
 	close(original_stdout);
+	free(shell->env->var_value);
+	shell->env->var_value = NULL;
 	return (exit_status);
 }

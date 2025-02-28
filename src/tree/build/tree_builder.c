@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_builder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/28 11:56:37 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/02/28 14:00:05 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,7 @@ char	*tree_exec(t_shell *shell, pid_t pid)
 
 	exit_code = 0;
 	if (is_builtin_special_case(shell->cmd_list))
-	{
-		free(shell->env->var_value);
-		shell->env->var_value = NULL;
 		return (ft_itoa(execute_builtin_in_parent(shell)));
-	}
 	else
 	{
 		pid = fork();
