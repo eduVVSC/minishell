@@ -14,10 +14,10 @@
 
 /// @brief Print the error message in the stderror
 /// @return (127) exit_code for error
-int	handle_env_error(char *command)
+int	handle_env_error(void)
 {
 	ft_putstr_fd("env: Take no options or arguments\n", 2);
-	return (127);
+	return (1);
 }
 
 /// @brief Print all the env var with the "=" in the enviroment list
@@ -45,7 +45,7 @@ void	print_env(t_env *env)
 int	do_env(char **command, t_env *env)
 {
 	if (check_exist_optionals(command) != 1)
-		return (handle_env_error(command[1]));
+		return (handle_env_error());
 	print_env(env);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:30:50 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/28 09:14:09 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/03/01 13:50:34 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	print_cmd_errors(char *cmd, int error_code)
 
 int	print_execve_error(char *path, char *cmd, int error_code)
 {
+	(void) path;
 	if (error_code != 0)
 	{
 		if (!ft_strncmp(cmd, "./", 2))

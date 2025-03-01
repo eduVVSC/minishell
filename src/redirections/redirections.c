@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 11:35:50 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/26 14:19:39 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/01 17:14:26 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	handle_outfile(t_shell *shell, t_tokens *tokens)
 	char	*file_name;
 	int		fd;
 
+	fd = 0;
 	if (tokens->next)
 		file_name = tokens->next->token;
 	else
@@ -82,6 +83,8 @@ void	handle_outfile(t_shell *shell, t_tokens *tokens)
 void	handle_redirections(t_shell *shell,
 		t_tokens *tokens, int last_heredoc_fd)
 {
+	if (check_for_cmds(tokens) == -1)
+		clean_and_terminate_with_status(shell, 0);
 	while (tokens)
 	{
 		if (tokens->state == GENERAL)

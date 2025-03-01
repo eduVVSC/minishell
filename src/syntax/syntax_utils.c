@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 11:29:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/25 17:55:51 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/03/01 17:47:21 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	has_double_pipe(char *input, int i)
 	return (0);
 }
 
-int	is_forbidden_char(char c)
+/* int	is_forbidden_char(char c)
 {
 	if (c == '\\' || c == ';'
 		|| c == '(' || c == ')'
@@ -35,12 +35,12 @@ int	is_forbidden_char(char c)
 		|| c == '&' || c == '!')
 		return (TRUE);
 	return (FALSE);
-}
+} */
 
 int	is_normal_char(char c)
 {
 	if (!is_separator(c) && !is_redir(c)
-		&& !is_forbidden_char(c)
+		//	&& !is_forbidden_char(c)
 		&& c != '|'
 		&& !is_quote(c))
 		return (TRUE);

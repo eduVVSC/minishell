@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:44:39 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/11 15:11:19 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/01 13:28:24 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char	*join_str_char(char *s1, char charac)
 {
 	char	*str;
 	int		i;
-	int		len;
 
 	i = -1;
 	str = malloc((ft_strlen(s1) + 2) * sizeof(char));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:42:43 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/28 12:05:46 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/03/01 14:28:08 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,15 @@ int	get_exit_code(char **cmd)
 	else
 		exit_code = 0;
 	if (has_only_nrs(cmd[1]) == 2)
-		return (2, -2);
+		return (2);
 	else if (get_matrix_len(cmd) > 2)
 	{
+		printf("exit\n");
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd("too many arguments\n", 2);
-		return (1, -1);
+		return (-1);
 	}
+	printf("exit\n");
 	return (exit_code);
 }
 

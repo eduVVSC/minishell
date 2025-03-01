@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_heredocs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 15:55:30 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/28 09:11:56 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/03/01 13:32:39 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,5 @@ void	check_for_heredocs(t_shell *shell, t_tree_node *node)
 
 void	process_heredocs(t_shell *shell)
 {
-	int		exit_status;
-
 	check_for_heredocs(shell, shell->tree);
 }

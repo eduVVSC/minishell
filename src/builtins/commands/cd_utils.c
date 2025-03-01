@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 16:52:51 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/11 12:06:13 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/03/01 16:56:57 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	handle_cd_error(char **command)
 		message = ft_strjoin_free_s1(message, ": No such file or directory\n");
 	ft_putstr_fd(message, 2);
 	free (message);
-	return (2);
+	return (1);
 }
 
 /// @brief Start the variable temp as the new pwd variable

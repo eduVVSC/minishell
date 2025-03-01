@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 09:26:24 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/28 11:18:50 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/03/01 14:03:40 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// lol
 int	is_redir(char c)
 {
 	if (c == '>' || c == '<')
@@ -46,9 +45,12 @@ void	set_quote_state(char c, int *quote_state)
 
 int	are_there_more_tokens(char *input)
 {
-	while (is_separator(*input))
-		*input++;
-	if (*input)
+	int	i;
+
+	i = 0;
+	while (is_separator(input[i]))
+		i++;
+	if (input[i])
 		return (1);
 	return (0);
 }

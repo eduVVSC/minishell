@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/28 14:00:00 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/01 19:09:09 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	check_token(t_shell *shell, t_tokens *tokens)
 
 /// @brief Run the shell implementations
 /// @param shell
-
 void	runnig_shell(t_shell *shell)
 {
 	char	*input;
@@ -88,13 +87,14 @@ void	runnig_shell(t_shell *shell)
 	while (1)
 	{
 		setting_signals();
+		//printf("here\n");
 		input = readline(shell->dir_now);
-		add_history(input);
+		if (input && input[0] != 0)
+			add_history(input);
 		if (g_sig_sign == SIGINT)
 			free_n_add_exit_status(shell, "130");
 		else if (check_syntax(shell, input) == 0)
 		{
-			input = check_last_character(input);
 			shell->tokens = get_tokens(shell, input);
 			if (check_token(shell, shell->tokens))
 				shell->env->var_value = make_tree(shell);

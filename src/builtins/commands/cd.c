@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 16:52:58 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/28 11:06:04 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/01 17:46:50 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 /// @brief Handle the "cd -..." the only executable one is the "cd -"
 /// @brief that will try to go to the OLDPWD. If it won't work,
 /// @brief it delivers a error message to the stderror
-/// @return (0 -> success) (2 -> error [OLDPWD not set or difrrent optional])
+/// @return (0 -> success) (1 -> error [OLDPWD not set])
+/// @return (2 -> error [difrrent optional])
 int	cd_opitionals(t_env *env, char **command)
 {
 	char	*where_to;
@@ -26,7 +27,7 @@ int	cd_opitionals(t_env *env, char **command)
 		if (!where_to)
 		{
 			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
-			return (2);
+			return (1);
 		}
 		ft_printf("%s\n", where_to);
 		chdir(where_to);
@@ -34,7 +35,7 @@ int	cd_opitionals(t_env *env, char **command)
 	}
 	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd(command[1], 2);
-	ft_putstr_fd(" not set\n", 2);
+	ft_putstr_fd(" invalid option\n", 2);
 	return (2);
 }
 

@@ -2,7 +2,7 @@ CC = cc
 NAME = minishell
 
 #FLAGS
-FLAGS = -g -lreadline -I$(INC_DIR) -I$(LIB_DIR)
+FLAGS = -g -I$(INC_DIR) -I$(LIB_DIR) -Wall -Wextra -Werror
 
 # Color variables
 RED = \033[0;31m
@@ -35,7 +35,7 @@ OBJ_FILES := $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC_FILES))
 all: ${NAME}
 
 ${NAME}: ${LIBFT} ${MAIN_FILE} $(OBJ_FILES) | $(OBJ_DIR)
-	@${CC} ${FLAGS} -Wall -Wextra -Werror ${MAIN_FILE} -lreadline $(OBJ_FILES) $(LIBFT) -o $(NAME)
+	@${CC} ${FLAGS} -lreadline ${MAIN_FILE} $(OBJ_FILES) $(LIBFT) -o $(NAME)
 	@echo "$(GRN)[ ${NAME} ] compiled successfully.$(RES)"
 
 ${LIBFT}:

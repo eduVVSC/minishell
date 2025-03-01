@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/28 11:46:40 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/03/01 19:24:25 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ int			exec_builtin_especial_cases(t_shell *shell,
 
 int			is_infile(char *str);
 int			is_outfile(char *str);
+int			check_for_cmds(t_tokens *tokens);
 void		dup_from_input(int fd);
 void		dup_to_output(int fd);
 void		clean_redirs(t_tokens *tokens);
@@ -211,7 +212,7 @@ void		clean_env_node_attributes(t_env *node);
 //=========== env command ============//
 
 int			do_env(char **command, t_env *env);
-int			handle_env_error(char *command);
+int			handle_env_error(void);
 void		print_env(t_env *env);
 
 //=========== export command ==========//
@@ -275,7 +276,9 @@ void		doing_heredock(t_shell *shell, t_heredock *heredock, int fd);
 void		cntrl_c(void);
 void		cntrl_backslash(void);
 void		handle_commands(t_shell *shell);
+int			signals_in_child_process(t_shell *shell, int exit_code);
 void		signal_handler(int signum, siginfo_t *info, void *context);
+
 
 // ============Syntax============== //
 

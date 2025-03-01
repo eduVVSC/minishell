@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_expansions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 14:21:27 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/28 11:55:15 by dioferre         ###   ########.fr       */
+/*   Updated: 2025/03/01 13:29:18 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,26 +44,6 @@ char	*var_name(char *str, int start)
 	return (var_name);
 }
 
-static int	is_in_quotes(char *str, int char_position)
-{
-	int	i;
-	int	close_quote;
-
-	i = 0;
-	close_quote = 0;
-	while (i < char_position)
-	{
-		if (str[i] == '\"')
-		{
-			close_quote = handle_quotes(str, i, str[i]);
-			if (close_quote > char_position)
-				return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
 // Function will search for the $ and Returns its (index)
 // 0->general(no quote) 1(single) 2(dob)
 int	check_expand(char *str)
@@ -93,3 +73,23 @@ char	*get_env_var_value(t_env *env, char *var_searching)
 		return (NULL);
 	return (env->var_value);
 }
+
+/* static int	is_in_quotes(char *str, int char_position)
+{
+	int	i;
+	int	close_quote;
+
+	i = 0;
+	close_quote = 0;
+	while (i < char_position)
+	{
+		if (str[i] == '\"')
+		{
+			close_quote = handle_quotes(str, i, str[i]);
+			if (close_quote > char_position)
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+} */

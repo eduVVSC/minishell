@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:25:43 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/28 11:07:44 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/01 13:32:23 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ int	doing_key(t_heredock *heredock)
 /// @param fd
 void	doing_heredock(t_shell *shell, t_heredock *heredock, int fd)
 {
-	int	heredoc_fd;
-
 	if (doing_key(heredock))
 	{
 		free_heredock(heredock);

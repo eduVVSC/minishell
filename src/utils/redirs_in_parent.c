@@ -6,29 +6,27 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:34:25 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/28 13:59:08 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/01 14:30:57 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parent_exit(t_shell *shell, char **cmd, int fd1, int fd2)
+int	parent_exit(t_shell *shell, char **cmd, int fd1, int fd2)
 {
 	int	exit_code;
 
 	close(fd1);
 	close(fd2);
 	exit_code = get_exit_code(cmd);
-	if (exit_code != -1 && exit_code != -2) // error code -1 or -2 means there was an actual error in the use, this is done to distinguish from inputed exit codes (ex: exit 2)
+	if (exit_code >= 0)
 	{
 		ft_free_double_arr(&cmd);
 		clean_and_terminate_with_status(shell, exit_code);
 	}
-	if (exit_code < 0) // this verifies if the exit code is negative, meaning an actual error occured during the execution of the command.
-	{
-		exit_code = exit_code * -1; // exit code is now ready to be set.
-		shell->env->var_value = ft_strdup(ft_itoa((exit_code))); // setting exit code.
-	}
+	if (!ft_strcmp(shell->env->var_value, "0"))
+		return (1);
+	return (ft_atoi(shell->env->var_value));
 }
 
 int	exec_builtin_especial_cases(t_shell *shell,
@@ -46,7 +44,7 @@ int	exec_builtin_especial_cases(t_shell *shell,
 	else if (ft_strcmp(cmd[0], "unset") == 0)
 		exit_code = do_unset(shell->env, cmd);
 	else if (ft_strcmp(cmd[0], "exit") == 0)
-		parent_exit(shell, cmd, fd1, fd2);
+		exit_code = parent_exit(shell, cmd, fd1, fd2);
 	ft_free_double_arr(&cmd);
 	return (exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/02/28 14:00:05 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/01 19:43:17 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,18 @@ char	*tree_exec(t_shell *shell, pid_t pid)
 		pid = fork();
 		if (pid == 0)
 		{
-			signal(SIGINT, SIG_IGN);
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			exec_tree(shell, shell->tree);
 		}
+		signal(SIGINT, SIG_IGN);
 		waitpid(pid, &exit_code, 0);
 		if (pid == 0)
 			clean_and_terminate(shell);
 		clean_fds(shell->tree);
 		free(shell->env->var_value);
+		if (WIFSIGNALED(exit_code) != 0)
+			return (ft_itoa(signals_in_child_process(shell, exit_code)));
 		return (ft_itoa(WEXITSTATUS(exit_code)));
 	}
 }
@@ -98,8 +102,8 @@ char	*tree_exec(t_shell *shell, pid_t pid)
 char	*make_tree(t_shell *shell)
 {
 	pid_t		pid;
-	int			exit_code;
 
+	pid = 0;
 	shell->tree = init_tree_node();
 	shell->cmd_list = build_cmd_list(shell->tokens);
 	build_tree(shell->tree, shell->cmd_list);
