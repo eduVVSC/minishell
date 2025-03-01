@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:41:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/03/01 18:31:00 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/01 19:50:59 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	is_valid_input(char *input)
 		{
 			if (has_double_pipe(input, i + 1) == -1
 				|| !check_valid_pipe(input, i))
-					return (print_syntax_error(OPEN_PIPE_ERROR), FALSE);
+				return (print_syntax_error(OPEN_PIPE_ERROR), FALSE);
 		}
 		else if (is_quote(input[i]))
 		{

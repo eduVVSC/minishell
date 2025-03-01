@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/03/01 19:24:25 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/01 19:51:19 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,7 +278,6 @@ void		cntrl_backslash(void);
 void		handle_commands(t_shell *shell);
 int			signals_in_child_process(t_shell *shell, int exit_code);
 void		signal_handler(int signum, siginfo_t *info, void *context);
-
 
 // ============Syntax============== //
 

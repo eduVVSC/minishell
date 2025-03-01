@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2025/03/01 19:09:09 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/01 19:50:26 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	runnig_shell(t_shell *shell)
 	while (1)
 	{
 		setting_signals();
-		//printf("here\n");
 		input = readline(shell->dir_now);
 		if (input && input[0] != 0)
 			add_history(input);
