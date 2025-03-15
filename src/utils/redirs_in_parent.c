@@ -18,6 +18,7 @@ int	parent_exit(t_shell *shell, char **cmd, int fd1, int fd2)
 
 	close(fd1);
 	close(fd2);
+	printf("exit\n");
 	exit_code = get_exit_code(cmd);
 	if (exit_code >= 0)
 	{

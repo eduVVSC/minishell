@@ -52,7 +52,7 @@ char	*fill_str(char **str)
 
 	i = 0;
 	while (is_separator(**str) == 1)
-		*(*str)++ = *(*str);
+		(*str)++;
 	len = get_token_len((*str));
 	token = malloc((len + 1) * sizeof(char));
 	if (!token)

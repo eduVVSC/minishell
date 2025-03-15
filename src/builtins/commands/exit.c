@@ -46,12 +46,10 @@ int	get_exit_code(char **cmd)
 		return (2);
 	else if (get_matrix_len(cmd) > 2)
 	{
-		printf("exit\n");
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd("too many arguments\n", 2);
 		return (-1);
 	}
-	printf("exit\n");
 	return (exit_code);
 }
 
