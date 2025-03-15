@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:41:15 by dioferre          #+#    #+#             */
-/*   Updated: 2025/03/01 19:50:59 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:29:19 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	check_valid_pipe(char *input, int i)
 {
 	while (input[i])
 	{
-		if (is_normal_char(input[i]))
+		if ((!is_separator(input[i]) && !is_redir(input[i])
+				&& input[i] != '|'))
 			return (TRUE);
 		i++;
 	}
@@ -59,19 +60,19 @@ int	is_valid_input(char *input)
 	i = -1;
 	while (input[++i])
 	{
-		if (is_redir(input[i]) && !(check_valid_redir(input, i, input[i])))
-			return (print_syntax_error(UNEXPECTED_TOKEN), 0);
-		if (input[i] == '|')
-		{
-			if (has_double_pipe(input, i + 1) == -1
-				|| !check_valid_pipe(input, i))
-				return (print_syntax_error(OPEN_PIPE_ERROR), FALSE);
-		}
-		else if (is_quote(input[i]))
+		if (is_quote(input[i]))
 		{
 			i = handle_quotes(input, i, input[i]);
 			if (i == -1)
 				return (print_syntax_error(OPEN_QUOTE_ERROR), 0);
+		}
+		else if (is_redir(input[i]) && !(check_valid_redir(input, i, input[i])))
+			return (print_syntax_error(UNEXPECTED_TOKEN), 0);
+		else if (input[i] == '|')
+		{
+			if (has_double_pipe(input, i + 1) == -1
+				|| !check_valid_pipe(input, i))
+				return (print_syntax_error(OPEN_PIPE_ERROR), FALSE);
 		}
 	}
 	return (TRUE);

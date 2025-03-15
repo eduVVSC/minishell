@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:14:53 by dioferre          #+#    #+#             */
-/*   Updated: 2025/03/01 20:07:24 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:31:05 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	runnig_shell(t_shell *shell)
 			add_history(input);
 		if (g_sig_sign == SIGINT)
 			free_n_add_exit_status(shell, "130");
-		if (input && input[0] == 0)
+		else if (input && input[0] == 0)
 			free_n_add_exit_status(shell, "0");
 		else if (check_syntax(shell, input) == 0)
 		{

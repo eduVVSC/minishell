@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:35:26 by dioferre          #+#    #+#             */
-/*   Updated: 2025/03/01 20:03:10 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:49:57 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ char	*tree_exec(t_shell *shell, pid_t pid)
 		pid = fork();
 		if (pid == 0)
 		{
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_DFL);
+			signal(SIGINT, cntrl_c_cmd);
+			signal(SIGQUIT, cntrl_d_cmd);
 			exec_tree(shell, shell->tree);
 		}
 		signal(SIGINT, SIG_IGN);

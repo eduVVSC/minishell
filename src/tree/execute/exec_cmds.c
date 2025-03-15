@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:30:50 by dioferre          #+#    #+#             */
-/*   Updated: 2025/03/01 13:50:34 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:44:23 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void	exec_cmd(t_shell *shell, t_tokens *node_content)
 			error = execve(path, cmd, envp);
 		else if (!error)
 			error = execve(cmd[0], cmd, envp);
+		handeling_signals(shell, envp, cmd);
 		error = print_execve_error(path, cmd[0], error);
 		free(path);
 		ft_free_double_arr(&envp);

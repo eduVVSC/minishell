@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:12:10 by dioferre          #+#    #+#             */
-/*   Updated: 2025/03/01 19:51:19 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:58:32 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,9 +274,12 @@ void		doing_heredock(t_shell *shell, t_heredock *heredock, int fd);
 // =============handlers=============== //
 
 void		cntrl_c(void);
+void		cntrl_c_cmd(void);
+void		cntrl_d_cmd(void);
 void		cntrl_backslash(void);
 void		handle_commands(t_shell *shell);
 int			signals_in_child_process(t_shell *shell, int exit_code);
+void		handeling_signals(t_shell *shell, char **envp, char **cmd);
 void		signal_handler(int signum, siginfo_t *info, void *context);
 
 // ============Syntax============== //

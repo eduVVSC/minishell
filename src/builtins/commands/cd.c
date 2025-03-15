@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 16:52:58 by edvieira          #+#    #+#             */
-/*   Updated: 2025/03/01 17:46:50 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:08:14 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,11 @@ int	do_cd(t_shell *shell, char **command)
 
 	old_pwd = getcwd(NULL, 0);
 	if (get_height(command) > 2)
+	{
+		free(old_pwd);
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		return (1);
+	}
 	many_args = check_exist_optionals(command);
 	if (many_args == -1)
 		returned_from_exec = cd_opitionals(shell->env, command);
