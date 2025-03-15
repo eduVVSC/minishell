@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 14:19:35 by edvieira          #+#    #+#             */
-/*   Updated: 2025/02/26 14:14:25 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/15 20:15:00 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ char	*re_wrinting_string(char *str, char *exp_val,
 	if (str[i] == '?')
 		i++;
 	else
-		while ((str[++i] >= 'a' && str[i] <= 'z')
-			|| (str[i] >= 'A' && str[i] <= 'Z'));
+		while (ft_isalnum(str[++i]))
+			i = i;
 	while (str[i + (++k)] != '\0')
 		new_str[j + k] = str[i + k];
 	new_str[j + k] = '\0';

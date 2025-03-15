@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 14:21:27 by edvieira          #+#    #+#             */
-/*   Updated: 2025/03/01 13:29:18 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/15 19:58:16 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,13 @@ char	*var_name(char *str, int start)
 		return (NULL);
 	if (str[start + 1] == '?' || str[start] == '?')
 		return (ft_strdup("?"));
-	while ((str[start + i] >= 'a' && str[start + i] <= 'z')
-		|| (str[start + i] >= 'A' && str[start + i] <= 'Z'))
+	while (ft_isalnum(str[start + i]))
 		i++;
 	var_name = malloc(sizeof(char) * (i + 1));
 	if (!var_name)
 		return (NULL);
 	i = 0;
-	while ((str[start + i] >= 'a' && str[start + i] <= 'z')
-		|| (str[start + i] >= 'A' && str[start + i] <= 'Z'))
+	while (ft_isalnum(str[start + i]))
 	{
 		var_name[i] = str[start + i];
 		i++;

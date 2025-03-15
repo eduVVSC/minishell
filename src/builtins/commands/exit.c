@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:42:43 by edvieira          #+#    #+#             */
-/*   Updated: 2025/03/01 14:28:08 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/15 20:15:35 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	has_only_nrs(char *arg)
 		return (0);
 	while (arg[i])
 	{
-		if (!ft_isdigit(arg[i]) && i > 0)
+		if (!ft_isdigit(arg[i])
+			&& (arg[i] != '-' && arg[i] != '+'))
 		{
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(arg, 2);

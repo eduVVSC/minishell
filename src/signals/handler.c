@@ -6,7 +6,7 @@
 /*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:41:27 by edvieira          #+#    #+#             */
-/*   Updated: 2025/03/15 15:59:24 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/15 16:08:55 by edvieira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,14 @@ int	signals_in_child_process(t_shell *shell, int exit_code)
 	return (0);
 }
 
-void	cntrl_c_cmd(void)
+void	cntrl_c_cmd(int signum)
 {
+	(void) signum;
 	g_sig_sign = SIGINT;
 }
 
-void	cntrl_d_cmd(void)
+void	cntrl_d_cmd(int signum)
 {
+	(void) signum;
 	g_sig_sign = SIGQUIT;
 }
