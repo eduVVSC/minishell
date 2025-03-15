@@ -62,7 +62,7 @@ $(OBJ_DIR):
 
 clean:
 		@rm -rf ${OBJ_DIR}
-		@rm -f $(LIB_DIR)/*.o
+		@make clean --silent -C $(LIB_DIR)
 		@echo "$(WHT)Clean command executed.$(RES)"
 
 fclean: clean
