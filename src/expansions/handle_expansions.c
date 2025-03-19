@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_expansions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edvieira <edvieira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dioferre <dioferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 14:19:35 by edvieira          #+#    #+#             */
-/*   Updated: 2025/03/15 20:15:00 by edvieira         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:24:36 by dioferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*re_wrinting_string(char *str, char *exp_val,
 		i++;
 	else
 		while (ft_isalnum(str[++i]))
-			i = i;
+			i = i + 0;
 	while (str[i + (++k)] != '\0')
 		new_str[j + k] = str[i + k];
 	new_str[j + k] = '\0';
